@@ -1,0 +1,236 @@
+export type Locale = 'id' | 'en';
+
+export const dictionaries = {
+  id: {
+    nav: {
+      works: 'Karya',
+      about: 'Tentang',
+      services: 'Layanan',
+      contact: 'Kontak',
+      admin: 'Studio Admin',
+      menuOpen: 'Buka Menu Navigasi',
+      menuClose: 'Tutup Menu Navigasi',
+    },
+    hero: {
+      indexLabel: 'SELECTED WORKS 2025—2026',
+      locationLabel: 'JAKARTA, INDONESIA — STUDIO INDEPENDEN',
+      available: 'Tersedia untuk Freelance & Komisi',
+      unavailable: 'Jadwal Kuartal Ini Penuh — Buka Diskusi Q3',
+      ctaWorks: 'Lihat Karya',
+      ctaContact: 'Hubungi Saya',
+      scrollHint: 'Gulir untuk Eksplorasi',
+      disciplines: [
+        'Branding',
+        'Graphic Design',
+        'Motion Design',
+        'Video Editing',
+        'Art Direction',
+        'Editorial Systems',
+      ],
+    },
+    works: {
+      index: '01 / ARSIP KARYA',
+      label: 'Selected Works 2025—2026',
+      heading: 'Karya Terpilih',
+      subtitle:
+        'Kurasi identitas merek, sistem komunikasi visual, desain gerak, dan penyuntingan film komersial dengan pendekatan editorial.',
+      categories: {
+        Semua: 'Semua',
+        Branding: 'Branding',
+        'Graphic Design': 'Graphic Design',
+        Motion: 'Motion',
+        'Video Editing': 'Video Editing',
+      },
+      emptyTitle: 'Belum ada karya pada kategori ini',
+      emptyDesc:
+        'Silakan pilih kategori lain atau kembali melihat seluruh arsip karya terpilih.',
+      resetFilter: 'Tampilkan Semua Karya',
+      viewProject: 'Lihat',
+      featuredBadge: 'Unggulan',
+    },
+    projectDetail: {
+      backToWorks: 'Kembali ke Arsip Karya',
+      client: 'Klien',
+      year: 'Tahun',
+      role: 'Peran',
+      tools: 'Perangkat & Tools',
+      overview: 'Tinjauan & Konteks Proyek',
+      galleryLabel: 'Dokumentasi Visual & Eksplorasi',
+      clickToEnlarge: 'Klik media untuk layar penuh',
+      nextProjectLabel: 'Proyek Berikutnya',
+      exploreNext: 'Lanjutkan Eksplorasi',
+    },
+    about: {
+      index: '02 / PROFIL & PENDEKATAN',
+      label: 'Direktur Seni & Desainer Multidisiplin',
+      heading: 'Tentang Saya',
+      philosophyLabel: 'Filosofi Desain',
+      philosophyQuote:
+        '“Desain yang bertahan lama tidak berteriak; ia berbicara dengan presisi, ritme, dan kejelasan karakter.”',
+      skillsLabel: 'Keahlian & Disiplin',
+      toolsLabel: 'Perangkat Kerja Utama',
+      experienceLabel: 'Jejak Pengalaman & Kolaborasi',
+      downloadCv: 'Unduh CV (PDF)',
+      yearsExp: 'Tahun Pengalaman',
+      projectsDelivered: 'Proyek Terselesaikan',
+      brandSystems: 'Sistem Identitas & Film',
+    },
+    services: {
+      index: '03 / KAPABILITAS',
+      label: 'Layanan Studio & Kolaborasi',
+      heading: 'Layanan Desain',
+      subtitle:
+        'Solusi terintegrasi dari perumusan identitas merek hingga eksekusi gambar bergerak dan pascaproduksi video berstandar agensi.',
+      deliverablesLabel: 'Cakupan Utama',
+    },
+    contact: {
+      index: '04 / INISIASI PROYEK',
+      label: 'Korespondensi & Diskusi Komisi',
+      heading: 'Mari Berkolaborasi',
+      subtitle:
+        'Ceritakan visi, lini masa, dan kebutuhan proyek Anda. Setiap pesan dibaca langsung oleh Ray Raharja Santoso.',
+      directChannels: 'Saluran Langsung',
+      whatsappCta: 'Diskusi Cepat via WhatsApp',
+      form: {
+        nameLabel: 'Nama Lengkap',
+        namePlaceholder: 'Masukkan nama Anda atau perusahaan',
+        emailLabel: 'Alamat Email',
+        emailPlaceholder: 'nama@perusahaan.com',
+        messageLabel: 'Detail Proyek / Pesan',
+        messagePlaceholder:
+          'Ceritakan ruang lingkup proyek (Branding, Graphic Design, Motion, atau Video Editing), target waktu, dan ekspektasi Anda...',
+        submit: 'Kirim Pesan',
+        submitting: 'Mengirim Pesan...',
+        successTitle: 'Pesan Anda Telah Diterima',
+        successDesc:
+          'Terima kasih telah menghubungi. Saya akan membalas pesan Anda dalam 1–2 hari kerja.',
+        errorGeneric: 'Gagal mengirim pesan. Silakan periksa kembali isian Anda.',
+      },
+    },
+    footer: {
+      rights: 'Hak Cipta Dilindungi.',
+      crafted: 'Dirancang dengan estetika Onyx & Brass.',
+      backToTop: 'Kembali ke Atas',
+    },
+    cursor: {
+      view: 'Lihat',
+    },
+  },
+  en: {
+    nav: {
+      works: 'Works',
+      about: 'About',
+      services: 'Services',
+      contact: 'Contact',
+      admin: 'Studio Admin',
+      menuOpen: 'Open Navigation Menu',
+      menuClose: 'Close Navigation Menu',
+    },
+    hero: {
+      indexLabel: 'SELECTED WORKS 2025—2026',
+      locationLabel: 'JAKARTA, INDONESIA — INDEPENDENT PRACTICE',
+      available: 'Available for Freelance & Commissions',
+      unavailable: 'Currently Booked — Inquire for Next Quarter',
+      ctaWorks: 'View Works',
+      ctaContact: 'Get in Touch',
+      scrollHint: 'Scroll to Explore',
+      disciplines: [
+        'Branding',
+        'Graphic Design',
+        'Motion Design',
+        'Video Editing',
+        'Art Direction',
+        'Editorial Systems',
+      ],
+    },
+    works: {
+      index: '01 / SELECTED ARCHIVE',
+      label: 'Selected Works 2025—2026',
+      heading: 'Selected Works',
+      subtitle:
+        'A curated archive of brand identities, visual communication systems, motion design, and commercial film editing.',
+      categories: {
+        Semua: 'All Works',
+        Branding: 'Branding',
+        'Graphic Design': 'Graphic Design',
+        Motion: 'Motion',
+        'Video Editing': 'Video Editing',
+      },
+      emptyTitle: 'No works found in this category',
+      emptyDesc:
+        'Please select another discipline or return to view the complete archive.',
+      resetFilter: 'Show All Works',
+      viewProject: 'View',
+      featuredBadge: 'Featured',
+    },
+    projectDetail: {
+      backToWorks: 'Back to Selected Works',
+      client: 'Client',
+      year: 'Year',
+      role: 'Role',
+      tools: 'Tools & Craft',
+      overview: 'Project Overview & Context',
+      galleryLabel: 'Visual Documentation & Plates',
+      clickToEnlarge: 'Click media for fullscreen view',
+      nextProjectLabel: 'Next Case Study',
+      exploreNext: 'Continue Exploring',
+    },
+    about: {
+      index: '02 / PROFILE & APPROACH',
+      label: 'Art Director & Multidisciplinary Designer',
+      heading: 'About Ray',
+      philosophyLabel: 'Design Philosophy',
+      philosophyQuote:
+        '“Enduring design never shouts; it speaks through precision, pacing, and unmistakable character.”',
+      skillsLabel: 'Core Disciplines',
+      toolsLabel: 'Primary Toolkit',
+      experienceLabel: 'Experience & Selected Track Record',
+      downloadCv: 'Download CV (PDF)',
+      yearsExp: 'Years of Practice',
+      projectsDelivered: 'Commissioned Works',
+      brandSystems: 'Identities & Motion Films',
+    },
+    services: {
+      index: '03 / CAPABILITIES',
+      label: 'Studio Services & Commissions',
+      heading: 'Design Services',
+      subtitle:
+        'End-to-end visual direction spanning foundational brand systems, print & digital design, motion graphics, and narrative video editing.',
+      deliverablesLabel: 'Key Deliverables',
+    },
+    contact: {
+      index: '04 / INITIATE A PROJECT',
+      label: 'Correspondence & Inquiries',
+      heading: 'Let’s Collaborate',
+      subtitle:
+        'Share your vision, timeline, and project scope. Every inquiry is reviewed directly by Ray Raharja Santoso.',
+      directChannels: 'Direct Channels',
+      whatsappCta: 'Quick Chat via WhatsApp',
+      form: {
+        nameLabel: 'Full Name',
+        namePlaceholder: 'Your name or organization',
+        emailLabel: 'Email Address',
+        emailPlaceholder: 'name@company.com',
+        messageLabel: 'Project Details / Message',
+        messagePlaceholder:
+          'Tell me about your project scope (Branding, Graphic Design, Motion, or Video Editing), timeline, and goals...',
+        submit: 'Send Inquiry',
+        submitting: 'Sending...',
+        successTitle: 'Your Inquiry Has Been Received',
+        successDesc:
+          'Thank you for reaching out. I will respond within 1–2 business days.',
+        errorGeneric: 'Unable to send message. Please check your inputs.',
+      },
+    },
+    footer: {
+      rights: 'All Rights Reserved.',
+      crafted: 'Crafted in Onyx & Brass.',
+      backToTop: 'Back to Top',
+    },
+    cursor: {
+      view: 'View',
+    },
+  },
+} as const;
+
+export type Dictionary = typeof dictionaries.id;

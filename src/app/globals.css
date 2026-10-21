@@ -1,0 +1,137 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --onyx: #0A0A0B;
+  --onyx-2: #131316;
+  --line: rgba(181, 137, 59, 0.25);
+  --brass: #B5893B;
+  --brass-light: #D4AF6A;
+  --ivory: #EDE8DF;
+  --muted: #8A857C;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background-color: var(--onyx);
+  color: var(--ivory);
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  background-color: var(--onyx);
+  color: var(--ivory);
+  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  selection-background-color: var(--brass);
+}
+
+::selection {
+  background: rgba(181, 137, 59, 0.3);
+  color: var(--ivory);
+}
+
+/* Accessible focus ring in Brass */
+:focus-visible {
+  outline: 2px solid var(--brass-light);
+  outline-offset: 3px;
+}
+
+/* Modular Typography Utility Classes */
+.font-editorial {
+  font-family: var(--font-display), Georgia, serif;
+  letter-spacing: -0.025em;
+}
+
+.hero-display {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(3rem, 9vw, 9rem);
+  line-height: 0.94;
+  letter-spacing: -0.03em;
+}
+
+.section-heading {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(2.25rem, 5vw, 4.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+}
+
+.label-editorial {
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+}
+
+.hairline-brass {
+  border-color: var(--line);
+}
+
+/* Subtle Noise Overlay (3.5% opacity) */
+.bg-grain {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E");
+}
+
+/* Marquee animation */
+@keyframes marquee-slow {
+  0% {
+    transform: translate3d(0%, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-marquee-slow {
+  display: flex;
+  width: max-content;
+  animation: marquee-slow 38s linear infinite;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--onyx);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(181, 137, 59, 0.35);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--brass);
+}
+
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .animate-marquee-slow {
+    animation: none !important;
+  }
+}
