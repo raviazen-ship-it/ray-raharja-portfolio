@@ -1,20 +1,30 @@
 export const ADMIN_COOKIE_NAME = 'ray_studio_admin_session';
 export const PRIMARY_ADMIN_EMAIL = 'rayraharja09@gmail.com';
+export const SECONDARY_ADMIN_EMAIL = 'viaray2614@gmail.com';
+
+export const AUTHORIZED_ADMIN_EMAILS = [
+  PRIMARY_ADMIN_EMAIL,
+  SECONDARY_ADMIN_EMAIL,
+];
+
+export function getAllowedAdminEmails(): string[] {
+  const envRaw = process.env.ADMIN_EMAIL || '';
+  const fromEnv = envRaw
+    .split(',')
+    .map((e) => e.trim().toLowerCase())
+    .filter(Boolean);
+
+  return Array.from(new Set([...AUTHORIZED_ADMIN_EMAILS, ...fromEnv]));
+}
 
 export function getAllowedAdminEmail(): string {
-  return (process.env.ADMIN_EMAIL || PRIMARY_ADMIN_EMAIL)
-    .trim()
-    .toLowerCase();
+  return PRIMARY_ADMIN_EMAIL;
 }
 
 export function isAuthorizedAdminEmail(email?: string | null): boolean {
   if (!email) return false;
   const normalized = email.trim().toLowerCase();
-  const envEmail = getAllowedAdminEmail();
-  return (
-    normalized === PRIMARY_ADMIN_EMAIL ||
-    normalized === envEmail
-  );
+  return getAllowedAdminEmails().includes(normalized);
 }
 
 function getSessionSecret(): string {

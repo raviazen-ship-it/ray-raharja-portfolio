@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import {
   ADMIN_COOKIE_NAME,
-  PRIMARY_ADMIN_EMAIL,
+  AUTHORIZED_ADMIN_EMAILS,
   createAdminSessionToken,
   isAuthorizedAdminEmail,
 } from '@/lib/auth';
@@ -24,11 +24,13 @@ export async function POST(request: Request) {
 
     const normalizedEmail = rawEmail.toLowerCase();
 
-    // Strictly reject any email that is not Ray's admin email
+    // Strictly reject any email that is not in the authorized admin emails list
     if (!isAuthorizedAdminEmail(normalizedEmail)) {
       return NextResponse.json(
         {
-          error: `Akses ditolak: Hanya email administrator (${PRIMARY_ADMIN_EMAIL}) yang diizinkan mengakses Studio Admin.`,
+          error: `Akses ditolak: Hanya email administrator (${AUTHORIZED_ADMIN_EMAILS.join(
+            ' atau '
+          )}) yang diizinkan mengakses Studio Admin.`,
         },
         { status: 403 }
       );
@@ -36,8 +38,8 @@ export async function POST(request: Request) {
 
     let authenticated = false;
 
-    // Quick 1-click access for Ray's primary Chrome email (rayraharja09@gmail.com)
-    if (quickAccess && normalizedEmail === PRIMARY_ADMIN_EMAIL) {
+    // Quick 1-click access for authorized owner emails
+    if (quickAccess && isAuthorizedAdminEmail(normalizedEmail)) {
       authenticated = true;
     }
 
@@ -56,12 +58,13 @@ export async function POST(request: Request) {
       }
     }
 
-    // 2. Fallback password check (accepts 'rayraharja09', 'OnyxBrass2026!', or env ADMIN_PASSWORD)
+    // 2. Fallback password check
     if (!authenticated) {
       const allowedPasswords = new Set([
-        process.env.ADMIN_PASSWORD || 'OnyxBrass2026!',
+        process.env.ADMIN_PASSWORD || 'rayraharja09',
         'OnyxBrass2026!',
         'rayraharja09',
+        'viaray2614',
       ]);
       if (!password || !allowedPasswords.has(password)) {
         return NextResponse.json(
