@@ -22,7 +22,7 @@ as $$
     and lower(coalesce(auth.jwt() ->> 'email', '')) = lower(
       coalesce(
         nullif(current_setting('app.admin_email', true), ''),
-        'ray.raharja@studio-onyx.id'
+        'rayraharja09@gmail.com'
       )
     );
 $$;

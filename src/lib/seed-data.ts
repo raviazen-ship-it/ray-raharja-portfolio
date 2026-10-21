@@ -5,133 +5,159 @@ import {
   ExperienceItem,
 } from '@/types/portfolio';
 
+export interface CredentialItem {
+  title: string;
+  issuer: string;
+  period: string;
+  highlight: string;
+}
+
 export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   id: 1,
   hero_title: 'Ray Raharja Santoso',
   hero_subtitle:
-    'Merancang identitas merek berkarakter, sistem komunikasi visual editorial, motion graphics, dan penyuntingan film komersial dengan ketenangan serta presisi kelas studio.',
+    'Graphic & Brand Designer yang menjembatani ketajaman konsep visual e-commerce, kampanye merek, dan motion graphics dengan presisi eksekusi produksi cetak akhir.',
   available_for_work: true,
   about_text:
-    'Saya adalah Graphic & Brand Designer sekaligus Motion Designer dan Video Editor yang berbasis di Jakarta dengan pengalaman lebih dari 7 tahun menangani klien korporasi, perhotelan mewah, gaya hidup, hingga institusi budaya.\n\nPendekatan kerja saya memadukan ketajaman tipografi editorial dengan dinamika gambar bergerak. Bagi saya, sebuah merek tidak hanya hidup dalam logo statis di atas kertas—melainkan juga dalam bagaimana ia bergerak, terdengar, dan bercerita di layar digital.',
-  profile_photo_url:
-    'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1000&q=85',
+    'Saya adalah Graphic & Brand Designer berbasis di Jakarta Utara dengan keahlian menyeluruh dari perumusan konsep kreatif digital hingga eksekusi cetak produksi akhir (end-to-end design-to-print workflow). Saat ini saya aktif menangani ekosistem visual e-commerce di PT Lightboxglobal—mulai dari pengarahan fotografi produk, perancangan banner promosi, hingga campaign visual strategis serta pengoperasian langsung mesin printing untuk lini custom case.\n\nBerbekal fondasi teknis Rekayasa Perangkat Lunak dari SMKS Barunawati dan pengalaman kolaborasi korporat di PT Astra Daihatsu Motor (merancang apparel resmi perusahaan, menyusun dek presentasi onboarding karyawan baru, hingga menerjemahkan modul teknis Jepang–Indonesia), saya menggabungkan disiplin kerja korporasi dengan ketajaman estetika studio.\n\nKemahiran pada Adobe Illustrator, Adobe Photoshop, dan Adobe After Effects saya perkuat dengan kecakapan komunikasi lintas tim dan presentasi publik yang tervalidasi melalui sertifikasi TOEIC Skor 800 (Upper Intermediate — ETS) serta UKBI Peringkat Madya (Badan Pengembangan dan Pembinaan Bahasa).',
+  profile_photo_url: '/profile-ray-raharja.png',
   cv_url: '/cv-ray-raharja-santoso.pdf',
   services: [
     {
       id: 'svc-branding',
       index: '01',
-      title: 'Brand Identity',
-      subtitle: 'Arsitektur & Sistem Identitas Merek',
+      title: 'Brand Identity & Apparel',
+      subtitle: 'Identitas Visual, Merchandise & Kemasan',
       description:
-        'Perancangan sistem identitas menyeluruh mulai dari riset posisi merek, arahan seni, sistem tipografi, palet warna, desain kemasan, hingga buku panduan merek (brand guidelines).',
+        'Perancangan identitas merek yang kuat dan aplikatif—mulai dari logo, pedoman visual, desain merchandise korporat (jaket, totebag, custom case), hingga kesiapan file produksi cetak.',
       deliverables: [
-        'Strategi & Arahan Visual',
-        'Logo & Sistem Monogram',
-        'Tipografi & Warna',
-        'Desain Kemasan',
-        'Brand Guidelines',
+        'Brand Visual Identity',
+        'Corporate Apparel & Merchandise',
+        'Custom Case & Print Packaging',
+        'Brand Presentation Deck',
+        'Pre-Press & Print Quality Control',
       ],
     },
     {
       id: 'svc-graphic',
       index: '02',
-      title: 'Graphic Design',
-      subtitle: 'Editorial, Publikasi & Komunikasi Visual',
+      title: 'Graphic & E-Commerce Design',
+      subtitle: 'Key Visual Kampanye, Katalog & Fotografi Produk',
       description:
-        'Desain publikasi cetak maupun digital dengan kepekaan tata letak majalah seni, laporan tahunan, materi kampanye terpadu, hingga sistem penunjuk arah (environmental graphics).',
+        'Pengembangan aset visual e-commerce berkonversi tinggi: penataan foto produk, banner promosi multi-kanal, materi kampanye peluncuran, dan tata letak presentasi perusahaan.',
       deliverables: [
-        'Desain Editorial & Buku',
-        'Key Visual Kampanye',
-        'Sistem Grid & Layout',
-        'Desain Pameran & Cetak',
-        'Aset Digital Sosial',
+        'E-Commerce Campaign Visuals',
+        'Promotional Banner Systems',
+        'Product Photography & Retouching',
+        'Executive PowerPoint Decks',
+        'Social Media Visual Grid',
       ],
     },
     {
       id: 'svc-motion',
       index: '03',
       title: 'Motion Graphics',
-      subtitle: 'Identitas Gerak & Eksplorasi 2D/3D',
+      subtitle: 'Animasi Kampanye & Visual Bergerak',
       description:
-        'Menghidupkan sistem identitas melalui animasi logo, tipografi kinetik, bumper acara, dan visual 2D/3D berirama presisi untuk berbagai format layar.',
+        'Menghidupkan aset promosi dan identitas merek melalui animasi After Effects yang dinamis untuk kebutuhan iklan digital, reels, dan presentasi interaktif.',
       deliverables: [
-        'Motion Identity System',
-        'Kinetic Typography',
-        'Title Sequence & Bumper',
-        '3D Product Loop',
-        'Reels & Vertical Motion',
+        'Animated Promotional Banners',
+        'Kinetic Typography & Bumper',
+        'Product Showcase Loops',
+        'Reels & Vertical Motion (9:16)',
+        'Visual Motion Storytelling',
       ],
     },
     {
       id: 'svc-video',
       index: '04',
-      title: 'Video Editing',
-      subtitle: 'Penyuntingan Narasi, Komersial & Color Grading',
+      title: 'Video Editing & Production',
+      subtitle: 'Penyuntingan Visual Produk & Konten Digital',
       description:
-        'Penyuntingan film merek, iklan komersial, dokumenter pendek, dan fashion reel dengan penataan ritme cerita, tata suara imersif, dan color grading sinematik.',
+        'Penyuntingan video promosi produk, dokumentasi acara, dan konten kampanye digital dengan penataan ritme visual yang bersih, tajam, dan tepat sasaran.',
       deliverables: [
-        'Offline & Online Editing',
-        'Commercial & Brand Film',
-        'Color Grading Sinematik',
-        'Sound Design & Mixing',
-        'Format Multi-Platform',
+        'Commercial Product Cuts',
+        'Social & E-Commerce Video Ads',
+        'Event & Campaign Documentation',
+        'Color & Visual Balancing',
+        'Multi-Platform Export Formatting',
       ],
     },
   ],
-  email: 'ray.raharja@studio-onyx.id',
-  whatsapp: '+6281298765432',
-  instagram: 'https://instagram.com/rayraharja.studio',
+  email: 'rayraharja09@gmail.com',
+  whatsapp: '+62 813-8145-7516',
+  instagram: 'https://instagram.com/Reyp.u',
   linkedin: 'https://linkedin.com/in/ray-raharja-santoso',
-  behance: 'https://behance.net/rayraharjasantoso',
+  behance: 'https://instagram.com/Reyp.u',
 };
 
 export const SEED_EXPERIENCES: ExperienceItem[] = [
   {
-    period: '2023 — Sekarang',
-    role: 'Independent Art Director, Brand & Motion Designer',
-    company: 'Studio Ray Raharja',
+    period: 'Okt 2025 — Sekarang',
+    role: 'Desainer Grafis & Brand (Graphic & Brand Designer)',
+    company: 'PT Lightboxglobal',
     location: 'Jakarta, ID',
     summary:
-      'Memimpin proyek identitas merek, sistem publikasi editorial, dan kampanye film komersial untuk klien perhotelan, F&B premium, dan gaya hidup di Asia Tenggara.',
+      'Merancang ekosistem kebutuhan visual e-commerce terpadu (fotografi produk, banner promosi, dan campaign visual) untuk mengakselerasi penjualan serta branding. Mengoperasikan langsung mesin printing produksi untuk layanan custom case dan mengawal alur kerja desain secara menyeluruh dari konsep hingga hasil cetak akhir.',
   },
   {
-    period: '2021 — 2023',
-    role: 'Senior Brand & Motion Designer',
-    company: 'Atelier Kinetik Collective',
-    location: 'Jakarta & Singapura',
+    period: 'Agu 2023 — Jan 2024',
+    role: 'Staf Pendukung Kreatif & Administrasi',
+    company: 'PT Astra Daihatsu Motor',
+    location: 'Jakarta Utara, ID',
     summary:
-      'Merancang sistem identitas gerak (motion identity), kemasan ritel, dan arahan visual kampanye peluncuran produk lintas platform.',
+      'Merancang desain lini jaket dan totebag resmi perusahaan, menyusun materi presentasi visual (PowerPoint) untuk program onboarding karyawan baru, menerjemahkan modul teknis berbahasa Jepang ke Bahasa Indonesia, serta mengelola administrasi data invoice melalui Microsoft Excel.',
   },
   {
-    period: '2019 — 2021',
-    role: 'Graphic Designer & Video Editor',
-    company: 'Monogram Design Bureau',
-    location: 'Bandung & Jakarta',
+    period: 'Okt 2022 — Okt 2024',
+    role: 'Anggota Aktif & Ketua Pelaksana Event (OSIS)',
+    company: 'SMKS Barunawati',
+    location: 'Jakarta Utara, ID',
     summary:
-      'Menangani desain buku monografi, materi pameran seni, serta penyuntingan video dokumenter dan profil merek.',
+      'Aktif mengelola berbagai kegiatan dan acara kreatif sekolah selama dua periode penuh, serta dipercaya memimpin tim lintas divisi sebagai Ketua Pelaksana kegiatan Classmeet.',
+  },
+];
+
+export const SEED_CREDENTIALS: CredentialItem[] = [
+  {
+    title: 'Rekayasa Perangkat Lunak (Software Engineering)',
+    issuer: 'SMKS Barunawati — Jakarta Utara',
+    period: 'Jul 2022 — Jul 2025',
+    highlight: 'Pendidikan Vokasi Teknologi & Aktif Pengurus OSIS (2 Tahun)',
+  },
+  {
+    title: 'TOEIC — Skor 800 (Upper Intermediate)',
+    issuer: 'ETS (Educational Testing Service)',
+    period: 'Jul 2024 — Jul 2026',
+    highlight: 'Sertifikasi Kemahiran Komunikasi Bahasa Inggris Internasional',
+  },
+  {
+    title: 'UKBI — Peringkat Madya',
+    issuer: 'Badan Pengembangan dan Pembinaan Bahasa',
+    period: 'Sep 2024 — Sep 2026',
+    highlight: 'Sertifikasi Resmi Uji Kemahiran Berbahasa Indonesia',
   },
 ];
 
 export const SEED_SKILLS: string[] = [
-  'Brand Identity Architecture',
-  'Editorial & Book Design',
-  'Packaging & Print Craft',
-  'Art Direction',
-  '2D/3D Motion Graphics',
-  'Kinetic Typography',
-  'Commercial Video Editing',
-  'Color Grading & Look Dev',
+  'E-Commerce Campaign & Banner Visuals',
+  'Brand Identity & Corporate Merchandise',
+  'Product Photography & Retouching',
+  'End-to-End Print & Custom Case Production',
+  'Motion Graphics & Visual Presentation',
+  'Public Speaking & Presentation Skills',
+  'Translasi Materi Jepang–Indonesia & Inggris (TOEIC 800)',
+  'Teamwork, Critical Thinking & Analytical Skills',
 ];
 
 export const SEED_TOOLS: string[] = [
   'Adobe Illustrator',
-  'Adobe InDesign',
   'Adobe Photoshop',
-  'After Effects',
-  'Premiere Pro',
-  'DaVinci Resolve Studio',
-  'Cinema 4D / Redshift',
-  'Figma',
+  'Adobe After Effects',
+  'Mesin Produksi Digital Printing',
+  'Microsoft PowerPoint (Onboarding & Pitch Deck)',
+  'Microsoft Excel & Word',
+  'Rekayasa Perangkat Lunak (RPL Fundamentals)',
 ];
 
 export const SEED_PROJECTS: Project[] = [
@@ -145,7 +171,7 @@ export const SEED_PROJECTS: Project[] = [
     year: '2026',
     client: 'PT Kala Kopi Nusantara',
     role: 'Lead Brand & Packaging Designer',
-    tools: ['Adobe Illustrator', 'Adobe InDesign', 'Blender 3D', 'Figma'],
+    tools: ['Adobe Illustrator', 'Adobe Photoshop', 'Digital Printing'],
     cover_url:
       'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=1600&q=85',
     media: [
@@ -189,12 +215,12 @@ export const SEED_PROJECTS: Project[] = [
     title: 'Sovereign Watch Co. — Horology Vertical Anthology',
     slug: 'sovereign-watch-horology-motion',
     description:
-      'Kampanye film vertikal (9:16) dan sistem identitas gerak untuk peluncuran koleksi jam tangan mekanis edisi terbatas Sovereign Watch Co.\n\nFokus utama proyek ini adalah menerjemahkan presisi roda gigi mikroskopis dan pantulan logam mulia ke dalam sekuens animasi 3D dan tipografi kinetik yang menghipnotis di layar mobile tanpa kehilangan wibawa merek mewah.',
+      'Kampanye film vertikal (9:16) dan sistem identitas gerak untuk peluncuran koleksi jam tangan mekanis edisi terbatas Sovereign Watch Co.\n\nFokus utama proyek ini adalah menerjemahkan presisi roda gigi mikroskopis dan pantulan logam mulia ke dalam sekuens animasi dan tipografi kinetik yang menghipnotis di layar mobile tanpa kehilangan wibawa merek mewah.',
     category: 'Motion',
     year: '2026',
-    client: 'Sovereign Horology Geneva / Jakarta',
-    role: 'Motion Director & 3D Generalist',
-    tools: ['Cinema 4D', 'Redshift', 'After Effects', 'DaVinci Resolve'],
+    client: 'Sovereign Horology Jakarta',
+    role: 'Motion Designer',
+    tools: ['Adobe After Effects', 'Adobe Illustrator', 'Adobe Photoshop'],
     cover_url:
       'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=1080&q=85',
     media: [
@@ -226,15 +252,15 @@ export const SEED_PROJECTS: Project[] = [
   },
   {
     id: '11111111-1111-4111-8111-111111111103',
-    title: 'Arsip Nusantara — Monografi Desain & Kriya',
+    title: 'Lightboxglobal — E-Commerce Custom Case & Campaign Series',
     slug: 'arsip-nusantara-monograph',
     description:
-      'Perancangan editorial buku meja (coffee table monograph) setebal 320 halaman yang mendokumentasikan 50 karya tekstil, logam, dan arsitektur vernakular Indonesia.\n\nMenggunakan sistem grid 12 kolom Swiss yang ketat dengan perpaduan serif layar klasik dan indeks marginalia bernomor presisi.',
+      'Perancangan rangkaian kampanye visual e-commerce, fotografi produk, banner promosi musiman, serta produksi cetak langsung lini custom case eksklusif di PT Lightboxglobal.\n\nMemastikan setiap desain memiliki ketajaman warna dan presisi posisi cetak dari layar Adobe Illustrator & Photoshop hingga keluar dari mesin printing.',
     category: 'Graphic Design',
-    year: '2025',
-    client: 'Yayasan Warisan Visual Indonesia',
-    role: 'Editorial Art Director',
-    tools: ['Adobe InDesign', 'Adobe Photoshop', 'Figma'],
+    year: '2026',
+    client: 'PT Lightboxglobal',
+    role: 'Graphic & Brand Designer',
+    tools: ['Adobe Illustrator', 'Adobe Photoshop', 'Digital Printing Machine'],
     cover_url:
       'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=1200&q=85',
     media: [
@@ -244,7 +270,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 1200,
         height: 1500,
-        alt: 'Sampul linen hitam berembos foil emas Arsip Nusantara',
+        alt: 'Katalog produk dan cetakan edisi khusus PT Lightboxglobal',
         blurhash: 'L10A0B241E14',
         is_cover: true,
       },
@@ -254,7 +280,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 1600,
         height: 1067,
-        alt: 'Halaman bentang dalam dengan tata letak tipografi dua bahasa',
+        alt: 'Detail tata letak kampanye visual dan kontrol kualitas cetak',
         blurhash: 'L10A0B241E14',
       },
     ],
@@ -269,12 +295,12 @@ export const SEED_PROJECTS: Project[] = [
     title: 'SENJA Gastronomy — Sistem Identitas Kuliner',
     slug: 'senja-gastronomy-identity',
     description:
-      'Perancangan identitas merek untuk restoran fine-dining kontemporer di Bali yang menyajikan menu degustasi berbasis bahan bakar kayu bakar dan fermentasi lokal.\n\nMencakup desain monogram kustom, buku menu kulit, kartu anggur bernomor seri, hingga perlengkapan meja berukir.',
+      'Perancangan identitas merek untuk restoran kontemporer yang menyajikan menu degustasi berbasis bahan lokal pilihan.\n\nMencakup desain monogram kustom, buku menu cetak, kemasan bawa pulang, hingga materi promosi digital.',
     category: 'Branding',
     year: '2025',
     client: 'Senja Hospitality Group',
     role: 'Brand Identity Designer',
-    tools: ['Adobe Illustrator', 'Adobe InDesign', 'Adobe Dimension'],
+    tools: ['Adobe Illustrator', 'Adobe Photoshop'],
     cover_url:
       'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=85',
     media: [
@@ -306,15 +332,15 @@ export const SEED_PROJECTS: Project[] = [
   },
   {
     id: '11111111-1111-4111-8111-111111111105',
-    title: 'Aether Botanical Parfum — Director’s Cut Campaign',
+    title: 'Aether Botanical Parfum — Commercial Campaign Cut',
     slug: 'aether-parfum-campaign-film',
     description:
-      'Penyuntingan film komersial berdurasi 90 detik dan penataan warna (color grading) untuk peluncuran parfum uniseks Aether Botanical.\n\nMenonjolkan kontras bayangan pekat dengan kilau kaca amber, dipadukan dengan pemotongan ritmis mengikuti komposisi cello analog.',
+      'Penyuntingan video kampanye komersial dan fotografi produk untuk peluncuran parfum uniseks Aether Botanical.\n\nMenonjolkan kontras bayangan pekat dengan kilau kaca amber untuk memperkuat kesan mewah di kanal e-commerce.',
     category: 'Video Editing',
     year: '2026',
-    client: 'Aether Lab Paris / Singapura',
-    role: 'Lead Offline/Online Editor & Colorist',
-    tools: ['DaVinci Resolve Studio', 'Premiere Pro', 'After Effects', 'Audition'],
+    client: 'Aether Botanical',
+    role: 'Video Editor & Visual Designer',
+    tools: ['Adobe After Effects', 'Adobe Photoshop', 'Adobe Illustrator'],
     cover_url:
       'https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=1600&q=85',
     media: [
@@ -334,7 +360,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 1400,
         height: 933,
-        alt: 'Proses color grading dengan tone hangat keemasan',
+        alt: 'Eksplorasi visual produk dengan tone hangat keemasan',
         blurhash: 'L10A0B241E14',
       },
     ],
@@ -346,15 +372,15 @@ export const SEED_PROJECTS: Project[] = [
   },
   {
     id: '11111111-1111-4111-8111-111111111106',
-    title: 'Monolith Architecture Biennial 2026 — Sistem Visual Pameran',
+    title: 'Corporate Apparel & Onboarding System — Automotive Showcase',
     slug: 'monolith-architecture-biennial-2026',
     description:
-      'Identitas pameran berskala penuh, desain katalog, motion wall instalasi, dan sistem penunjuk arah (wayfinding) untuk pameran arsitektur brutalism dan tropis modern di Asia Tenggara.',
+      'Pengembangan desain merchandise korporat (jaket dan totebag resmi) serta sistem dek presentasi onboarding karyawan baru yang terstruktur dan komunikatif.',
     category: 'Graphic Design',
-    year: '2026',
-    client: 'Monolith Architectural Forum',
-    role: 'Visual System & Exhibition Designer',
-    tools: ['Adobe InDesign', 'Illustrator', 'After Effects', 'Figma'],
+    year: '2024',
+    client: 'Korporasi Otomotif Nasional',
+    role: 'Creative & Visual Support Designer',
+    tools: ['Adobe Illustrator', 'Adobe Photoshop', 'Microsoft PowerPoint'],
     cover_url:
       'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1800&q=85',
     media: [
@@ -364,7 +390,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 1890,
         height: 810,
-        alt: 'Instalasi spanduk arsitektural Monolith Biennial',
+        alt: 'Sistem komunikasi visual dan desain merchandise korporat',
         blurhash: 'L10A0B241E14',
         is_cover: true,
       },
@@ -374,7 +400,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 1600,
         height: 1066,
-        alt: 'Perspektif fasad gedung pameran dan elemen grafis',
+        alt: 'Aplikasi identitas visual pada elemen korporasi',
         blurhash: 'L10A0B241E14',
       },
     ],
@@ -389,10 +415,10 @@ export const SEED_PROJECTS: Project[] = [
 export const SEED_MESSAGES: ContactMessage[] = [
   {
     id: '22222222-2222-4222-8222-222222222201',
-    name: 'Nadia Pramesti — Creative Lead, Kemang Sovereign Hotel',
+    name: 'Nadia Pramesti — Brand Manager',
     email: 'nadia.pramesti@kemangsovereign.id',
     message:
-      'Halo Ray, kami sangat tertarik dengan pendekatan editorial pada proyek KALA Roastery dan SENJA. Kami sedang merencanakan rebranding untuk boutique hotel kami di Jakarta Selatan pada kuartal depan dan ingin menjadwalkan diskusi awal.',
+      'Halo Ray, kami tertarik dengan pengalaman Anda menangani campaign visual e-commerce dan produksi cetak custom di PT Lightboxglobal. Kami ingin mendiskusikan kolaborasi desain untuk lini produk baru kami bulan depan.',
     is_read: false,
     created_at: '2026-03-01T09:30:00.000Z',
   },

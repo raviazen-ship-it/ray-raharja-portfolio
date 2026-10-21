@@ -25,7 +25,7 @@ insert into public.site_settings (
   'Saya adalah Graphic & Brand Designer sekaligus Motion Designer dan Video Editor yang berbasis di Jakarta dengan pengalaman lebih dari 7 tahun menangani klien korporasi, perhotelan mewah, gaya hidup, hingga institusi budaya.
 
 Pendekatan kerja saya memadukan ketajaman tipografi editorial dengan dinamika gambar bergerak. Bagi saya, sebuah merek tidak hanya hidup dalam logo statis di atas kertas—melainkan juga dalam bagaimana ia bergerak, terdengar, dan bercerita di layar digital.',
-  'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1000&q=85',
+  '/profile-ray-raharja.png',
   '/cv-ray-raharja-santoso.pdf',
   '[
     {
@@ -61,11 +61,11 @@ Pendekatan kerja saya memadukan ketajaman tipografi editorial dengan dinamika ga
       "deliverables": ["Offline & Online Editing", "Commercial & Brand Film", "Color Grading Sinematik", "Sound Design & Mixing", "Format Multi-Platform"]
     }
   ]'::jsonb,
-  'ray.raharja@studio-onyx.id',
-  '+6281298765432',
-  'https://instagram.com/rayraharja.studio',
+  'rayraharja09@gmail.com',
+  '+62 813-8145-7516',
+  'https://instagram.com/Reyp.u',
   'https://linkedin.com/in/ray-raharja-santoso',
-  'https://behance.net/rayraharjasantoso'
+  'https://instagram.com/Reyp.u'
 )
 on conflict (id) do update set
   hero_title = excluded.hero_title,

@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from 'next/server';
 import { createServerClient } from '@supabase/ssr';
 import {
   ADMIN_COOKIE_NAME,
-  getAllowedAdminEmail,
+  isAuthorizedAdminEmail,
   verifyAdminSessionToken,
 } from '@/lib/auth';
 import { isSupabaseConfigured } from '@/lib/supabase/client';
@@ -62,10 +62,7 @@ export async function middleware(request: NextRequest) {
       data: { user },
     } = await supabase.auth.getUser();
 
-    if (
-      user?.email &&
-      user.email.trim().toLowerCase() === getAllowedAdminEmail()
-    ) {
+    if (isAuthorizedAdminEmail(user?.email)) {
       isAuthenticatedAdmin = true;
     }
   }

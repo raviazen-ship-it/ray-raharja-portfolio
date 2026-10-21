@@ -148,6 +148,13 @@ export function Navbar({ availableForWork = true }: NavbarProps) {
             </div>
 
             <Link
+              href="/admin"
+              className="hidden sm:inline-flex items-center gap-1.5 min-h-[40px] border border-[var(--line)] bg-[#131316]/90 px-3.5 py-2 text-[10px] uppercase tracking-[0.18em] text-[var(--brass-light)] hover:border-[var(--brass)] hover:bg-[var(--brass)] hover:text-[#0A0A0B] transition-colors duration-300"
+            >
+              <span>{t.nav.admin}</span>
+            </Link>
+
+            <Link
               href="/#kontak"
               className="hidden lg:inline-flex items-center gap-2 min-h-[44px] border border-[var(--brass)] px-5 py-2.5 text-[11px] uppercase tracking-[0.2em] text-[var(--ivory)] hover:bg-[var(--brass)] hover:text-[#0A0A0B] transition-colors duration-300"
             >

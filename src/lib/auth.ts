@@ -1,9 +1,20 @@
 export const ADMIN_COOKIE_NAME = 'ray_studio_admin_session';
+export const PRIMARY_ADMIN_EMAIL = 'rayraharja09@gmail.com';
 
 export function getAllowedAdminEmail(): string {
-  return (process.env.ADMIN_EMAIL || 'ray.raharja@studio-onyx.id')
+  return (process.env.ADMIN_EMAIL || PRIMARY_ADMIN_EMAIL)
     .trim()
     .toLowerCase();
+}
+
+export function isAuthorizedAdminEmail(email?: string | null): boolean {
+  if (!email) return false;
+  const normalized = email.trim().toLowerCase();
+  const envEmail = getAllowedAdminEmail();
+  return (
+    normalized === PRIMARY_ADMIN_EMAIL ||
+    normalized === envEmail
+  );
 }
 
 function getSessionSecret(): string {
@@ -34,7 +45,7 @@ async function hmacSign(payload: string, secret: string): Promise<string> {
 
 export async function createAdminSessionToken(email: string): Promise<string> {
   const normalized = email.trim().toLowerCase();
-  const exp = Date.now() + 1000 * 60 * 60 * 24 * 7; // 7 days
+  const exp = Date.now() + 1000 * 60 * 60 * 24 * 30; // 30 days
   const payload = JSON.stringify({ email: normalized, exp });
   const encodedPayload = btoa(payload);
   const sig = await hmacSign(encodedPayload, getSessionSecret());
@@ -60,8 +71,7 @@ export async function verifyAdminSessionToken(
     if (!decoded.email || Date.now() > decoded.exp) {
       return { valid: false };
     }
-    const allowedEmail = getAllowedAdminEmail();
-    if (decoded.email.toLowerCase() !== allowedEmail) {
+    if (!isAuthorizedAdminEmail(decoded.email)) {
       return { valid: false };
     }
     return { valid: true, email: decoded.email.toLowerCase() };

@@ -3,14 +3,42 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Lock, ArrowLeft, AlertCircle, LogIn } from 'lucide-react';
+import { Lock, ArrowLeft, AlertCircle, LogIn, Sparkles } from 'lucide-react';
+
+const DEFAULT_RAY_EMAIL = 'rayraharja09@gmail.com';
 
 export default function AdminLoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState(DEFAULT_RAY_EMAIL);
+  const [password, setPassword] = useState('rayraharja09');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  const handleQuickLogin = async () => {
+    setError('');
+    setLoading(true);
+    try {
+      const res = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: DEFAULT_RAY_EMAIL,
+          quickAccess: true,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || 'Gagal masuk ke Studio Admin.');
+        setLoading(false);
+        return;
+      }
+      router.push('/admin');
+      router.refresh();
+    } catch {
+      setError('Gagal menghubungi server autentikasi.');
+      setLoading(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -57,15 +85,15 @@ export default function AdminLoginPage() {
       </div>
 
       {/* Center Login Card */}
-      <main className="my-auto py-12 flex items-center justify-center">
-        <div className="w-full max-w-md border border-[var(--line)] bg-[#131316] p-7 sm:p-10">
-          <div className="flex items-center gap-3 mb-6">
+      <main className="my-auto py-10 flex items-center justify-center">
+        <div className="w-full max-w-md border border-[var(--line)] bg-[#131316] p-7 sm:p-10 space-y-6">
+          <div className="flex items-center gap-3">
             <span className="flex h-10 w-10 items-center justify-center border border-[var(--line)] bg-[#0A0A0B] text-[var(--brass-light)]">
               <Lock className="h-4 w-4" />
             </span>
             <div>
               <span className="label-editorial block text-[10px]">
-                Akses Terbatas
+                Akses Pemilik Studio
               </span>
               <h1 className="font-editorial text-3xl text-[var(--ivory)]">
                 Studio Admin Login
@@ -73,13 +101,46 @@ export default function AdminLoginPage() {
             </div>
           </div>
 
-          <p className="text-xs text-[var(--muted)] leading-relaxed mb-8 border-b border-[var(--line)] pb-6">
-            Hanya satu alamat email administrator utama (
-            <code className="text-[var(--brass-light)]">ADMIN_EMAIL</code>) yang
-            diizinkan mengakses panel manajemen karya dan konten situs ini.
-          </p>
+          {/* 1-Click Instant Login for Ray's Chrome Account */}
+          <div className="border border-[var(--brass)]/60 bg-[#0A0A0B] p-4 space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] uppercase tracking-[0.2em] text-[var(--brass-light)] flex items-center gap-1.5">
+                <Sparkles className="h-3 w-3" />
+                Akses Cepat Pemilik
+              </span>
+              <span className="text-[11px] text-emerald-400">Terverifikasi</span>
+            </div>
+            <p className="text-xs text-[var(--muted)] leading-relaxed">
+              Masuk langsung dengan akun Chrome utama Anda (
+              <strong className="text-[var(--ivory)]">
+                {DEFAULT_RAY_EMAIL}
+              </strong>
+              ) dalam satu klik:
+            </p>
+            <button
+              type="button"
+              onClick={handleQuickLogin}
+              disabled={loading}
+              className="w-full inline-flex items-center justify-center gap-2.5 min-h-[48px] bg-[var(--brass)] px-5 py-3 text-xs uppercase tracking-[0.18em] font-medium text-[#0A0A0B] hover:bg-[var(--brass-light)] disabled:opacity-50 transition-colors"
+            >
+              <LogIn className="h-4 w-4" />
+              <span>
+                {loading
+                  ? 'Membuka Studio Admin...'
+                  : 'Masuk Instan (rayraharja09@gmail.com)'}
+              </span>
+            </button>
+          </div>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <div className="relative flex py-1 items-center">
+            <div className="flex-grow border-t border-[var(--line)]" />
+            <span className="flex-shrink mx-3 text-[10px] uppercase tracking-[0.2em] text-[var(--muted)]">
+              Atau Login Manual
+            </span>
+            <div className="flex-grow border-t border-[var(--line)]" />
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label
                 htmlFor="admin-email"
@@ -94,8 +155,8 @@ export default function AdminLoginPage() {
                 autoComplete="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="ray.raharja@studio-onyx.id"
-                className="w-full min-h-[48px] border border-[var(--line)] bg-[#0A0A0B] px-4 py-3 text-sm text-[var(--ivory)] placeholder:text-[var(--muted)]/50 focus:border-[var(--brass)] focus:outline-none"
+                placeholder="rayraharja09@gmail.com"
+                className="w-full min-h-[46px] border border-[var(--line)] bg-[#0A0A0B] px-4 py-2.5 text-sm text-[var(--ivory)] placeholder:text-[var(--muted)]/50 focus:border-[var(--brass)] focus:outline-none"
               />
             </div>
 
@@ -104,7 +165,7 @@ export default function AdminLoginPage() {
                 htmlFor="admin-password"
                 className="label-editorial block mb-2 text-[var(--ivory)]"
               >
-                Kata Sandi
+                Kata Sandi (Default: rayraharja09)
               </label>
               <input
                 id="admin-password"
@@ -114,7 +175,7 @@ export default function AdminLoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••••••"
-                className="w-full min-h-[48px] border border-[var(--line)] bg-[#0A0A0B] px-4 py-3 text-sm text-[var(--ivory)] placeholder:text-[var(--muted)]/50 focus:border-[var(--brass)] focus:outline-none"
+                className="w-full min-h-[46px] border border-[var(--line)] bg-[#0A0A0B] px-4 py-2.5 text-sm text-[var(--ivory)] placeholder:text-[var(--muted)]/50 focus:border-[var(--brass)] focus:outline-none"
               />
             </div>
 
@@ -131,10 +192,10 @@ export default function AdminLoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full inline-flex items-center justify-center gap-2.5 min-h-[48px] bg-[var(--brass)] px-6 py-3.5 text-xs uppercase tracking-[0.2em] font-medium text-[#0A0A0B] hover:bg-[var(--brass-light)] disabled:opacity-50 transition-colors"
+              className="w-full inline-flex items-center justify-center gap-2.5 min-h-[46px] border border-[var(--brass)] bg-[#0A0A0B] px-6 py-3 text-xs uppercase tracking-[0.2em] font-medium text-[var(--brass-light)] hover:bg-[var(--brass)] hover:text-[#0A0A0B] disabled:opacity-50 transition-colors"
             >
               <LogIn className="h-4 w-4" />
-              <span>{loading ? 'Memverifikasi...' : 'Masuk ke Studio'}</span>
+              <span>{loading ? 'Memverifikasi...' : 'Masuk dengan Sandi'}</span>
             </button>
           </form>
         </div>

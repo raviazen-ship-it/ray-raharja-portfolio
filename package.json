@@ -7,7 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "supabase:login": "supabase login",
+    "supabase:push": "supabase db push",
+    "supabase:provision": "node scripts/connect-supabase.mjs",
+    "vercel:deploy": "vercel deploy --prod --yes"
   },
   "dependencies": {
     "@supabase/ssr": "^0.5.2",
