@@ -28,6 +28,7 @@ export function LazyVideo({
   const containerRef = useRef<HTMLDivElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [hasLoaded, setHasLoaded] = useState(false);
+  const [isInView, setIsInView] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
 
   useEffect(() => {
@@ -37,27 +38,33 @@ export function LazyVideo({
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          const video = videoRef.current;
           if (entry.isIntersecting) {
             setHasLoaded(true);
-            if (video && !controls) {
-              video.play().catch(() => {
-                // Ignore autoplay restrictions
-              });
-            }
+            setIsInView(true);
           } else {
-            if (video && ! video.paused && !controls) {
-              video.pause();
-            }
+            setIsInView(false);
           }
         });
       },
-      { threshold: 0.2, rootMargin: '120px' }
+      { threshold: 0.15, rootMargin: '160px' }
     );
 
     observer.observe(el);
     return () => observer.disconnect();
-  }, [controls]);
+  }, []);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video || !hasLoaded || controls) return;
+
+    if (isInView) {
+      video.play().catch(() => {
+        // Ignore autoplay restrictions
+      });
+    } else if (!video.paused) {
+      video.pause();
+    }
+  }, [hasLoaded, isInView, src, controls]);
 
   const toggleMute = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -80,13 +87,14 @@ export function LazyVideo({
         ref={videoRef}
         src={hasLoaded ? src : undefined}
         poster={poster}
+        autoPlay={!controls}
         muted={isMuted}
         loop
         playsInline
         controls={controls}
         preload="metadata"
         aria-label={alt}
-        className="h-full w-full object-contain bg-[#0A0A0B]"
+        className="h-full w-full object-cover bg-[#0A0A0B]"
       />
 
       {showSoundToggle && !controls && (

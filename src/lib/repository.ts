@@ -20,11 +20,13 @@ import {
 import { slugify } from '@/lib/utils';
 
 interface LocalStore {
+  version?: string;
   projects: Project[];
   site_settings: SiteSettings;
   messages: ContactMessage[];
 }
 
+const STORE_VERSION = '2026-10-22-real-works-v1';
 const DATA_DIR = path.join(process.cwd(), '.data');
 const DB_FILE = path.join(DATA_DIR, 'local-db.json');
 
@@ -35,6 +37,7 @@ function readLocalStore(): LocalStore {
     }
     if (!fs.existsSync(DB_FILE)) {
       const initial: LocalStore = {
+        version: STORE_VERSION,
         projects: SEED_PROJECTS,
         site_settings: DEFAULT_SITE_SETTINGS,
         messages: SEED_MESSAGES,
@@ -44,13 +47,25 @@ function readLocalStore(): LocalStore {
     }
     const raw = fs.readFileSync(DB_FILE, 'utf-8');
     const parsed = JSON.parse(raw) as Partial<LocalStore>;
+    if (parsed.version !== STORE_VERSION) {
+      const upgraded: LocalStore = {
+        version: STORE_VERSION,
+        projects: SEED_PROJECTS,
+        site_settings: DEFAULT_SITE_SETTINGS,
+        messages: Array.isArray(parsed.messages) ? parsed.messages : SEED_MESSAGES,
+      };
+      fs.writeFileSync(DB_FILE, JSON.stringify(upgraded, null, 2), 'utf-8');
+      return upgraded;
+    }
     return {
+      version: STORE_VERSION,
       projects: Array.isArray(parsed.projects) ? parsed.projects : SEED_PROJECTS,
       site_settings: parsed.site_settings || DEFAULT_SITE_SETTINGS,
       messages: Array.isArray(parsed.messages) ? parsed.messages : SEED_MESSAGES,
     };
   } catch {
     return {
+      version: STORE_VERSION,
       projects: SEED_PROJECTS,
       site_settings: DEFAULT_SITE_SETTINGS,
       messages: SEED_MESSAGES,
@@ -63,7 +78,11 @@ function writeLocalStore(store: LocalStore): void {
     if (!fs.existsSync(DATA_DIR)) {
       fs.mkdirSync(DATA_DIR, { recursive: true });
     }
-    fs.writeFileSync(DB_FILE, JSON.stringify(store, null, 2), 'utf-8');
+    fs.writeFileSync(
+      DB_FILE,
+      JSON.stringify({ ...store, version: STORE_VERSION }, null, 2),
+      'utf-8'
+    );
   } catch (err) {
     console.error('Failed to write local store:', err);
   }
