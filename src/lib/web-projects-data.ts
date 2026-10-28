@@ -52,6 +52,26 @@ export interface QaCheckSummary {
   note: LocalizedText;
 }
 
+export interface WorkflowStepItem {
+  step: string;
+  title: LocalizedText;
+  summary: LocalizedText;
+  input: LocalizedText;
+  process: LocalizedText;
+  output: LocalizedText;
+  badge: LocalizedText;
+}
+
+export interface ScenarioExampleItem {
+  id: string;
+  title: LocalizedText;
+  category: LocalizedText;
+  description: LocalizedText;
+  sampleData: { label: LocalizedText; value: string }[];
+  expectedResult: LocalizedText;
+  actionHint: LocalizedText;
+}
+
 export interface WebProjectCaseStudy {
   id: string;
   slug: string;
@@ -85,6 +105,8 @@ export interface WebProjectCaseStudy {
   techStack: string[];
   techVerificationSource: LocalizedText;
   architectureFlow: LocalizedText[];
+  workflowSteps: WorkflowStepItem[];
+  scenarioExamples: ScenarioExampleItem[];
   verifiedFeatures: VerifiedFeatureItem[];
   decisionsAndChallenges: DecisionChallengeItem[];
   limitations: LocalizedText[];
@@ -407,6 +429,230 @@ export const WEB_PROJECTS: WebProjectCaseStudy[] = [
         en: 'Simulated Checkout & Kitchen Tally: Submitting checkout writes an order record to SQLite (/tmp/data/bakery.db on serverless) visible in the kitchen batch view.',
       },
     ],
+    workflowSteps: [
+      {
+        step: '01',
+        title: {
+          id: 'Katalog & Penyaringan Alergen',
+          en: 'Catalog & Allergen Filtering',
+        },
+        summary: {
+          id: 'Pengunjung menelusuri etalase kuliner sourdough dan menyaring produk berdasarkan pantangan alergen atau preferensi diet.',
+          en: 'Visitors browse the artisan sourdough catalog and filter products based on dietary preferences or allergen warnings.',
+        },
+        input: {
+          id: 'Filter alergen (kacang, gluten, telur, susu) dan kategori produk kuliner.',
+          en: 'Allergen filters (nuts, gluten, eggs, dairy) and culinary product categories.',
+        },
+        process: {
+          id: 'Penyaringan instan sisi klien terhadap data produk SQLite tanpa reload halaman.',
+          en: 'Instant client-side filtering against SQLite product records without page reloads.',
+        },
+        output: {
+          id: 'Daftar produk aman konsumsi dengan badge alergen dan stok harian transparan.',
+          en: 'Filtered culinary product list with visible allergen indicators and daily quotas.',
+        },
+        badge: {
+          id: 'Katalog & Menu',
+          en: 'Catalog & Menu',
+        },
+      },
+      {
+        step: '02',
+        title: {
+          id: 'Pemilihan Varian & Minimum Pemesanan (MOQ)',
+          en: 'Variant Selection & Minimum Order Quantity',
+        },
+        summary: {
+          id: 'Memilih varian porsi (Whole Loaf / Half), kuantitas snack box katering, serta catatan preferensi panggangan.',
+          en: 'Choosing loaf portion variants, catering snack box counts, and specific bakery prep notes.',
+        },
+        input: {
+          id: 'Pilihan varian ukuran, kuantitas katering (min. 10 pax), dan catatan kustom adonan.',
+          en: 'Portion variant choice, catering quantities (min. 10 pax), and custom bakery notes.',
+        },
+        process: {
+          id: 'Validasi aturan MOQ katering dan perhitungan subtotal harga berbasis kuantitas.',
+          en: 'Enforcing catering MOQ rules and calculating tiered quantity subtotal prices.',
+        },
+        output: {
+          id: 'Item tervalidasi masuk ke state keranjang belanja dengan rincian harga akurat.',
+          en: 'Validated item added to cart state with itemized pricing details.',
+        },
+        badge: {
+          id: 'Konfigurasi Varian',
+          en: 'Variant Config',
+        },
+      },
+      {
+        step: '03',
+        title: {
+          id: 'Keranjang Belanja & Validasi Kode Promo',
+          en: 'Cart Drawer & Promo Code Validation',
+        },
+        summary: {
+          id: 'Mengecek isi keranjang belanja, menentukan tanggal pre-order, dan mengklaim voucher diskon.',
+          en: 'Reviewing cart contents, selecting pre-order baking dates, and applying promo vouchers.',
+        },
+        input: {
+          id: 'Kode voucher (contoh: DISKON10) dan pilihan tanggal jadwal pengiriman.',
+          en: 'Voucher code (e.g. DISKON10) and chosen delivery or pickup date.',
+        },
+        process: {
+          id: 'Request API ke endpoint /api/promo/validate untuk verifikasi syarat & nilai voucher.',
+          en: 'API request to /api/promo/validate verifying discount rules and limits.',
+        },
+        output: {
+          id: 'Potongan harga langsung teraplikasi dan subtotal bersih diperbarui secara real-time.',
+          en: 'Applied discount deduction and dynamically updated net total.',
+        },
+        badge: {
+          id: 'Kalkulasi Promo',
+          en: 'Promo Validation',
+        },
+      },
+      {
+        step: '04',
+        title: {
+          id: 'Formulir Checkout & Simulasi Pembayaran Multisaluran',
+          en: 'Checkout Form & Multi-Channel Payment Simulation',
+        },
+        summary: {
+          id: 'Pelanggan mengisi kontak pengiriman dan memilih metode pembayaran QRIS atau Transfer Bank.',
+          en: 'Customer enters delivery contact details and chooses QRIS or Bank Transfer payment.',
+        },
+        input: {
+          id: 'Nama penerima, nomor WhatsApp, alamat lengkap pengiriman, dan metode bayar.',
+          en: 'Recipient name, WhatsApp phone number, shipping address, and payment method.',
+        },
+        process: {
+          id: 'Penerbitan instruksi pembayaran simulasi otomatis dan pencatatan transaksi ke SQLite.',
+          en: 'Generating simulated payment instructions and committing transaction records to SQLite.',
+        },
+        output: {
+          id: 'Kode QRIS dinamis simulasi / nomor virtual account transfer bank dengan batas waktu.',
+          en: 'Simulated dynamic QRIS code / bank virtual account number with countdown.',
+        },
+        badge: {
+          id: 'Checkout Gateway',
+          en: 'Checkout Gateway',
+        },
+      },
+      {
+        step: '05',
+        title: {
+          id: 'Penerbitan Token & Pelacakan Pesanan Publik',
+          en: 'Token Generation & Public Order Tracking',
+        },
+        summary: {
+          id: 'Sistem menerbitkan token pelacakan publik untuk memantau status pesanan dan sinkronisasi dapur.',
+          en: 'System generates a public tracking token to monitor order status and kitchen batch sync.',
+        },
+        input: {
+          id: 'Nomor faktur pesanan dan token kriptografis pelacakan pesanan publik.',
+          en: 'Order invoice number and unique cryptographic tracking token.',
+        },
+        process: {
+          id: 'Query status pesanan dari basis data dan sinkronisasi antrean dapur (/admin/produksi).',
+          en: 'Database query for order state and synchronization with kitchen queue (/admin/produksi).',
+        },
+        output: {
+          id: 'Timeline status pesanan interaktif (Pesanan Diterima, Sedang Dipanggang, Siap Dikirim).',
+          en: 'Interactive order timeline (Order Received, Baking in Oven, Ready for Delivery).',
+        },
+        badge: {
+          id: 'Lacak Pesanan',
+          en: 'Order Tracking',
+        },
+      },
+    ],
+    scenarioExamples: [
+      {
+        id: 'bakery-sc-1',
+        title: {
+          id: 'Pemesanan Roti Sourdough dengan Catatan Khusus',
+          en: 'Artisan Sourdough Order with Custom Notes',
+        },
+        category: {
+          id: 'Katalog & Pre-Order',
+          en: 'Catalog & Pre-Order',
+        },
+        description: {
+          id: 'Pelanggan memilih roti sourdough klasik untuk sarapan dengan permintaan potongan tipis pada jadwal pagi hari.',
+          en: 'Customer orders a classic sourdough loaf for breakfast requesting thin slices for a morning slot.',
+        },
+        sampleData: [
+          { label: { id: 'Produk', en: 'Product' }, value: 'Artisan Sourdough Country Loaf' },
+          { label: { id: 'Varian Ukuran', en: 'Size Variant' }, value: 'Whole Loaf (850g)' },
+          { label: { id: 'Catatan Khusus', en: 'Custom Note' }, value: 'Mohon diiris tipis 1.2 cm untuk sarapan' },
+          { label: { id: 'Jadwal Ambil', en: 'Pickup Schedule' }, value: 'Besok Pukul 08.30 WIB' },
+        ],
+        expectedResult: {
+          id: 'Subtotal Rp45.000, kuota oven tanggal besok tervalidasi aman, pesanan tercatat di batch dapur.',
+          en: 'Subtotal Rp45,000, tomorrow oven quota confirmed, order queued in kitchen batch.',
+        },
+        actionHint: {
+          id: 'Buka menu /produk di aplikasi live, pilih Country Loaf, dan ketik catatan pada form keranjang.',
+          en: 'Open /produk in the live app, choose Country Loaf, and type instructions in cart note.',
+        },
+      },
+      {
+        id: 'bakery-sc-2',
+        title: {
+          id: 'Simulasi Katering Rapat Kantor (Validasi MOQ)',
+          en: 'Office Meeting Catering Simulation (MOQ Enforcement)',
+        },
+        category: {
+          id: 'Katering Korporat',
+          en: 'Corporate Catering',
+        },
+        description: {
+          id: 'Koordinator acara memesan snack box rapat kantor dan memverifikasi batas minimum pemesanan 10 kotak.',
+          en: 'Event organizer orders corporate meeting snack boxes and tests the 10-box minimum order rule.',
+        },
+        sampleData: [
+          { label: { id: 'Paket Katering', en: 'Catering Package' }, value: 'Executive Snack Box (3 Pastry + Cold Brew)' },
+          { label: { id: 'Kuantitas Pesanan', en: 'Order Quantity' }, value: '25 Box (Syarat MOQ: 10 Box)' },
+          { label: { id: 'Diskon Volume', en: 'Volume Discount' }, value: 'Potongan otomatis 5% untuk pesanan di atas 20 box' },
+        ],
+        expectedResult: {
+          id: 'Validasi MOQ lolos, diskon volume aktif otomatis, total kalkulasi Rp831.250 dengan rincian box jelas.',
+          en: 'MOQ validation passes, automatic volume discount applied, total Rp831,250 with clear breakdown.',
+        },
+        actionHint: {
+          id: 'Pilih kategori Katering di katalog, naikkan counter kuantitas ke 25 box, dan periksa ringkasan di keranjang.',
+          en: 'Select Catering in catalog, increase quantity counter to 25 boxes, and verify cart summary.',
+        },
+      },
+      {
+        id: 'bakery-sc-3',
+        title: {
+          id: 'Penerapan Voucher Promo & Checkout QRIS Dinamis',
+          en: 'Promo Voucher Application & Dynamic QRIS Checkout',
+        },
+        category: {
+          id: 'Simulasi Pembayaran',
+          en: 'Payment Simulation',
+        },
+        description: {
+          id: 'Pengguna memasukkan kode promo DISKON10 dan menyelesaikan simulasi transaksi menggunakan QRIS.',
+          en: 'User applies voucher code DISKON10 and completes simulated transaction with QRIS.',
+        },
+        sampleData: [
+          { label: { id: 'Kode Kupon', en: 'Coupon Code' }, value: 'DISKON10 (Potongan Rp10.000)' },
+          { label: { id: 'Metode Bayar', en: 'Payment Option' }, value: 'QRIS Dinamis Otomatis' },
+          { label: { id: 'Nomor Order Diterbitkan', en: 'Issued Order ID' }, value: 'ORD-2026-0412' },
+        ],
+        expectedResult: {
+          id: 'Kupon divalidasi via API, potongan Rp10.000 teraplikasi, tampilan QRIS simulasi tampil dengan token pelacakan.',
+          en: 'Coupon verified via API, Rp10,000 deducted, simulated QRIS code generated with tracking token.',
+        },
+        actionHint: {
+          id: 'Buka drawer keranjang, ketik DISKON10 pada input voucher, klik Terapkan, lalu lanjutkan ke Checkout.',
+          en: 'Open cart drawer, enter DISKON10 in promo field, click Apply, then proceed to Checkout.',
+        },
+      },
+    ],
     verifiedFeatures: [
       {
         name: {
@@ -703,6 +949,231 @@ export const WEB_PROJECTS: WebProjectCaseStudy[] = [
         en: 'RAB Cost Engine & Setback Validator: Parameter updates deterministically recompute 12 construction cost categories, payment milestones, and plot setback compliance.',
       },
     ],
+    workflowSteps: [
+      {
+        step: '01',
+        title: {
+          id: 'Konfigurasi Dimensi Lahan & Sempadan (GSB)',
+          en: 'Plot Dimensions & Setback (GSB) Configuration',
+        },
+        summary: {
+          id: 'Pengguna mengatur ukuran kavling tanah; sistem memvalidasi Koefisien Dasar Bangunan (KDB) dan sempadan jalan.',
+          en: 'User configures plot size; system validates Building Coverage Ratio (KDB) and street setback rules.',
+        },
+        input: {
+          id: 'Dimensi lebar kavling (m), panjang kavling (m), dan batas sempadan muka/samping.',
+          en: 'Lot width (m), lot length (m), and front/side setback clearance parameters.',
+        },
+        process: {
+          id: 'Validasi geometri kavling parametrik dan perhitungan luas tapak efektif bangunan.',
+          en: 'Parametric plot geometry validation and effective building footprint calculation.',
+        },
+        output: {
+          id: 'Batas tapak 3D interaktif dengan garis batas sempadan warna hijau (aman) atau merah (melebihi batas).',
+          en: 'Interactive 3D lot boundary with color-coded setback lines indicating regulatory compliance.',
+        },
+        badge: {
+          id: 'Parameter Lahan',
+          en: 'Plot Parameters',
+        },
+      },
+      {
+        step: '02',
+        title: {
+          id: 'Rendering Viewport 3D WebGL (Orbit, Pan, Zoom)',
+          en: '3D WebGL Viewport Rendering (Orbit, Pan, Zoom)',
+        },
+        summary: {
+          id: 'Mesin rendering Three.js merender struktur bangunan secara modular dan parametrik dalam 60 FPS.',
+          en: 'Three.js rendering engine displays modular parametric building structures at a smooth 60 FPS.',
+        },
+        input: {
+          id: 'Pilihan tipe hunian (1 Lantai, 2 Lantai, Split-Level) dan gaya fasad eksterior.',
+          en: 'Housing archetype selection (Single, 2-Story, Split-Level) and facade styling.',
+        },
+        process: {
+          id: 'Kalkulasi geometri mesh prosedural, material PBR dengan normal map, dan kalkulasi bayangan.',
+          en: 'Procedural mesh geometry calculation, PBR materials with normal maps, and dynamic shadows.',
+        },
+        output: {
+          id: 'Model 3D arsitektur responsif dengan kontrol orbital kamera 360 derajat.',
+          en: 'Responsive 3D architectural model with smooth 360-degree orbital camera controls.',
+        },
+        badge: {
+          id: 'Engine 3D WebGL',
+          en: '3D WebGL Engine',
+        },
+      },
+      {
+        step: '03',
+        title: {
+          id: 'Simulasi Jam Matahari & Pencahayaan Alami (Daylight Study)',
+          en: 'Sun Angle & Daylight Study Simulation',
+        },
+        summary: {
+          id: 'Menggeser slider jam matahari dari pagi hingga sore hari untuk memantau arah bayangan dan ventilasi cahaya.',
+          en: 'Adjusting solar time slider from dawn to dusk to analyze shadow direction and natural lighting.',
+        },
+        input: {
+          id: 'Slider jam matahari (06.00 hingga 18.00 WIB) dan sudut orientasi kompas bangunan.',
+          en: 'Solar simulation time slider (06:00 to 18:00) and building compass orientation.',
+        },
+        process: {
+          id: 'Transformasi posisi directional light Three.js sesuai kurva elevasi dan azimuth matahari.',
+          en: 'Transforming directional light coordinates along elevation and azimuth solar arcs.',
+        },
+        output: {
+          id: 'Visualisasi bayangan dinamis real-time pada fasad dan bukaan jendela ruangan.',
+          en: 'Real-time dynamic shadow visualization across facades and interior window openings.',
+        },
+        badge: {
+          id: 'Simulasi Cahaya',
+          en: 'Lighting Simulation',
+        },
+      },
+      {
+        step: '04',
+        title: {
+          id: 'Inspeksi Potongan Interior (Section Cutaway)',
+          en: 'Section Cutaway Interior Inspection',
+        },
+        summary: {
+          id: 'Mengaktifkan bidang potong horizontal/vertikal untuk menginspeksi interior tanpa terhalang dinding luar.',
+          en: 'Engaging horizontal/vertical clipping planes to inspect interior layout unobstructed by exterior walls.',
+        },
+        input: {
+          id: 'Toggle mode irisan struktural dan slider ketinggian bidang potong (clipping plane).',
+          en: 'Structural cutaway mode toggle and clipping plane height adjustment slider.',
+        },
+        process: {
+          id: 'Penerapan Three.js clipping planes pada material objek arsitektur secara real-time.',
+          en: 'Applying Three.js clipping planes across architectural materials in real time.',
+        },
+        output: {
+          id: 'Tampilan denah interior 3D dengan furnitur dan sirkulasi tangga terlihat jelas.',
+          en: '3D interior plan view displaying furniture layout and stair circulation clearly.',
+        },
+        badge: {
+          id: 'Mode Irisan 3D',
+          en: '3D Section Mode',
+        },
+      },
+      {
+        step: '05',
+        title: {
+          id: 'Kalkulator RAB Dinamis & Simulasi Angsuran KPR',
+          en: 'Dynamic Cost Estimate (RAB) & Mortgage Simulator',
+        },
+        summary: {
+          id: 'Sistem mengkalkulasi 12 komponen biaya konstruksi per m2 dan menyediakan simulator cicilan KPR.',
+          en: 'System computes 12 construction cost components per m2 and provides a mortgage payment simulator.',
+        },
+        input: {
+          id: 'Tier material (Standar, Menengah, Premium), persentase uang muka (DP), dan tenor kredit.',
+          en: 'Material tier (Standard, Mid, Premium), down payment percentage (DP), and loan term.',
+        },
+        process: {
+          id: 'Kalkulasi matematis RAB real-time dan perhitungan bunga anuitas kredit pemilikan rumah.',
+          en: 'Real-time mathematical cost compilation and annuity mortgage amortization calculation.',
+        },
+        output: {
+          id: 'Rincian RAB terperinci, jadwal termin pembayaran, dan estimasi cicilan bulanan.',
+          en: 'Detailed cost breakdown, stage disbursement schedule, and monthly payment estimate.',
+        },
+        badge: {
+          id: 'Kalkulator RAB & KPR',
+          en: 'Cost & Mortgage Calc',
+        },
+      },
+    ],
+    scenarioExamples: [
+      {
+        id: 'arsiviz-sc-1',
+        title: {
+          id: 'Konfigurasi Rumah 2 Lantai di Lahan Kompak 6x12m',
+          en: '2-Story Compact Home Configuration on 6x12m Lot',
+        },
+        category: {
+          id: 'Parameter Lahan & 3D',
+          en: 'Plot Parameters & 3D',
+        },
+        description: {
+          id: 'Pengguna merancang rumah tinggal modern 2 lantai di atas kavling perumahan 72 m2 dengan GSB depan 3 meter.',
+          en: 'User configures a modern 2-story home on a 72 m2 urban lot with a 3-meter front setback.',
+        },
+        sampleData: [
+          { label: { id: 'Dimensi Lahan', en: 'Plot Dimensions' }, value: '6.0 meter x 12.0 meter (Luas 72 m2)' },
+          { label: { id: 'Tipe Bangunan', en: 'House Archetype' }, value: '2 Lantai Kontemporer (Luas Bangunan 84 m2)' },
+          { label: { id: 'Garis Sempadan (GSB)', en: 'Setback Line' }, value: 'Depan 3.0m, Belakang 1.5m (KDB 58%)' },
+          { label: { id: 'Status Regulasi', en: 'Regulatory Status' }, value: 'Terverifikasi Patuh Regulasi Tata Kota' },
+        ],
+        expectedResult: {
+          id: 'Model 3D ter-render otomatis, carport dan bukaan ventilasi belakang terbentuk sempurna, status GSB hijau.',
+          en: '3D model updates instantly, carport and rear courtyard formed, setback status confirmed green.',
+        },
+        actionHint: {
+          id: 'Geser slider Dimensi Lahan ke 6x12m pada panel kiri aplikasi live dan pilih tipe 2 Lantai.',
+          en: 'Adjust Plot Dimension sliders to 6x12m in the live app left panel and select 2-Story type.',
+        },
+      },
+      {
+        id: 'arsiviz-sc-2',
+        title: {
+          id: 'Analisis Bayangan Fasad Pukul 09.00 vs 15.00 WIB',
+          en: 'Facade Solar Shading Analysis at 09:00 vs 15:00',
+        },
+        category: {
+          id: 'Simulasi Pencahayaan',
+          en: 'Lighting Simulation',
+        },
+        description: {
+          id: 'Menguji efektivitas kisi-kisi penangkal panas matahari barat untuk mengurangi radiasi termal ruang keluarga.',
+          en: 'Testing west-facing secondary skin louvers to minimize thermal radiation in the main living room.',
+        },
+        sampleData: [
+          { label: { id: 'Arah Hadap Rumah', en: 'Building Orientation' }, value: 'Menghadap Barat (270 Derajat)' },
+          { label: { id: 'Waktu Simulasi', en: 'Solar Simulation Hour' }, value: '15.30 WIB (Sudut Matahari Rendah)' },
+          { label: { id: 'Elemen Shading', en: 'Shading Element' }, value: 'Secondary Skin Kisi Kayu Kamper' },
+        ],
+        expectedResult: {
+          id: 'Bayangan kisi-kisi terproyeksi realistis pada kaca jendela, mereduksi intensitas pencahayaan langsung hingga 65%.',
+          en: 'Realistic shadow casting over glazing, reducing direct solar exposure by 65%.',
+        },
+        actionHint: {
+          id: 'Buka tab Lingkungan & Cahaya, geser slider waktu ke pukul 15.30, dan amati bayangan pada fasad depan.',
+          en: 'Open Environment & Light tab, drag time slider to 15:30, and inspect facade shadows.',
+        },
+      },
+      {
+        id: 'arsiviz-sc-3',
+        title: {
+          id: 'Simulasi Anggaran Biaya (RAB) & Cicilan KPR',
+          en: 'Bill of Quantities (RAB) & Mortgage Amortization Simulation',
+        },
+        category: {
+          id: 'Kalkulator Finansial',
+          en: 'Financial Calculator',
+        },
+        description: {
+          id: 'Menghitung estimasi biaya riil konstruksi per m2 dan memproyeksikan skema angsuran KPR bank rekanan.',
+          en: 'Estimating construction cost per m2 and projecting mortgage installment schedules.',
+        },
+        sampleData: [
+          { label: { id: 'Tier Material', en: 'Material Tier' }, value: 'Menengah Plus (Lantai Homogeneous, Sanitair Toto)' },
+          { label: { id: 'Estimasi RAB Total', en: 'Estimated Construction Cost' }, value: 'Rp462.000.000 (Rp5.500.000 / m2)' },
+          { label: { id: 'Uang Muka (DP)', en: 'Down Payment (DP)' }, value: '20% (Rp92.400.000)' },
+          { label: { id: 'Tenor KPR & Suku Bunga', en: 'Loan Term & Rate' }, value: '15 Tahun (180 Bulan) - Bunga Efektif 6.5%' },
+        ],
+        expectedResult: {
+          id: 'Angsuran bulanan terproyeksi Rp3.220.000/bulan, 12 pos termin pekerjaan terinci lengkap dengan tabel tahapan.',
+          en: 'Projected monthly payment of Rp3,220,000/mo, 12 itemized trade breakdown schedules displayed.',
+        },
+        actionHint: {
+          id: 'Pilih tab RAB & KPR pada panel kanan aplikasi live, sesuaikan tier material dan tenor pinjaman.',
+          en: 'Select RAB & KPR tab in the live app right drawer, adjust material tier and loan duration.',
+        },
+      },
+    ],
     verifiedFeatures: [
       {
         name: {
@@ -983,6 +1454,229 @@ export const WEB_PROJECTS: WebProjectCaseStudy[] = [
         en: 'Procedural 3D Mannequin (js/scene3d.js): Interpolates height, limb proportions, spinal posture, and gait cadence across the 2-85 age range.',
       },
     ],
+    workflowSteps: [
+      {
+        step: '01',
+        title: {
+          id: 'Input Slider Menit Aktivitas Harian & Mingguan',
+          en: 'Daily & Weekly Activity Minute Slider Input',
+        },
+        summary: {
+          id: 'Pengguna menggeser durasi aktivitas fisik mingguan: aerobik sedang, intensitas berat, dan latihan kekuatan otot.',
+          en: 'User adjusts weekly physical activity durations: moderate aerobic, vigorous intensity, and muscle strengthening.',
+        },
+        input: {
+          id: 'Slider menit jalan santai/sepeda, menit lari/olahraga berat, dan frekuensi latihan beban mingguan.',
+          en: 'Sliders for moderate minutes, vigorous minutes, and muscle training days per week.',
+        },
+        process: {
+          id: 'Normalisasi satuan waktu dan konversi menit ekuivalen aktivitas sedang menggunakan formula WHO.',
+          en: 'Time normalization and moderate-equivalent minute conversion via official WHO formula.',
+        },
+        output: {
+          id: 'Total akumulasi poin menit gerak mingguan terhitung secara real-time di antarmuka.',
+          en: 'Total accumulated weekly movement points calculated in real-time on the interface.',
+        },
+        badge: {
+          id: 'Input Aktivitas',
+          en: 'Activity Input',
+        },
+      },
+      {
+        step: '02',
+        title: {
+          id: 'Komparasi Terhadap Target Panduan WHO 2020',
+          en: 'Comparison Against WHO 2020 Activity Guidelines',
+        },
+        summary: {
+          id: 'Sistem membandingkan capaian gerak pengguna dengan rekomendasi resmi Organisasi Kesehatan Dunia (150-300 menit).',
+          en: 'System benchmarks user activity against official World Health Organization guidelines (150-300 mins).',
+        },
+        input: {
+          id: 'Kategori kelompok usia (Anak & Remaja, Dewasa 18-64 tahun, Lansia 65+ tahun).',
+          en: 'Age demographic bracket (Children & Teens, Adults 18-64, Seniors 65+).',
+        },
+        process: {
+          id: 'Evaluasi ambang batas rekomendasi kesehatan kardiorespirasi dan kekuatan otot sesuai kelompok usia.',
+          en: 'Evaluating cardiorespiratory and muscle strengthening threshold standards across age groups.',
+        },
+        output: {
+          id: 'Persentase ketercapaian target WHO (contoh: 85% dari target minimum) dengan bar kemajuan visual.',
+          en: 'Percentage of WHO target achieved (e.g. 85% of minimum) with visual progress bar.',
+        },
+        badge: {
+          id: 'Standar WHO',
+          en: 'WHO Standards',
+        },
+      },
+      {
+        step: '03',
+        title: {
+          id: 'Estimasi Rasio Harapan Hidup Sehat (Healthspan vs Lifespan)',
+          en: 'Healthspan vs Lifespan Ratio Estimation',
+        },
+        summary: {
+          id: 'Memproyeksikan estimasi rasio tahun hidup bebas dari penyakit degeneratif berdasarkan kebiasaan gerak.',
+          en: 'Projecting estimated healthy disease-free years versus total life expectancy based on movement habits.',
+        },
+        input: {
+          id: 'Total menit aktivitas terakumulasi dan riwayat konsistensi latihan beban.',
+          en: 'Total accumulated activity minutes and strength training frequency.',
+        },
+        process: {
+          id: 'Penerapan model regresi epidemiologi kebugaran fisik dan risiko morbiditas kronis.',
+          en: 'Applying epidemiological fitness regression models and chronic morbidity risk reductions.',
+        },
+        output: {
+          id: 'Grafik visual proyeksi rentang usia sehat (Healthspan) vs usia total (Lifespan).',
+          en: 'Visual projection graph of healthy active years (Healthspan) vs total Lifespan.',
+        },
+        badge: {
+          id: 'Model Healthspan',
+          en: 'Healthspan Model',
+        },
+      },
+      {
+        step: '04',
+        title: {
+          id: 'Edukasi Mitos vs Fakta Sains Olahraga Interaktif',
+          en: 'Interactive Exercise Science Myth vs Fact Education',
+        },
+        summary: {
+          id: 'Kartu interaktif membedah miskonsepsi populer dengan rujukan jurnal ilmiah fisiologi olahraga.',
+          en: 'Interactive cards dismantle popular misconceptions backed by peer-reviewed sports physiology citations.',
+        },
+        input: {
+          id: 'Pilihan kartu mitos (contoh: Jalan 10.000 langkah wajib, Lansia dilarang angkat beban).',
+          en: 'Selected myth card (e.g. 10,000 steps myth, Seniors should avoid weights).',
+        },
+        process: {
+          id: 'Penyajian komparasi bukti ilmiah, mekanisme fisiologis tubuh, dan kesimpulan riset jurnal.',
+          en: 'Displaying scientific evidence, physiological mechanisms, and research conclusions.',
+        },
+        output: {
+          id: 'Rangkuman ringkas berbasis sains yang aplikatif dan mudah dipahami oleh masyarakat umum.',
+          en: 'Concise, evidence-based takeaway easily understood by general audiences.',
+        },
+        badge: {
+          id: 'Edukasi Sains',
+          en: 'Science Education',
+        },
+      },
+      {
+        step: '05',
+        title: {
+          id: 'Generator Rekomendasi Rencana Gerak Personal',
+          en: 'Personalized Movement Action Plan Generator',
+        },
+        summary: {
+          id: 'Sistem merangkai rekomendasi jadwal aktivitas mingguan yang aplikatif dan realistis untuk mencapai target.',
+          en: 'System builds an actionable and realistic weekly movement schedule to bridge activity gaps.',
+        },
+        input: {
+          id: 'Defisit menit aktivitas fisik saat ini dan preferensi rutinitas harian keluarga.',
+          en: 'Current activity minute deficit and daily family routine preferences.',
+        },
+        process: {
+          id: 'Distribusi target menit ke dalam sesi latihan ringan harian (contoh: 30 menit jalan cepat 5x seminggu).',
+          en: 'Allocating target minutes across manageable daily sessions (e.g. 30-min brisk walk 5x weekly).',
+        },
+        output: {
+          id: 'Kartu rencana aksi mingguan personal yang dapat dijadikan panduan pola hidup sehat.',
+          en: 'Actionable personalized weekly movement schedule card to guide daily healthy habits.',
+        },
+        badge: {
+          id: 'Rencana Aksi',
+          en: 'Action Plan',
+        },
+      },
+    ],
+    scenarioExamples: [
+      {
+        id: 'seumur-sc-1',
+        title: {
+          id: 'Evaluasi Profil Gaya Hidup Sedentari (Pekerja Meja)',
+          en: 'Sedentary Lifestyle Profile Evaluation (Desk Worker)',
+        },
+        category: {
+          id: 'Analisis Kebugaran',
+          en: 'Fitness Assessment',
+        },
+        description: {
+          id: 'Pekerja kantoran yang duduk lebih dari 8 jam sehari memeriksa status defisit aktivitas fisik mingguan.',
+          en: 'Office worker sitting over 8 hours daily checks weekly physical activity deficit status.',
+        },
+        sampleData: [
+          { label: { id: 'Aktivitas Aerobik Sedang', en: 'Moderate Aerobic' }, value: '30 Menit / Minggu (Jalan santai akhir pekan)' },
+          { label: { id: 'Olahraga Intensitas Berat', en: 'Vigorous Sport' }, value: '0 Menit' },
+          { label: { id: 'Latihan Kekuatan Otot', en: 'Muscle Strengthening' }, value: '0 Hari (Tidak pernah latihan beban)' },
+          { label: { id: 'Kelompok Usia', en: 'Age Bracket' }, value: 'Dewasa 28 Tahun' },
+        ],
+        expectedResult: {
+          id: 'Capaian 20% dari standar minimum WHO (defisit 120 menit sedang), risiko sindrom metabolik meningkat, rekomendasi jalan kaki 25 menit 5x seminggu.',
+          en: '20% of WHO baseline achieved (120-min deficit), elevated metabolic risk flagged, 25-min brisk walking recommended 5x weekly.',
+        },
+        actionHint: {
+          id: 'Geser slider pada kalkulator live ke 30 menit sedang dan 0 menit berat untuk melihat evaluasi instan.',
+          en: 'Drag calculator sliders to 30 moderate and 0 vigorous minutes to see instant evaluation.',
+        },
+      },
+      {
+        id: 'seumur-sc-2',
+        title: {
+          id: 'Profil Aktif Seimbang Memenuhi Standar WHO',
+          en: 'Balanced Active Lifestyle Meeting WHO Guidelines',
+        },
+        category: {
+          id: 'Target Optimal',
+          en: 'Optimal Target',
+        },
+        description: {
+          id: 'Individu aktif yang mengombinasikan bersepeda komuter dan dua sesi latihan beban fungsional mingguan.',
+          en: 'Active individual combining commute cycling with two weekly functional resistance workouts.',
+        },
+        sampleData: [
+          { label: { id: 'Aktivitas Aerobik Sedang', en: 'Moderate Aerobic' }, value: '120 Menit / Minggu (Sepeda komuter)' },
+          { label: { id: 'Olahraga Intensitas Berat', en: 'Vigorous Sport' }, value: '45 Menit (Futsal, setara 90 menit sedang)' },
+          { label: { id: 'Latihan Beban Fungsional', en: 'Strength Training' }, value: '2 Sesi / Minggu (Push up, squat, dumbbell)' },
+        ],
+        expectedResult: {
+          id: 'Mencapai 140% target WHO (210 menit setara sedang), rasio Healthspan optimal (+7.2 tahun bebas penyakit kronis), status: Sangat Prima.',
+          en: '140% of WHO target achieved (210 equiv mins), optimal Healthspan (+7.2 healthy years), status: Excellent.',
+        },
+        actionHint: {
+          id: 'Ubah slider sedang ke 120 dan berat ke 45 pada kalkulator untuk melihat proyeksi lonjakan Healthspan.',
+          en: 'Set moderate slider to 120 and vigorous to 45 to view positive Healthspan trajectory.',
+        },
+      },
+      {
+        id: 'seumur-sc-3',
+        title: {
+          id: 'Verifikasi Mitos Sains: Latihan Beban pada Usia Lanjut',
+          en: 'Science Myth Check: Strength Training in Older Adults',
+        },
+        category: {
+          id: 'Edukasi Ilmiah',
+          en: 'Scientific Education',
+        },
+        description: {
+          id: 'Memeriksa kebenaran anggapan umum bahwa lansia hanya boleh jalan santai dan tidak boleh melatih kekuatan otot.',
+          en: 'Testing common perception that seniors should only walk gently and avoid resistance training.',
+        },
+        sampleData: [
+          { label: { id: 'Klaim Mitos', en: 'Myth Statement' }, value: 'Lansia di atas 60 tahun dilarang latihan beban karena memicu radang sendi' },
+          { label: { id: 'Temuan Sains WHO', en: 'WHO Science Findings' }, value: 'Latihan resistensi multicomponent 2-3x seminggu terbukti mencegah sarkopenia dan osteoporosis' },
+        ],
+        expectedResult: {
+          id: 'Status: Mitos Terbantahkan; latihan resistensi justru meningkatkan kepadatan mineral tulang dan menurunkan risiko jatuh hingga 34%.',
+          en: 'Status: Myth Debunked; resistance training actively builds bone density and reduces fall risk by 34%.',
+        },
+        actionHint: {
+          id: 'Buka bagian Mitos vs Fakta pada tab live dan klik kartu mitos lansia untuk membaca sitasi riset medis.',
+          en: 'Navigate to Myth vs Fact section in the live tab and click senior myth card to view research citations.',
+        },
+      },
+    ],
     verifiedFeatures: [
       {
         name: {
@@ -1257,6 +1951,231 @@ export const WEB_PROJECTS: WebProjectCaseStudy[] = [
         en: 'Role Switcher Simulation (lib/store.tsx): The top "Simulasi Akses" bar lets visitors preview Admin, Teacher, Student, and Parent views in browser memory.',
       },
     ],
+    workflowSteps: [
+      {
+        step: '01',
+        title: {
+          id: 'Portal Informasi Publik, Kurikulum & Agenda',
+          en: 'Public School Portal, Curriculum & Academic Calendar',
+        },
+        summary: {
+          id: 'Masyarakat umum, orang tua, dan calon siswa mengakses visi misi, profil pengajar, warta berita, dan agenda sekolah.',
+          en: 'Public visitors, parents, and prospective students access school profile, faculty info, news, and calendar.',
+        },
+        input: {
+          id: 'Pencarian warta sekolah, filter kategori pengumuman, dan arsip kegiatan akademik.',
+          en: 'News search queries, announcement category filters, and academic event archives.',
+        },
+        process: {
+          id: 'Penyajian konten terstruktur dengan paginasi dan filter kategori instan tanpa reload halaman.',
+          en: 'Structured content rendering with instant category filtering and pagination without reloads.',
+        },
+        output: {
+          id: 'Halaman portal informasi sekolah interaktif dan responsif di semua perangkat.',
+          en: 'Interactive and responsive school portal layout across all screen sizes.',
+        },
+        badge: {
+          id: 'Portal Publik',
+          en: 'Public Portal',
+        },
+      },
+      {
+        step: '02',
+        title: {
+          id: 'Pendaftaran PPDB Online Interaktif (4 Jalur Seleksi)',
+          en: 'Interactive Online PPDB Admission (4 Selection Tracks)',
+        },
+        summary: {
+          id: 'Calon peserta didik mendaftarkan diri secara mandiri dengan memilih salah satu dari 4 jalur seleksi resmi.',
+          en: 'Prospective students self-register by selecting 1 of 4 official admission tracks.',
+        },
+        input: {
+          id: 'Data calon siswa (NISN, Asal Sekolah, Nilai Rapor) dan pilihan jalur (Zonasi, Afirmasi, Prestasi, Mutasi).',
+          en: 'Student info (NISN, previous school, grades) and chosen track (Zonasi, Affirmation, Merit, Relocation).',
+        },
+        process: {
+          id: 'Validasi formulir multi-langkah dan pengecekan kelengkapan berkas digital secara instan.',
+          en: 'Multi-step form validation and instant mandatory document completeness check.',
+        },
+        output: {
+          id: 'Nomor registrasi unik PPDB (contoh: PPDB-2026-0842) dan lembar bukti pendaftaran digital.',
+          en: 'Unique PPDB registration number (e.g. PPDB-2026-0842) and digital registration slip.',
+        },
+        badge: {
+          id: 'Formulir PPDB',
+          en: 'PPDB Admission',
+        },
+      },
+      {
+        step: '03',
+        title: {
+          id: 'Cek Status Verifikasi & Peringkat Seleksi Real-Time',
+          en: 'Real-Time Verification Status & Ranking Lookup',
+        },
+        summary: {
+          id: 'Pendaftar dapat memantau status validasi berkas dan estimasi batas aman penerimaan secara transparan.',
+          en: 'Applicants monitor document verification status and threshold ranking cutoffs transparently.',
+        },
+        input: {
+          id: 'Nomor registrasi PPDB dan tanggal lahir calon peserta didik.',
+          en: 'PPDB registration code and student date of birth.',
+        },
+        process: {
+          id: 'Pencocokan data registrasi terhadap tabel seleksi zonasi jarak dan nilai rapor.',
+          en: 'Matching registration data against distance zoning and merit score rank tables.',
+        },
+        output: {
+          id: 'Indikator status verifikasi (Berkas Lengkap / Dalam Penilaian / Lolos Seleksi).',
+          en: 'Verification status badge (Complete / Under Review / Accepted).',
+        },
+        badge: {
+          id: 'Lacak Seleksi',
+          en: 'Admission Status',
+        },
+      },
+      {
+        step: '04',
+        title: {
+          id: 'Portal Multi-Peran Terpadu (Siswa, Guru, Wali Murid, Admin)',
+          en: 'Unified Multi-Role Portal (Student, Teacher, Parent, Admin)',
+        },
+        summary: {
+          id: 'Switcher peran simulasi memungkinkan peninjau merasakan antarmuka khusus masing-masing pemangku kepentingan.',
+          en: 'Interactive role switcher allows reviewers to experience tailored interfaces for each stakeholder.',
+        },
+        input: {
+          id: 'Pilihan peran pada bar navigasi (Siswa / Guru / Wali / Admin).',
+          en: 'Role selector on navigation bar (Student / Teacher / Parent / Admin).',
+        },
+        process: {
+          id: 'Perubahan konteks React state seketika untuk merender dasbor hak akses terkait.',
+          en: 'Instant React state context switch rendering role-specific dashboard views.',
+        },
+        output: {
+          id: 'Tampilan dasbor khusus: Jadwal & Nilai (Siswa), Presensi & Rapor (Guru), Tagihan SPP (Wali).',
+          en: 'Custom dashboard view: Timetable & Grades (Student), Attendance (Teacher), Tuition (Parent).',
+        },
+        badge: {
+          id: 'Multi-Peran',
+          en: 'Multi-Role',
+        },
+      },
+      {
+        step: '05',
+        title: {
+          id: 'CMS Manajemen Konten Warta & Pengumuman Sekolah',
+          en: 'School News & Announcement Content Management (CMS)',
+        },
+        summary: {
+          id: 'Pengelola sekolah dapat membuat, mengedit, dan mempublikasikan pengumuman darurat atau warta prestasi.',
+          en: 'School administrators author, edit, and publish emergency bulletins or achievement stories.',
+        },
+        input: {
+          id: 'Judul warta, kategori berita, tanggal terbit, dan isi teks pengumuman.',
+          en: 'Article title, news category, publish date, and announcement body text.',
+        },
+        process: {
+          id: 'Penyimpanan state artikel dan pembaruan feed warta publik secara otomatis.',
+          en: 'Article state mutation and automated feed update for the public portal.',
+        },
+        output: {
+          id: 'Warta berita langsung tayang di portal publik tanpa perlu rebuild website.',
+          en: 'Live publication on the public portal without requiring rebuilds.',
+        },
+        badge: {
+          id: 'CMS Sekolah',
+          en: 'School CMS',
+        },
+      },
+    ],
+    scenarioExamples: [
+      {
+        id: 'sekolah-sc-1',
+        title: {
+          id: 'Simulasi Pendaftaran PPDB Jalur Zonasi',
+          en: 'PPDB Distance-Zoning Admission Track Simulation',
+        },
+        category: {
+          id: 'Penerimaan Siswa',
+          en: 'Admissions',
+        },
+        description: {
+          id: 'Calon siswa mendaftar lewat jalur zonasi dengan memasukkan data alamat dan menguji validasi radius jarak sekolah.',
+          en: 'Student registers via distance-zoning track inputting address and validating proximity radius.',
+        },
+        sampleData: [
+          { label: { id: 'Nama Calon Siswa', en: 'Applicant Name' }, value: 'Ahmad Rayhan Pratama' },
+          { label: { id: 'Nomor Induk Siswa (NISN)', en: 'Student NISN' }, value: '0089271632' },
+          { label: { id: 'Jalur PPDB Dipilih', en: 'Selected Track' }, value: 'Zonasi Radius Tempat Tinggal (Jarak: 450 meter)' },
+          { label: { id: 'Sekolah Asal', en: 'Previous School' }, value: 'SMP Negeri 4 Nusantara' },
+        ],
+        expectedResult: {
+          id: 'Radius 450m masuk dalam zona prioritas 1, formulir tervalidasi lengkap, kode registrasi PPDB-2026-0842 diterbitkan.',
+          en: '450m falls inside Priority Zone 1, form validated, registration code PPDB-2026-0842 generated.',
+        },
+        actionHint: {
+          id: 'Kunjungi menu PPDB Online di aplikasi live, pilih Jalur Zonasi, dan lengkapi 3 tahap formulir pendaftaran.',
+          en: 'Open PPDB Online in the live app, choose Zonasi track, and walk through the 3-step registration form.',
+        },
+      },
+      {
+        id: 'sekolah-sc-2',
+        title: {
+          id: 'Penelusuran Status Berkas & Peringkat Seleksi Mandiri',
+          en: 'Application Document Verification & Ranking Lookup',
+        },
+        category: {
+          id: 'Pelacakan PPDB',
+          en: 'PPDB Tracking',
+        },
+        description: {
+          id: 'Orang tua memasukkan kode pendaftaran untuk melihat status verifikasi dokumen fisik dan posisi kuota.',
+          en: 'Parent enters registration ID to inspect physical document review and current quota standing.',
+        },
+        sampleData: [
+          { label: { id: 'Kode Registrasi', en: 'Registration Code' }, value: 'PPDB-2026-0842' },
+          { label: { id: 'Tanggal Lahir Siswa', en: 'Student Date of Birth' }, value: '14 Mei 2011' },
+          { label: { id: 'Status Verifikasi', en: 'Verification Status' }, value: 'Berkas Fisik Terverifikasi Lengkap' },
+        ],
+        expectedResult: {
+          id: 'Status: Lolos Administrasi; Posisi saat ini: Peringkat 18 dari daya tampung 96 siswa jalur zonasi.',
+          en: 'Status: Documents Verified; Standing: Rank 18 of 96 available distance-zoning quota seats.',
+        },
+        actionHint: {
+          id: 'Buka tab Cek Status PPDB di portal, masukkan kode registrasi dan periksa kartu verifikasi digital.',
+          en: 'Open Check PPDB Status tab in portal, input code, and view the digital verification card.',
+        },
+      },
+      {
+        id: 'sekolah-sc-3',
+        title: {
+          id: 'Eksplorasi Peran: Dasbor Guru vs Dasbor Wali Murid',
+          en: 'Role Perspectives: Teacher Dashboard vs Parent Portal',
+        },
+        category: {
+          id: 'Multi-Peran Portal',
+          en: 'Multi-Role Portal',
+        },
+        description: {
+          id: 'Menguji perbedaan otorisasi dan tata letak antara peran guru kelas yang menginput rapor dan wali murid.',
+          en: 'Testing permission and layout boundaries between homeroom teacher entering grades and parent monitoring.',
+        },
+        sampleData: [
+          { label: { id: 'Peran 1 (Guru)', en: 'Role 1 (Teacher)' }, value: 'Drs. Bambang Wicaksono (Wali Kelas 10-A)' },
+          { label: { id: 'Modul Guru Terbuka', en: 'Teacher Modules' }, value: 'Input Presensi Harian, Penilaian Formatif, Catatan Rapor' },
+          { label: { id: 'Peran 2 (Wali Murid)', en: 'Role 2 (Parent)' }, value: 'Ibu Ratna Dewi (Wali dari Rayhan Pratama)' },
+          { label: { id: 'Modul Wali Terbuka', en: 'Parent Modules' }, value: 'Grafik Kehadiran Anak, Unduh Rapor PDF, Status SPP' },
+        ],
+        expectedResult: {
+          id: 'Role Switcher mengubah konteks seketika tanpa login ulang; fitur edit nilai terkunci aman pada mode wali murid.',
+          en: 'Role Switcher transitions context instantly; grade editing is strictly disabled in parent mode.',
+        },
+        actionHint: {
+          id: 'Klik bar Simulasi Akses di bagian atas website live untuk berganti peran antara Guru dan Wali Murid.',
+          en: 'Click the top Role Simulator bar in the live app to toggle between Teacher and Parent views.',
+        },
+      },
+    ],
     verifiedFeatures: [
       {
         name: {
@@ -1519,6 +2438,231 @@ export const WEB_PROJECTS: WebProjectCaseStudy[] = [
       {
         id: 'Mesin Kalkulasi Settlement & ESG: Menghitung penyesuaian tonase kering terhadap deviasi kadar air laboratorium, diskon pencairan dini Net-60, serta selisih emisi CO2e Scope-3.',
         en: 'Settlement & ESG Calculators: Computes dry-tonnage payout adjustments from lab moisture variance, early Net-60 factoring discounts, and Scope-3 CO2e savings.',
+      },
+    ],
+    workflowSteps: [
+      {
+        step: '01',
+        title: {
+          id: 'Ticker Bursa Residu Industri Real-Time',
+          en: 'Real-Time Industrial Residue Spot Ticker',
+        },
+        summary: {
+          id: 'Memantau kuotasi harga dan ketersediaan komoditas sampingan industri (Fly Ash, Slag, Biomassa, SBE).',
+          en: 'Monitoring pricing quotes and available volumes of industrial residues (Fly Ash, Slag, Biomass, SBE).',
+        },
+        input: {
+          id: 'Filter jenis residu, wilayah asal pasokan pabrik, dan batas volume tonase pesanan.',
+          en: 'Residue type filter, origin factory region, and tonnage volume threshold.',
+        },
+        process: {
+          id: 'Agregasi data spot market dan pemeringkatan penawaran residu sirkular aktif.',
+          en: 'Spot market data aggregation and active circular residue offer ranking.',
+        },
+        output: {
+          id: 'Tabel dan ticker harga pasar residu terbarukan dengan indikator fluktuasi indeks harian.',
+          en: 'Renewable residue price ticker and market table with daily fluctuation indices.',
+        },
+        badge: {
+          id: 'Bursa Residu',
+          en: 'Residue Exchange',
+        },
+      },
+      {
+        step: '02',
+        title: {
+          id: 'Inspeksi Geometri Partikel 3D & Simulasi Kargo Kontainer',
+          en: '3D Particle Lattice Inspection & Container Cargo Simulator',
+        },
+        summary: {
+          id: 'Inspektur 3D Three.js memvisualisasikan struktur mikro partikel dan simulasi pemuatan kontainer 20ft.',
+          en: 'Three.js 3D inspector visualizes micro-particle lattices and 20ft container cargo distribution.',
+        },
+        input: {
+          id: 'Pilihan material komoditas dan opsi visualisasi (Kisi Partikel, Kargo Kontainer, Graf Logistik).',
+          en: 'Commodity selection and visualization mode (Particle Lattice, Container Cargo, Network Graph).',
+        },
+        process: {
+          id: 'Rendering WebGL 3D prosedural dengan kontrol orbit kamera dan mode X-Ray/Exploded View.',
+          en: 'Procedural 3D WebGL rendering with orbital camera controls and X-Ray/Exploded View modes.',
+        },
+        output: {
+          id: 'Visualisasi 3D interaktif persebaran muatan kontainer dan struktur kristal partikel.',
+          en: 'Interactive 3D visualization of container load distribution and particle crystalline structure.',
+        },
+        badge: {
+          id: 'Inspeksi 3D',
+          en: '3D Inspection',
+        },
+      },
+      {
+        step: '03',
+        title: {
+          id: 'Rekonsiliasi Faktur 3-Way Matching & Diskon Kadar Air',
+          en: '3-Way Matching Invoice Reconciliation & Moisture Discount',
+        },
+        summary: {
+          id: 'Mencocokkan Purchase Order, Surat Jalan armada pengangkut, dan berat netto timbangan jembatan.',
+          en: 'Matching Purchase Order, transport delivery manifest, and weighbridge net weight readings.',
+        },
+        input: {
+          id: 'Data tonase PO, Surat Jalan, hasil timbangan jembatan, dan kadar air laboratorium.',
+          en: 'PO tonnage, delivery manifest, weighbridge scale readings, and laboratory moisture %.',
+        },
+        process: {
+          id: 'Pemeriksaan toleransi selisih berat dan penerapan formula penalti penyesuaian kadar air.',
+          en: 'Tolerance variance checking and moisture adjustment penalty formula calculation.',
+        },
+        output: {
+          id: 'Status rekonsiliasi faktur (Matched / Variance Flagged) dan nominal settlement bersih.',
+          en: 'Invoice reconciliation status (Matched / Flagged) and net settlement amount.',
+        },
+        badge: {
+          id: '3-Way Matching',
+          en: '3-Way Matching',
+        },
+      },
+      {
+        step: '04',
+        title: {
+          id: 'Kalkulator Reduksi Karbon Scope-3 (ISO 14064-1)',
+          en: 'Scope-3 Carbon Avoidance Calculator (ISO 14064-1)',
+        },
+        summary: {
+          id: 'Menghitung emisi gas rumah kaca yang dihindari dengan mensubstitusi bahan baku perawan dengan residu industri.',
+          en: 'Quantifying avoided greenhouse gas emissions by substituting virgin raw materials with industrial residues.',
+        },
+        input: {
+          id: 'Tonase material yang disirkulasikan dan faktor emisi komparasi material primer.',
+          en: 'Circulated residue tonnage and primary material comparative emission factors.',
+        },
+        process: {
+          id: 'Kalkulasi faktor konversi karbon terakreditasi standar ISO 14064-1.',
+          en: 'Applying accredited ISO 14064-1 carbon conversion coefficients.',
+        },
+        output: {
+          id: 'Metrik reduksi emisi CO2e terverifikasi dan kredit dekarbonisasi rantai pasok.',
+          en: 'Verified avoided CO2e metrics and supply chain decarbonization credits.',
+        },
+        badge: {
+          id: 'Metrik ESG',
+          en: 'ESG Metrics',
+        },
+      },
+      {
+        step: '05',
+        title: {
+          id: 'Verifikasi Audit Trail dengan Checksum FNV-1a',
+          en: 'Audit Trail Integrity Verification via FNV-1a Checksum',
+        },
+        summary: {
+          id: 'Setiap mutasi logistik dan pembayaran diikat dengan hash deterministik 32-bit untuk menjamin data anti-manipulasi.',
+          en: 'Every logistics mutation and payment settlement is bound by a 32-bit deterministic hash to prevent tampering.',
+        },
+        input: {
+          id: 'String kanonik gabungan nomor mutasi, tanggal, tonase, dan nilai settlement.',
+          en: 'Canonical string combining transaction ID, timestamp, tonnage, and settlement value.',
+        },
+        process: {
+          id: 'Perhitungan hash kriptografis FNV-1a 32-bit secara deterministik.',
+          en: 'Deterministic FNV-1a 32-bit cryptographic hash calculation.',
+        },
+        output: {
+          id: 'Kode checksum audit hex (contoh: 0x8A4F12C9) dengan indikator integritas valid.',
+          en: 'Hexadecimal audit checksum (e.g. 0x8A4F12C9) with valid integrity indicator.',
+        },
+        badge: {
+          id: 'Audit FNV-1a',
+          en: 'FNV-1a Audit',
+        },
+      },
+    ],
+    scenarioExamples: [
+      {
+        id: 'symbio-sc-1',
+        title: {
+          id: 'Pencocokan Penawaran 120 Ton Fly Ash PLTU ke Pabrik Semen',
+          en: '120-Ton Power Plant Fly Ash Matching to Green Cement Plant',
+        },
+        category: {
+          id: 'Bursa Komoditas Sirkular',
+          en: 'Circular Commodity Trading',
+        },
+        description: {
+          id: 'Menghubungkan residu pembakaran batubara PLTU Paiton dengan kebutuhan pozzolan pabrik semen hijau Jawa Timur.',
+          en: 'Matching thermal power plant fly ash byproduct with green cement plant pozzolan demand.',
+        },
+        sampleData: [
+          { label: { id: 'Jenis Komoditas', en: 'Commodity Type' }, value: 'Coal Fly Ash Class F (SiO2 + Al2O3 > 70%)' },
+          { label: { id: 'Volume Pasokan', en: 'Supply Volume' }, value: '120 Ton / Batch (4 Truk Tronton Tridem)' },
+          { label: { id: 'Harga Spot Bursa', en: 'Spot Market Price' }, value: 'Rp185.000 / Ton FOB Paiton' },
+          { label: { id: 'Status KYB Supplier', en: 'Supplier KYB Status' }, value: 'Terakreditasi KLHK Proper Hijau' },
+        ],
+        expectedResult: {
+          id: 'Kontrak spot tereksekusi, armada 4 unit truk tronton dijadwalkan, dana escrow Rp22.200.000 terkunci aman.',
+          en: 'Spot contract matched, 4 tridem trucks dispatched, Rp22,200,000 locked in escrow.',
+        },
+        actionHint: {
+          id: 'Buka modul Spot Marketplace di aplikasi live, filter Fly Ash, dan klik tombol Buat Penawaran Kontrak.',
+          en: 'Navigate to Spot Marketplace in live app, filter Fly Ash, and test Create Contract Offer.',
+        },
+      },
+      {
+        id: 'symbio-sc-2',
+        title: {
+          id: 'Penyesuaian Penalti Deviasi Kadar Air Laboratorium',
+          en: 'Laboratory Moisture Penalty Deviation Adjustment',
+        },
+        category: {
+          id: 'Quality Control & Settlement',
+          en: 'QC & Settlement',
+        },
+        description: {
+          id: 'Hasil uji lab menunjukkan kelembapan cangkang sawit melebihi batas toleransi kontrak sehingga memicu penalti kadar air.',
+          en: 'Lab test shows palm kernel shell moisture exceeding contractual tolerance, triggering auto-discount math.',
+        },
+        sampleData: [
+          { label: { id: 'Komoditas Diuji', en: 'Tested Commodity' }, value: 'Palm Kernel Shell (Cangkang Sawit Ekspor)' },
+          { label: { id: 'Berat Timbangan Jembatan', en: 'Weighbridge Net Weight' }, value: '34.80 Ton (Gross 46.20 - Tare 11.40)' },
+          { label: { id: 'Batas Toleransi Kadar Air', en: 'Moisture Tolerance' }, value: '12.0% Maksimum Kontraktual' },
+          { label: { id: 'Hasil Uji Lab Lapangan', en: 'Field Lab Test' }, value: '14.8% (+2.8% Kelebihan Air)' },
+        ],
+        expectedResult: {
+          id: 'Formula dry-basis memotong bobot settlement bersih menjadi 33.82 Ton, mencegah overpayment pembeli sebesar Rp1.240.000.',
+          en: 'Dry-basis formula discounts payable tonnage to 33.82 tons, preventing Rp1,240,000 overpayment.',
+        },
+        actionHint: {
+          id: 'Buka tab QC Lab Scanner, geser moisture slider ke 14.8%, dan perhatikan kalkulasi dry-basis settlement.',
+          en: 'Open QC Lab Scanner tab, adjust moisture slider to 14.8%, and inspect dry-basis math.',
+        },
+      },
+      {
+        id: 'symbio-sc-3',
+        title: {
+          id: 'Verifikasi Audit Trail Kriptografis FNV-1a & Kredit Emisi Scope-3',
+          en: 'FNV-1a Cryptographic Audit Trail & Scope-3 Emission Offsets',
+        },
+        category: {
+          id: 'ESG & Compliance Audit',
+          en: 'ESG & Compliance Audit',
+        },
+        description: {
+          id: 'Memeriksa hash kriptografis transaksi untuk verifikasi data tidak dimanipulasi dan menghitung pengurangan karbon.',
+          en: 'Verifying transaction cryptographic hash against tampering and computing net carbon avoidance.',
+        },
+        sampleData: [
+          { label: { id: 'ID Transaksi Logistik', en: 'Logistics Mutation ID' }, value: 'TX-SYM-2026-0912' },
+          { label: { id: 'Metode Pengurangan Emisi', en: 'Emission Avoidance Method' }, value: 'Substitusi Klinker Semen dengan Fly Ash Kelas F' },
+          { label: { id: 'Standar Akreditasi', en: 'Accreditation Standard' }, value: 'ISO 14064-1 Greenhouse Gas Protocol' },
+        ],
+        expectedResult: {
+          id: 'Reduksi emisi Scope-3 terverifikasi 84.6 Ton CO2e, status FNV-1a: 0x7E3D8A1B (Integritas Blok Rantai Pasok Terjamin).',
+          en: 'Scope-3 avoided emissions verified at 84.6 tons CO2e, FNV-1a: 0x7E3D8A1B (Supply chain tamper-evident).',
+        },
+        actionHint: {
+          id: 'Buka modul Audit Trail & ESG di aplikasi live, klik entri TX-SYM-2026-0912 untuk melihat sertifikat dekarbonisasi.',
+          en: 'Open Audit Trail & ESG module in live app, click transaction TX-SYM-2026-0912 to view certificate.',
+        },
       },
     ],
     verifiedFeatures: [
