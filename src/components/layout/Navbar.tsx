@@ -53,32 +53,39 @@ export function Navbar({ availableForWork = true }: NavbarProps) {
     };
   }, [mobileOpen]);
 
-  if (pathname?.startsWith('/admin')) return null;
+  if (pathname?.startsWith('/admin') || pathname?.startsWith('/apps')) return null;
 
   const navLinks = [
     { href: '/', label: t.nav.home, index: '01', active: pathname === '/' },
     {
+      href: '/apps',
+      label: t.nav.apps,
+      index: '02',
+      badge: '5 LIVE',
+      active: pathname?.startsWith('/apps') ?? false,
+    },
+    {
       href: '/projects',
       label: t.nav.projects,
-      index: '02',
-      active: pathname?.startsWith('/projects') ?? false,
+      index: '03',
+      active: pathname === '/projects' || (pathname?.startsWith('/projects/') ?? false),
     },
     {
       href: '/#visual-design',
       label: t.nav.visualWorks,
-      index: '03',
+      index: '04',
       active: pathname?.startsWith('/karya') ?? false,
     },
     {
       href: '/about',
       label: t.nav.about,
-      index: '04',
+      index: '05',
       active: pathname === '/about',
     },
     {
       href: '/contact',
       label: t.nav.contact,
-      index: '05',
+      index: '06',
       active: pathname === '/contact',
     },
   ];
@@ -133,6 +140,11 @@ export function Navbar({ availableForWork = true }: NavbarProps) {
                   {item.index}
                 </span>
                 <span>{item.label}</span>
+                {'badge' in item && item.badge && (
+                  <span className="ml-1 inline-flex items-center px-1.5 py-0.5 text-[9px] font-mono uppercase tracking-wider bg-[#1F190F] border border-[var(--brass)]/80 text-[var(--brass-light)] rounded-full">
+                    {item.badge}
+                  </span>
+                )}
                 <span
                   className={cn(
                     'absolute bottom-2 left-0 h-[1px] bg-[var(--brass-light)] transition-all duration-300',
@@ -259,6 +271,11 @@ export function Navbar({ availableForWork = true }: NavbarProps) {
                       >
                         {item.label}
                       </span>
+                      {'badge' in item && item.badge && (
+                        <span className="inline-flex items-center px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider bg-[#1F190F] border border-[var(--brass)] text-[var(--brass-light)] rounded-full">
+                          {item.badge}
+                        </span>
+                      )}
                     </div>
                     <ArrowRight className="h-4 w-4 text-[var(--brass-light)]" />
                   </Link>

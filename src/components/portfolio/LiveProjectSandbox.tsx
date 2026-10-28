@@ -358,7 +358,7 @@ export function LiveProjectSandbox({
                   )}
                   <iframe
                     key={iframeKey}
-                    src={activeProject.liveUrl}
+                    src={activeProject.embedUrl || activeProject.liveUrl}
                     title={`Pratinjau Langsung ${activeProject.name}`}
                     sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
                     loading="lazy"
@@ -456,11 +456,19 @@ export function LiveProjectSandbox({
 
               {/* Right Column: Direct CTAs */}
               <div className="lg:col-span-4 flex flex-col gap-3">
+                <Link
+                  href={`/apps/${activeProject.slug}`}
+                  className="inline-flex items-center justify-center gap-2 min-h-[46px] border border-[var(--brass)]/70 bg-[#1F190F] px-5 py-3 text-xs uppercase tracking-[0.16em] font-medium text-[var(--brass-light)] hover:bg-[var(--brass)] hover:text-[#0A0A0B] transition-colors"
+                >
+                  <Monitor className="h-3.5 w-3.5 shrink-0" />
+                  <span>{t.liveSandbox.openFullScreenSuite}</span>
+                </Link>
+
                 <a
                   href={activeProject.liveUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2.5 min-h-[48px] bg-[var(--brass)] px-5 py-3 text-xs uppercase tracking-[0.16em] font-medium text-[#0A0A0B] hover:bg-[var(--brass-light)] transition-colors shadow-sm"
+                  className="inline-flex items-center justify-center gap-2.5 min-h-[46px] bg-[var(--brass)] px-5 py-3 text-xs uppercase tracking-[0.16em] font-medium text-[#0A0A0B] hover:bg-[var(--brass-light)] transition-colors shadow-sm"
                 >
                   <span>{t.liveSandbox.openDirectlyBtn}</span>
                   <ExternalLink className="h-3.5 w-3.5 shrink-0" />

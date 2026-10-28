@@ -30,7 +30,9 @@ Dibangun dengan pendekatan desain **Onyx & Brass** (editorial tenang, tipografi 
 
 | Rute | Deskripsi & Komponen Utama |
 |---|---|
-| `/` | Beranda terintegrasi (Hero 2-track, Featured Web, Capability Explorer, Karya Visual Terpilih, How I Work, About, Services, Contact, Footer) |
+| `/` | Beranda terintegrasi (Hero 2-track, Live Sandbox, Featured Web, Capability Explorer, Karya Visual Terpilih, How I Work, About, Services, Contact, Footer) |
+| `/apps` | Hub 5 Website Terpadu (Workspace satu jendela dengan app switcher, live interactive runtime, drawer info, dan kontrol perangkat) |
+| `/apps/[slug]` | Rute aplikasi mandiri terpadu untuk tiap produk web (Leadkit Bakery, ArsiViz Pro, SymbioFlow, Sekolah Nusantara, Seumur Gerak) |
 | `/projects` | Direktori lengkap proyek web dengan filter track (Web App, Enterprise, E-Commerce, 3D) dan kapabilitas |
 | `/projects/[slug]` | Halaman studi kasus mendalam untuk 5 proyek web utama dengan screenshot asli, bukti kerja, dan navigasi proyek terkait |
 | `/karya/[slug]` | Halaman detail karya visual (12 karya grafis, branding, kemasan, motion, dan video) dengan galeri lightbox |

@@ -68,6 +68,7 @@ export interface WebProjectCaseStudy {
   repoPublicUrl: string | null;
   repoVisibilityNote: LocalizedText;
   canEmbedIframe: boolean;
+  embedUrl: string;
   interactiveHighlights: LocalizedText[];
   capabilities: CapabilityId[];
   categoryLabel: LocalizedText;
@@ -281,6 +282,7 @@ export const WEB_PROJECTS: WebProjectCaseStudy[] = [
       en: 'Verified public GitHub repository under raviazen-ship-it.',
     },
     canEmbedIframe: true,
+    embedUrl: 'https://leadkit-bakery.vercel.app/',
     interactiveHighlights: [
       {
         id: 'Jelajahi etalase sourdough & filter berdasarkan kategori',
@@ -581,6 +583,7 @@ export const WEB_PROJECTS: WebProjectCaseStudy[] = [
       en: 'Verified public GitHub repository under raviazen-ship-it.',
     },
     canEmbedIframe: true,
+    embedUrl: 'https://arsiviz-pro.vercel.app/',
     interactiveHighlights: [
       {
         id: 'Navigasi 3D interaktif (rotasi 360°, orbit, pan, dan zoom model)',
@@ -864,7 +867,8 @@ export const WEB_PROJECTS: WebProjectCaseStudy[] = [
       id: 'Proyek kolaborasi tim akademik pada organisasi Vercel terpisah; repositori tim dijaga privat untuk keamanan bersama.',
       en: 'Collaborative academic team project hosted on a separate Vercel organization; team repository kept private for security.',
     },
-    canEmbedIframe: false,
+    canEmbedIframe: true,
+    embedUrl: '/api/embed/seumur-gerak',
     interactiveHighlights: [
       {
         id: 'Geser kalkulator aktivitas fisik harian (aerobik, kekuatan, mobilitas)',
@@ -1144,6 +1148,7 @@ export const WEB_PROJECTS: WebProjectCaseStudy[] = [
       en: 'Verified public GitHub repository under raviazen-ship-it.',
     },
     canEmbedIframe: true,
+    embedUrl: 'https://sekolah-nusantara-teal.vercel.app/',
     interactiveHighlights: [
       {
         id: 'Jelajahi profil sekolah, berita akademik, dan kalender kegiatan',
@@ -1403,6 +1408,7 @@ export const WEB_PROJECTS: WebProjectCaseStudy[] = [
       en: 'Verified public GitHub repository under raviazen-ship-it.',
     },
     canEmbedIframe: true,
+    embedUrl: 'https://symbioflow-enterprise.vercel.app/',
     interactiveHighlights: [
       {
         id: 'Inspeksi jejak audit ESG dengan verifikasi checksum FNV-1a',

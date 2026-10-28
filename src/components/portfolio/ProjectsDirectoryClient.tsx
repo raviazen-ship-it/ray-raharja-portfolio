@@ -3,7 +3,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { Search, X, Layers, ArrowRight } from 'lucide-react';
+import { Search, X, Layers, ArrowRight, Monitor } from 'lucide-react';
 import { Project } from '@/types/portfolio';
 import { localizeVisualProject } from '@/lib/seed-data';
 import {
@@ -181,6 +181,36 @@ export function ProjectsDirectoryClient({
             </div>
           </div>
         </header>
+
+        {/* Banner: Unified Web Apps Suite */}
+        <div className="mt-8 mb-4 p-5 sm:p-6 border border-[var(--brass)]/60 bg-[#1F190F] flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <span className="h-2 w-2 rounded-full bg-[#86EFAC] animate-pulse" />
+              <span className="text-[11px] uppercase tracking-[0.16em] text-[var(--brass-light)] font-mono">
+                Unified Web Application Suite
+              </span>
+            </div>
+            <h3 className="font-editorial text-xl sm:text-2xl text-[var(--ivory)]">
+              {locale === 'en'
+                ? 'Want to test all 5 websites live in one workspace?'
+                : 'Ingin mencoba seluruh 5 website secara langsung dalam satu workspace?'}
+            </h3>
+            <p className="text-xs sm:text-sm text-[var(--muted)]">
+              {locale === 'en'
+                ? 'Use the All Websites Hub to launch, navigate, and test each application seamlessly without leaving the page.'
+                : 'Gunakan Hub Semua Website untuk bernavigasi dan menjalankan tiap aplikasi secara penuh tanpa berpindah tab.'}
+            </p>
+          </div>
+          <Link
+            href="/apps"
+            className="inline-flex items-center gap-2.5 shrink-0 min-h-[46px] bg-[var(--brass)] px-5 py-2.5 text-xs uppercase tracking-[0.16em] font-medium text-[#0A0A0B] hover:bg-[var(--brass-light)] transition-colors"
+          >
+            <Monitor className="h-4 w-4" />
+            <span>{locale === 'en' ? 'Open All Websites Hub' : 'Buka Hub Semua Website'}</span>
+            <ArrowRight className="h-3.5 w-3.5" />
+          </Link>
+        </div>
 
         {/* Accessible Filter & Search Controls */}
         <section

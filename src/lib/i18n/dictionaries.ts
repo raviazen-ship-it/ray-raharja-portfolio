@@ -4,6 +4,7 @@ export const dictionaries = {
   id: {
     nav: {
       home: 'Beranda',
+      apps: 'Semua Website',
       projects: 'Proyek',
       visualWorks: 'Desain Visual',
       about: 'Tentang',
@@ -70,6 +71,12 @@ export const dictionaries = {
       quickPreviewBtn: 'Uji Langsung',
       verifiedDot: 'Live & Terverifikasi',
       sourceCodeBtn: 'Source Code GitHub',
+      openFullScreenSuite: 'Buka Mode Aplikasi Penuh',
+      appsHubTitle: 'Hub 5 Website Terintegrasi',
+      backToPortfolio: 'Kembali ke Portofolio',
+      switchApp: 'Pilih Website',
+      livePill: '5 LIVE',
+      runningNotice: 'Aplikasi aktif & interaktif langsung di dalam portofolio Ray Raharja',
     },
     capabilities: {
       index: '02 / EXPLORE BY CAPABILITY',
@@ -330,6 +337,7 @@ export const dictionaries = {
   en: {
     nav: {
       home: 'Home',
+      apps: 'All Websites',
       projects: 'Projects',
       visualWorks: 'Visual Design',
       about: 'About',
@@ -396,6 +404,12 @@ export const dictionaries = {
       quickPreviewBtn: 'Test Live',
       verifiedDot: 'Live & Verified',
       sourceCodeBtn: 'GitHub Source Code',
+      openFullScreenSuite: 'Open Full-Window Suite',
+      appsHubTitle: '5 Unified Websites Hub',
+      backToPortfolio: 'Back to Portfolio',
+      switchApp: 'Switch Website',
+      livePill: '5 LIVE',
+      runningNotice: 'Live interactive application running directly inside Ray Raharja portfolio',
     },
     capabilities: {
       index: '02 / CAPABILITIES',
