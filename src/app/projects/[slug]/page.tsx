@@ -1,12 +1,12 @@
 import React from 'react';
 import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import {
   WEB_PROJECTS,
   getWebProjectBySlug,
   getAdjacentWebProject,
 } from '@/lib/web-projects-data';
-import { getSiteSettings } from '@/lib/repository';
+import { getSiteSettings, getProjectBySlug } from '@/lib/repository';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { WebCaseStudyClient } from '@/components/portfolio/WebCaseStudyClient';
@@ -28,6 +28,14 @@ export async function generateMetadata({
 }: PageProps): Promise<Metadata> {
   const project = getWebProjectBySlug(params.slug);
   if (!project) {
+    const visual = await getProjectBySlug(params.slug);
+    if (visual) {
+      const cleanTitle = visual.title.replace(/\u2014/g, '-');
+      return {
+        title: `${cleanTitle} (${visual.category})`,
+        description: visual.description.slice(0, 160).replace(/\u2014/g, '-'),
+      };
+    }
     return {
       title: 'Studi Kasus Proyek Tidak Ditemukan',
     };
@@ -63,6 +71,10 @@ export async function generateMetadata({
 export default async function WebProjectCaseStudyPage({ params }: PageProps) {
   const project = getWebProjectBySlug(params.slug);
   if (!project) {
+    const visual = await getProjectBySlug(params.slug);
+    if (visual) {
+      redirect(`/karya/${params.slug}`);
+    }
     notFound();
   }
 

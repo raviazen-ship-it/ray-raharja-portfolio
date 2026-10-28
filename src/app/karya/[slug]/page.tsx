@@ -1,11 +1,12 @@
 import React from 'react';
 import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import {
   getProjectBySlug,
   getNextProject,
   getSiteSettings,
 } from '@/lib/repository';
+import { getWebProjectBySlug } from '@/lib/web-projects-data';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { ProjectDetailClient } from '@/components/sections/ProjectDetailClient';
@@ -24,6 +25,13 @@ export async function generateMetadata({
 }: PageProps): Promise<Metadata> {
   const project = await getProjectBySlug(params.slug);
   if (!project) {
+    const webProj = getWebProjectBySlug(params.slug);
+    if (webProj) {
+      return {
+        title: `${webProj.name} - Studi Kasus & Bukti Kerja`,
+        description: webProj.shortDescription.id,
+      };
+    }
     return {
       title: 'Karya Tidak Ditemukan',
     };
@@ -59,6 +67,10 @@ export default async function ProjectDetailPage({ params }: PageProps) {
   ]);
 
   if (!project) {
+    const webProj = getWebProjectBySlug(params.slug);
+    if (webProj) {
+      redirect(`/projects/${params.slug}`);
+    }
     notFound();
   }
 

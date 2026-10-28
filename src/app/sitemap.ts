@@ -17,6 +17,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })
   );
 
+  const appsHubEntries: MetadataRoute.Sitemap = WEB_PROJECTS.map(
+    (project) => ({
+      url: `${baseUrl}/apps/${project.slug}`,
+      lastModified: new Date(project.verifiedAt),
+      changeFrequency: 'monthly',
+      priority: 0.88,
+    })
+  );
+
   const visualWorkEntries: MetadataRoute.Sitemap = visualProjects.map(
     (project) => ({
       url: `${baseUrl}/karya/${project.slug}`,
@@ -32,6 +41,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 1,
+    },
+    {
+      url: `${baseUrl}/apps`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.95,
     },
     {
       url: `${baseUrl}/projects`,
@@ -51,6 +66,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly',
       priority: 0.85,
     },
+    ...appsHubEntries,
     ...webCaseStudyEntries,
     ...visualWorkEntries,
   ];

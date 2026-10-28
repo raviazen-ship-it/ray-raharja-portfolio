@@ -86,6 +86,7 @@ export function Footer() {
             <ul className="space-y-1">
               {[
                 { href: '/', label: t.nav.home },
+                { href: '/apps', label: `${t.nav.apps} (5 LIVE)` },
                 { href: '/projects', label: t.nav.projects },
                 { href: '/#visual-design', label: t.nav.visualWorks },
                 { href: '/about', label: t.nav.about },
