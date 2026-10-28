@@ -26,7 +26,7 @@ interface LocalStore {
   messages: ContactMessage[];
 }
 
-const STORE_VERSION = '2026-10-22-real-works-v1';
+const STORE_VERSION = '2026-10-28-integrated-portfolio-v2';
 const DATA_DIR = path.join(process.cwd(), '.data');
 const DB_FILE = path.join(DATA_DIR, 'local-db.json');
 
@@ -48,11 +48,16 @@ function readLocalStore(): LocalStore {
     const raw = fs.readFileSync(DB_FILE, 'utf-8');
     const parsed = JSON.parse(raw) as Partial<LocalStore>;
     if (parsed.version !== STORE_VERSION) {
+      const preservedMessages = Array.isArray(parsed.messages)
+        ? parsed.messages.filter(
+            (m) => m && m.id !== '22222222-2222-4222-8222-222222222201'
+          )
+        : SEED_MESSAGES;
       const upgraded: LocalStore = {
         version: STORE_VERSION,
         projects: SEED_PROJECTS,
         site_settings: DEFAULT_SITE_SETTINGS,
-        messages: Array.isArray(parsed.messages) ? parsed.messages : SEED_MESSAGES,
+        messages: preservedMessages,
       };
       fs.writeFileSync(DB_FILE, JSON.stringify(upgraded, null, 2), 'utf-8');
       return upgraded;
@@ -73,7 +78,7 @@ function readLocalStore(): LocalStore {
   }
 }
 
-function writeLocalStore(store: LocalStore): void {
+function writeLocalStore(store: LocalStore): boolean {
   try {
     if (!fs.existsSync(DATA_DIR)) {
       fs.mkdirSync(DATA_DIR, { recursive: true });
@@ -83,8 +88,10 @@ function writeLocalStore(store: LocalStore): void {
       JSON.stringify({ ...store, version: STORE_VERSION }, null, 2),
       'utf-8'
     );
+    return true;
   } catch (err) {
     console.error('Failed to write local store:', err);
+    return false;
   }
 }
 
@@ -116,7 +123,7 @@ function normalizeMediaArray(rawMedia: unknown, fallbackCover: string): MediaIte
       height: Number(obj.height) > 0 ? Number(obj.height) : 1000,
       alt:
         typeof obj.alt === 'string' && obj.alt.trim().length > 0
-          ? obj.alt
+          ? obj.alt.replace(/\s*\u2014\s*/g, ' - ')
           : 'Dokumentasi Karya Ray Raharja Santoso',
       blurhash: obj.blurhash || 'L10A0B241E14',
       is_cover: Boolean(obj.is_cover),
@@ -127,13 +134,13 @@ function normalizeMediaArray(rawMedia: unknown, fallbackCover: string): MediaIte
 function normalizeProject(row: any): Project {
   const coverUrl =
     row.cover_url ||
-    'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=1600&q=85';
+    '/works/heyxi-key-visual.jpg';
 
   return {
     id: String(row.id),
-    title: String(row.title || 'Proyek Tanpa Judul'),
+    title: String(row.title || 'Proyek Tanpa Judul').replace(/\s*\u2014\s*/g, ' - '),
     slug: String(row.slug || slugify(row.title || 'proyek')),
-    description: String(row.description || ''),
+    description: String(row.description || '').replace(/\u2014/g, '-'),
     category:
       row.category === 'Branding' ||
       row.category === 'Graphic Design' ||
@@ -142,8 +149,8 @@ function normalizeProject(row: any): Project {
         ? row.category
         : 'Branding',
     year: String(row.year || '2026'),
-    client: String(row.client || 'Klien Studio'),
-    role: String(row.role || 'Art Director & Designer'),
+    client: String(row.client || 'Klien Studio').replace(/\s*\u2014\s*/g, ' - '),
+    role: String(row.role || 'Art Director & Designer').replace(/\s*\u2014\s*/g, ' - '),
     tools: Array.isArray(row.tools)
       ? row.tools.map(String)
       : typeof row.tools === 'string'
@@ -458,10 +465,29 @@ export async function getSiteSettings(): Promise<SiteSettings> {
           .maybeSingle();
 
         if (!error && data) {
+          const hasIntegratedServices =
+            Array.isArray(data.services) &&
+            data.services.some((s: any) => s?.id === 'svc-web');
+          const hasIntegratedAbout =
+            typeof data.about_text === 'string' &&
+            data.about_text.includes('Web & Digital Products');
+          const hasIntegratedHero =
+            typeof data.hero_subtitle === 'string' &&
+            data.hero_subtitle.toLowerCase().includes('web');
+
           return {
             ...DEFAULT_SITE_SETTINGS,
             ...data,
-            services: Array.isArray(data.services)
+            hero_title: String(
+              data.hero_title || DEFAULT_SITE_SETTINGS.hero_title
+            ).replace(/\u2014/g, '-'),
+            hero_subtitle: hasIntegratedHero
+              ? String(data.hero_subtitle).replace(/\u2014/g, '-')
+              : DEFAULT_SITE_SETTINGS.hero_subtitle,
+            about_text: hasIntegratedAbout
+              ? String(data.about_text).replace(/\u2014/g, '-')
+              : DEFAULT_SITE_SETTINGS.about_text,
+            services: hasIntegratedServices
               ? data.services
               : DEFAULT_SITE_SETTINGS.services,
           };
@@ -561,11 +587,17 @@ export async function getMessagesAdmin(): Promise<ContactMessage[]> {
   );
 }
 
+export interface CreateContactMessageResult {
+  persisted: boolean;
+  storage: 'supabase' | 'local' | 'none';
+  message: ContactMessage;
+}
+
 export async function createContactMessage(input: {
   name: string;
   email: string;
   message: string;
-}): Promise<ContactMessage> {
+}): Promise<CreateContactMessageResult> {
   const newMsg: ContactMessage = {
     id: crypto.randomUUID(),
     name: input.name.trim(),
@@ -593,7 +625,11 @@ export async function createContactMessage(input: {
           const store = readLocalStore();
           store.messages.unshift(data as ContactMessage);
           writeLocalStore(store);
-          return data as ContactMessage;
+          return {
+            persisted: true,
+            storage: 'supabase',
+            message: data as ContactMessage,
+          };
         }
       }
     } catch (e) {
@@ -601,10 +637,23 @@ export async function createContactMessage(input: {
     }
   }
 
+  // On Vercel serverless without Supabase, local disk is ephemeral/read-only.
+  if (process.env.VERCEL === '1' && !isSupabaseConfigured()) {
+    return {
+      persisted: false,
+      storage: 'none',
+      message: newMsg,
+    };
+  }
+
   const store = readLocalStore();
   store.messages.unshift(newMsg);
-  writeLocalStore(store);
-  return newMsg;
+  const wrote = writeLocalStore(store);
+  return {
+    persisted: wrote,
+    storage: wrote ? 'local' : 'none',
+    message: newMsg,
+  };
 }
 
 export async function updateMessageReadAdmin(

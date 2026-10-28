@@ -4,8 +4,9 @@ import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ArrowUpRight, Film, Sparkles, Layers } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Film, Layers } from 'lucide-react';
 import { Project, ProjectCategory } from '@/types/portfolio';
+import { localizeVisualProject } from '@/lib/seed-data';
 import { useLanguage } from '@/components/providers/LanguageProvider';
 import { LazyVideo } from '@/components/ui/LazyVideo';
 import { createBlurDataURL, cn } from '@/lib/utils';
@@ -27,11 +28,6 @@ interface RenderSegment {
   projects: Project[];
 }
 
-/**
- * Splits projects into alternating full-width showcases (when card_size === 'full')
- * and balanced multi-column masonry groups so portrait (4:5), vertical (9:16),
- * square (1:1), and landscape (16:9) works never crop awkwardly or leave row gaps.
- */
 function buildLayoutSegments(projects: Project[]): RenderSegment[] {
   const segments: RenderSegment[] = [];
   let currentMasonry: Project[] = [];
@@ -55,10 +51,6 @@ function buildLayoutSegments(projects: Project[]): RenderSegment[] {
   return segments;
 }
 
-/**
- * Distributes projects into N columns balanced by their intrinsic height ratio
- * (height / width) so columns stay visually even regardless of aspect ratios.
- */
 function distributeIntoColumns(projects: Project[], colCount: number): Project[][] {
   const cols: Project[][] = Array.from({ length: colCount }, () => []);
   const colHeights: number[] = Array.from({ length: colCount }, () => 0);
@@ -69,7 +61,6 @@ function distributeIntoColumns(projects: Project[], colCount: number): Project[]
     const h = primaryMedia?.height || 1000;
     const aspectRatioWeight = h / w;
 
-    // Find column with minimum accumulated height
     let shortestCol = 0;
     for (let i = 1; i < colCount; i++) {
       if (colHeights[i] < colHeights[shortestCol]) {
@@ -93,7 +84,7 @@ function ProjectCard({
   index: number;
   priority?: boolean;
 }) {
-  const { t } = useLanguage();
+  const { locale, t } = useLanguage();
   const coverMedia =
     project.media?.find((m) => m.is_cover) || project.media?.[0];
 
@@ -104,37 +95,42 @@ function ProjectCard({
     coverMedia?.type === 'video' ||
     mediaUrl.endsWith('.mp4') ||
     mediaUrl.endsWith('.webm');
-  const altText =
-    coverMedia?.alt || `${project.title} — ${project.category} (${project.year})`;
+  const rawAlt =
+    coverMedia?.alt || `${project.title} (${project.category}, ${project.year})`;
+  const altText = rawAlt.replace(/\u2014/g, '-');
 
   const isVerticalReel = height / width >= 1.45;
 
   return (
     <motion.article
       layout
-      initial={{ opacity: 0, y: 24 }}
+      initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
       transition={{
-        duration: 0.6,
-        delay: Math.min(index * 0.06, 0.25),
+        duration: 0.5,
+        delay: Math.min(index * 0.05, 0.2),
         ease: [0.22, 1, 0.36, 1],
       }}
-      className="group relative flex flex-col border border-[var(--line)] bg-[#131316]"
+      className="group relative flex flex-col border border-[var(--line)] bg-[#131316] hover:border-[var(--brass)]/80 transition-colors"
     >
       <Link
         href={`/karya/${project.slug}`}
         data-cursor="project"
-        aria-label={`Lihat studi kasus ${project.title}`}
+        aria-label={
+          locale === 'en'
+            ? `Read visual work details: ${project.title}`
+            : `Lihat detail karya visual: ${project.title}`
+        }
         className="relative block w-full overflow-hidden bg-[#0A0A0B] focus-visible:outline-none"
       >
-        {/* Aspect-Ratio Preserving Media Container (Zero CLS, Zero Forced Crop) */}
+        {/* Aspect-Ratio Preserving Media Container */}
         <div
           style={{ aspectRatio: `${width} / ${height}` }}
           className="relative w-full overflow-hidden bg-[#131316]"
         >
           {isVideo ? (
-            <div className="h-full w-full transition-transform duration-[600ms] ease-editorial group-hover:scale-[1.04]">
+            <div className="h-full w-full transition-transform duration-500 ease-editorial group-hover:scale-[1.03]">
               <LazyVideo
                 src={mediaUrl}
                 poster={coverMedia?.thumbnail_url}
@@ -161,37 +157,36 @@ function ProjectCard({
               unoptimized={
                 mediaUrl.startsWith('data:') || mediaUrl.startsWith('/uploads/')
               }
-              className="h-full w-full object-cover transition-transform duration-[600ms] ease-editorial group-hover:scale-[1.04]"
+              className="h-full w-full object-cover transition-transform duration-500 ease-editorial group-hover:scale-[1.03]"
             />
           )}
 
-          {/* Top Floating Badges */}
+          {/* Top Floating Metadata Plates (Solid high-contrast ground, zero glass blur) */}
           <div className="pointer-events-none absolute top-3.5 left-3.5 right-3.5 z-10 flex items-center justify-between gap-2">
             <div className="flex items-center gap-2">
               {project.featured && (
-                <span className="inline-flex items-center gap-1 border border-[var(--brass)]/60 bg-[#0A0A0B]/85 px-2.5 py-1 text-[10px] uppercase tracking-[0.18em] text-[var(--brass-light)] backdrop-blur-sm">
-                  <Sparkles className="h-2.5 w-2.5" />
-                  <span>{t.works.featuredBadge}</span>
+                <span className="inline-flex items-center border border-[var(--brass)] bg-[#0A0A0B]/92 px-2.5 py-1 text-[10px] uppercase tracking-[0.16em] text-[var(--brass-light)]">
+                  {t.works.featuredBadge}
                 </span>
               )}
               {isVerticalReel && (
-                <span className="inline-flex items-center gap-1 border border-[var(--line)] bg-[#0A0A0B]/85 px-2.5 py-1 text-[10px] uppercase tracking-[0.18em] text-[var(--ivory)]/90 backdrop-blur-sm">
-                  <Film className="h-2.5 w-2.5 text-[var(--brass)]" />
+                <span className="inline-flex items-center gap-1.5 border border-[var(--border-control)] bg-[#0A0A0B]/92 px-2.5 py-1 text-[10px] uppercase tracking-[0.16em] text-[var(--ivory)]">
+                  <Film className="h-3 w-3 text-[var(--brass-light)]" />
                   <span>9:16 Reel</span>
                 </span>
               )}
             </div>
 
-            <span className="border border-[var(--line)] bg-[#0A0A0B]/80 px-2.5 py-1 text-[10px] uppercase tracking-[0.18em] text-[var(--muted)] backdrop-blur-sm">
+            <span className="border border-[var(--line)] bg-[#0A0A0B]/92 px-2.5 py-1 text-[10px] uppercase tracking-[0.16em] text-[var(--ivory)]/85">
               {project.year}
             </span>
           </div>
 
-          {/* Subtle Dark Hover Overlay + Slide-up Title & Category */}
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0A0A0B]/90 via-[#0A0A0B]/25 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 flex flex-col justify-end p-5 sm:p-6">
-            <div className="translate-y-4 transition-transform duration-500 ease-editorial group-hover:translate-y-0">
-              <span className="text-[10px] uppercase tracking-[0.22em] text-[var(--brass-light)] block mb-1">
-                {project.category} — {project.client}
+          {/* Subtle Dark Hover Overlay */}
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0A0A0B]/92 via-[#0A0A0B]/25 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 flex flex-col justify-end p-5 sm:p-6">
+            <div className="translate-y-3 transition-transform duration-300 ease-editorial group-hover:translate-y-0">
+              <span className="text-[10px] uppercase tracking-[0.2em] text-[var(--brass-light)] block mb-1">
+                {project.category} • {project.client}
               </span>
               <div className="flex items-end justify-between gap-3">
                 <h3 className="font-editorial text-2xl sm:text-3xl text-[var(--ivory)] leading-tight">
@@ -205,19 +200,19 @@ function ProjectCard({
           </div>
         </div>
 
-        {/* Always-Visible Editorial Caption Bar (Accessible on Mobile & Desktop) */}
+        {/* Always-Visible Editorial Caption Bar */}
         <div className="flex items-center justify-between gap-4 border-t border-[var(--line)] bg-[#131316] px-4 sm:px-5 py-3.5">
           <div className="min-w-0">
             <h3 className="font-editorial text-lg sm:text-xl text-[var(--ivory)] truncate group-hover:text-[var(--brass-light)] transition-colors">
               {project.title}
             </h3>
-            <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--muted)] truncate mt-0.5">
+            <p className="text-[11px] uppercase tracking-[0.16em] text-[var(--muted)] truncate mt-0.5">
               {project.category} • {project.client}
             </p>
           </div>
 
-          <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center border border-[var(--line)] text-[var(--muted)] group-hover:border-[var(--brass)] group-hover:text-[var(--brass-light)] transition-colors">
-            <ArrowUpRight className="h-4 w-4" />
+          <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center border border-[var(--border-control)] text-[var(--ivory)]/80 group-hover:border-[var(--brass-light)] group-hover:text-[var(--brass-light)] transition-colors">
+            <ArrowRight className="h-4 w-4" />
           </span>
         </div>
       </Link>
@@ -226,25 +221,30 @@ function ProjectCard({
 }
 
 export function WorksSection({ projects }: WorksSectionProps) {
-  const { t } = useLanguage();
+  const { locale, t } = useLanguage();
   const [activeCategory, setActiveCategory] = useState<'Semua' | ProjectCategory>(
     'Semua'
   );
 
+  const localizedProjects = useMemo(
+    () => projects.map((p) => localizeVisualProject(p, locale)),
+    [projects, locale]
+  );
+
   const filteredProjects = useMemo(() => {
-    if (activeCategory === 'Semua') return projects;
-    return projects.filter((p) => p.category === activeCategory);
-  }, [projects, activeCategory]);
+    if (activeCategory === 'Semua') return localizedProjects;
+    return localizedProjects.filter((p) => p.category === activeCategory);
+  }, [localizedProjects, activeCategory]);
 
   const categoryCounts = useMemo(() => {
-    const counts: Record<string, number> = { Semua: projects.length };
+    const counts: Record<string, number> = { Semua: localizedProjects.length };
     for (const cat of CATEGORIES) {
       if (cat !== 'Semua') {
-        counts[cat] = projects.filter((p) => p.category === cat).length;
+        counts[cat] = localizedProjects.filter((p) => p.category === cat).length;
       }
     }
     return counts;
-  }, [projects]);
+  }, [localizedProjects]);
 
   const segments = useMemo(
     () => buildLayoutSegments(filteredProjects),
@@ -253,16 +253,19 @@ export function WorksSection({ projects }: WorksSectionProps) {
 
   return (
     <section
-      id="karya"
+      id="visual-design"
       aria-labelledby="heading-karya"
-      className="py-20 sm:py-28 lg:py-32 border-b border-[var(--line)]"
+      className="relative py-20 sm:py-28 border-b border-[var(--line)] scroll-mt-20"
     >
+      {/* Legacy anchor alias so #karya continues working cleanly */}
+      <div id="karya" className="absolute -top-20" aria-hidden="true" />
+
       <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-12">
         {/* Section Header */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end pb-12 border-b border-[var(--line)]">
           <div className="lg:col-span-7">
             <div className="flex items-center gap-3 mb-4">
-              <span className="font-editorial italic text-sm text-[var(--brass)]">
+              <span className="font-editorial italic text-sm text-[var(--brass-light)]">
                 {t.works.index}
               </span>
               <span className="h-[1px] w-10 bg-[var(--line)]" />
@@ -277,17 +280,26 @@ export function WorksSection({ projects }: WorksSectionProps) {
             </h2>
           </div>
 
-          <div className="lg:col-span-5">
+          <div className="lg:col-span-5 space-y-4">
             <p className="text-sm sm:text-base text-[var(--muted)] leading-relaxed">
               {t.works.subtitle}
             </p>
+            <Link
+              href="/projects"
+              className="inline-flex items-center gap-2 min-h-[44px] text-xs uppercase tracking-[0.16em] text-[var(--brass-light)] hover:underline"
+            >
+              <span>{t.works.viewAllProjectsLink}</span>
+              <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
           </div>
         </div>
 
         {/* Category Filter Tabs */}
         <div
           role="tablist"
-          aria-label="Filter Kategori Karya"
+          aria-label={
+            locale === 'en' ? 'Filter Design Category' : 'Filter Kategori Karya'
+          }
           className="flex flex-wrap items-center gap-2 sm:gap-3 py-8 border-b border-[var(--line)]"
         >
           {CATEGORIES.map((category) => {
@@ -305,10 +317,10 @@ export function WorksSection({ projects }: WorksSectionProps) {
                 aria-selected={isActive}
                 onClick={() => setActiveCategory(category)}
                 className={cn(
-                  'relative inline-flex items-center gap-2 min-h-[44px] px-4 sm:px-5 py-2 text-xs uppercase tracking-[0.18em] transition-colors border',
+                  'relative inline-flex items-center gap-2 min-h-[44px] px-4 sm:px-5 py-2 text-xs uppercase tracking-[0.16em] transition-colors border',
                   isActive
                     ? 'border-[var(--brass)] text-[#0A0A0B] font-medium'
-                    : 'border-[var(--line)] bg-[#131316]/60 text-[var(--muted)] hover:border-[var(--brass)]/60 hover:text-[var(--ivory)]'
+                    : 'border-[var(--border-control)] bg-[#131316] text-[var(--ivory)]/85 hover:border-[var(--brass-light)] hover:text-[var(--brass-light)]'
                 )}
               >
                 {isActive && (
@@ -326,7 +338,7 @@ export function WorksSection({ projects }: WorksSectionProps) {
                 <span
                   className={cn(
                     'relative z-10 font-editorial italic text-xs',
-                    isActive ? 'text-[#0A0A0B]/80' : 'text-[var(--brass)]'
+                    isActive ? 'text-[#0A0A0B]' : 'text-[var(--brass-light)]'
                   )}
                 >
                   ({count})
@@ -345,9 +357,9 @@ export function WorksSection({ projects }: WorksSectionProps) {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -16 }}
-                className="border border-[var(--line)] bg-[#131316]/50 p-12 sm:p-16 text-center max-w-xl mx-auto my-8"
+                className="border border-[var(--line)] bg-[#131316] p-12 sm:p-16 text-center max-w-xl mx-auto my-8"
               >
-                <Layers className="h-8 w-8 text-[var(--brass)] mx-auto mb-4 stroke-[1.25]" />
+                <Layers className="h-8 w-8 text-[var(--brass-light)] mx-auto mb-4 stroke-[1.25]" />
                 <h3 className="font-editorial text-2xl text-[var(--ivory)] mb-2">
                   {t.works.emptyTitle}
                 </h3>
@@ -357,7 +369,7 @@ export function WorksSection({ projects }: WorksSectionProps) {
                 <button
                   type="button"
                   onClick={() => setActiveCategory('Semua')}
-                  className="inline-flex items-center justify-center min-h-[44px] border border-[var(--brass)] px-5 py-2.5 text-xs uppercase tracking-[0.2em] text-[var(--brass-light)] hover:bg-[var(--brass)] hover:text-[#0A0A0B] transition-colors"
+                  className="inline-flex items-center justify-center min-h-[44px] border border-[var(--brass)] bg-[var(--brass)] px-5 py-2.5 text-xs uppercase tracking-[0.18em] font-medium text-[#0A0A0B] hover:bg-[var(--brass-light)] transition-colors"
                 >
                   {t.works.resetFilter}
                 </button>
@@ -368,7 +380,7 @@ export function WorksSection({ projects }: WorksSectionProps) {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -12 }}
-                transition={{ duration: 0.35 }}
+                transition={{ duration: 0.3 }}
                 className="space-y-8 lg:space-y-10"
               >
                 {segments.map((segment, segIdx) => {
@@ -379,7 +391,7 @@ export function WorksSection({ projects }: WorksSectionProps) {
                         <ProjectCard
                           project={fullProject}
                           index={segIdx}
-                          priority={segIdx === 0}
+                          priority={false}
                         />
                       </div>
                     );
@@ -397,7 +409,6 @@ export function WorksSection({ projects }: WorksSectionProps) {
                             key={project.id}
                             project={project}
                             index={idx}
-                            priority={segIdx === 0 && idx < 2}
                           />
                         ))}
                       </div>
@@ -411,7 +422,6 @@ export function WorksSection({ projects }: WorksSectionProps) {
                                 key={project.id}
                                 project={project}
                                 index={idx}
-                                priority={segIdx === 0 && idx === 0}
                               />
                             ))}
                           </div>
@@ -427,7 +437,6 @@ export function WorksSection({ projects }: WorksSectionProps) {
                                 key={project.id}
                                 project={project}
                                 index={idx}
-                                priority={segIdx === 0 && idx === 0}
                               />
                             ))}
                           </div>

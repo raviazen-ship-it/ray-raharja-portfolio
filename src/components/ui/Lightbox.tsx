@@ -11,6 +11,7 @@ import {
   ZoomOut,
 } from 'lucide-react';
 import { MediaItem } from '@/types/portfolio';
+import { useLanguage } from '@/components/providers/LanguageProvider';
 import { createBlurDataURL, cn } from '@/lib/utils';
 
 interface LightboxProps {
@@ -26,6 +27,7 @@ export function Lightbox({
   isOpen,
   onClose,
 }: LightboxProps) {
+  const { t } = useLanguage();
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const [zoomed, setZoomed] = useState(false);
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
@@ -89,7 +91,7 @@ export function Lightbox({
         <motion.div
           role="dialog"
           aria-modal="true"
-          aria-label="Penampil Media Layar Penuh"
+          aria-label={t.lightbox.viewerLabel}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -115,8 +117,8 @@ export function Lightbox({
                 <button
                   type="button"
                   onClick={() => setZoomed((z) => !z)}
-                  aria-label={zoomed ? 'Perkecil Gambar' : 'Perbesar Gambar'}
-                  className="inline-flex h-11 w-11 items-center justify-center border border-[var(--line)] bg-[#131316] text-[var(--ivory)] hover:border-[var(--brass)] transition-colors"
+                  aria-label={zoomed ? t.lightbox.zoomOut : t.lightbox.zoomIn}
+                  className="inline-flex h-11 w-11 items-center justify-center border border-[var(--border-control)] bg-[#131316] text-[var(--ivory)] hover:border-[var(--brass)] transition-colors"
                 >
                   {zoomed ? (
                     <ZoomOut className="h-4 w-4 text-[var(--brass-light)]" />
@@ -129,8 +131,8 @@ export function Lightbox({
               <button
                 type="button"
                 onClick={onClose}
-                aria-label="Tutup Layar Penuh (Esc)"
-                className="inline-flex h-11 w-11 items-center justify-center border border-[var(--line)] bg-[#131316] text-[var(--ivory)] hover:border-[var(--brass)] hover:text-[var(--brass-light)] transition-colors"
+                aria-label={t.lightbox.close}
+                className="inline-flex h-11 w-11 items-center justify-center border border-[var(--border-control)] bg-[#131316] text-[var(--ivory)] hover:border-[var(--brass)] hover:text-[var(--brass-light)] transition-colors"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -143,8 +145,8 @@ export function Lightbox({
               <button
                 type="button"
                 onClick={goPrev}
-                aria-label="Media Sebelumnya"
-                className="absolute left-2 sm:left-4 z-20 inline-flex h-12 w-12 items-center justify-center border border-[var(--line)] bg-[#0A0A0B]/85 text-[var(--ivory)] hover:border-[var(--brass)] hover:text-[var(--brass-light)] transition-colors"
+                aria-label={t.lightbox.prev}
+                className="absolute left-2 sm:left-4 z-20 inline-flex h-12 w-12 items-center justify-center border border-[var(--border-control)] bg-[#0A0A0B]/90 text-[var(--ivory)] hover:border-[var(--brass)] hover:text-[var(--brass-light)] transition-colors"
               >
                 <ChevronLeft className="h-5 w-5" />
               </button>
@@ -202,8 +204,8 @@ export function Lightbox({
               <button
                 type="button"
                 onClick={goNext}
-                aria-label="Media Berikutnya"
-                className="absolute right-2 sm:right-4 z-20 inline-flex h-12 w-12 items-center justify-center border border-[var(--line)] bg-[#0A0A0B]/85 text-[var(--ivory)] hover:border-[var(--brass)] hover:text-[var(--brass-light)] transition-colors"
+                aria-label={t.lightbox.next}
+                className="absolute right-2 sm:right-4 z-20 inline-flex h-12 w-12 items-center justify-center border border-[var(--border-control)] bg-[#0A0A0B]/90 text-[var(--ivory)] hover:border-[var(--brass)] hover:text-[var(--brass-light)] transition-colors"
               >
                 <ChevronRight className="h-5 w-5" />
               </button>
@@ -216,7 +218,7 @@ export function Lightbox({
               {current.alt}
             </p>
             <span className="label-editorial text-[10px]">
-              Gunakan tombol panah ← → atau geser layar • Esc untuk tutup
+              {t.lightbox.hint}
             </span>
           </div>
         </motion.div>

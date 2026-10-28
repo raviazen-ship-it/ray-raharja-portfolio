@@ -3,8 +3,9 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowDownRight, ArrowUpRight } from 'lucide-react';
+import { ArrowRight, ArrowDownRight, Code2, Palette } from 'lucide-react';
 import { SiteSettings } from '@/types/portfolio';
+import { DEFAULT_SITE_SETTINGS } from '@/lib/seed-data';
 import { useLanguage } from '@/components/providers/LanguageProvider';
 import { cn } from '@/lib/utils';
 
@@ -13,31 +14,32 @@ interface HeroSectionProps {
 }
 
 export function HeroSection({ settings }: HeroSectionProps) {
-  const { t } = useLanguage();
+  const { locale, t } = useLanguage();
 
-  // Split hero title into words/lines for editorial mask-reveal animation
-  const rawTitle = settings.hero_title || 'Ray Raharja Santoso';
+  const rawTitle = (settings.hero_title || 'Ray Raharja Santoso').replace(/\u2014/g, '-');
   const words = rawTitle.trim().split(/\s+/);
   const firstLine = words.slice(0, Math.ceil(words.length / 2)).join(' ');
   const secondLine = words.slice(Math.ceil(words.length / 2)).join(' ');
 
-  const marqueeItems = [
-    ...t.hero.disciplines,
-    ...t.hero.disciplines,
-    ...t.hero.disciplines,
-  ];
+  const subtitleText =
+    locale === 'en'
+      ? t.hero.subtitle
+      : settings.hero_subtitle &&
+          settings.hero_subtitle !== DEFAULT_SITE_SETTINGS.hero_subtitle
+        ? settings.hero_subtitle.replace(/\u2014/g, '-')
+        : t.hero.subtitle;
 
   return (
     <section
       id="hero"
-      aria-label="Perkenalan Utama"
-      className="relative min-h-[92vh] flex flex-col justify-between pt-28 sm:pt-36 pb-0 overflow-hidden"
+      aria-label={locale === 'en' ? 'Introduction' : 'Perkenalan Utama'}
+      className="relative flex flex-col justify-between pt-28 sm:pt-32 border-b border-[var(--line)] overflow-hidden"
     >
-      <div className="mx-auto w-full max-w-[1440px] px-5 sm:px-8 lg:px-12 flex-1 flex flex-col justify-between">
+      <div className="mx-auto w-full max-w-[1440px] px-5 sm:px-8 lg:px-12">
         {/* Top Meta Bar (12-column editorial grid) */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center border-b border-[var(--line)] pb-5">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-3 sm:gap-4 items-center border-b border-[var(--line)] pb-5">
           <div className="md:col-span-5 flex items-center gap-3">
-            <span className="font-editorial italic text-sm text-[var(--brass)]">
+            <span className="font-editorial italic text-sm text-[var(--brass-light)]">
               00 / Index
             </span>
             <span className="h-[1px] w-8 bg-[var(--line)]" />
@@ -48,23 +50,17 @@ export function HeroSection({ settings }: HeroSectionProps) {
             <span className="label-editorial">{t.hero.locationLabel}</span>
           </div>
 
-          {/* Availability Pill (Editable from Admin) */}
+          {/* Static Availability Status Indicator (No decorative ping/pulse) */}
           <div className="md:col-span-7 lg:col-span-3 flex md:justify-end">
-            <div className="inline-flex items-center gap-2.5 border border-[var(--line)] bg-[#131316]/90 px-3.5 py-1.5">
-              <span className="relative flex h-2 w-2">
-                {settings.available_for_work && (
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+            <div className="inline-flex items-center gap-2.5 border border-[var(--line)] bg-[#131316] px-3.5 py-1.5">
+              <span
+                aria-hidden="true"
+                className={cn(
+                  'inline-flex rounded-full h-2 w-2 shrink-0',
+                  settings.available_for_work ? 'bg-emerald-400' : 'bg-amber-400'
                 )}
-                <span
-                  className={cn(
-                    'relative inline-flex rounded-full h-2 w-2',
-                    settings.available_for_work
-                      ? 'bg-emerald-400'
-                      : 'bg-amber-500'
-                  )}
-                />
-              </span>
-              <span className="text-[11px] uppercase tracking-[0.18em] text-[var(--ivory)]">
+              />
+              <span className="text-[11px] uppercase tracking-[0.14em] text-[var(--ivory)]">
                 {settings.available_for_work
                   ? t.hero.available
                   : t.hero.unavailable}
@@ -73,21 +69,21 @@ export function HeroSection({ settings }: HeroSectionProps) {
           </div>
         </div>
 
-        {/* Center Editorial Title with Line Mask Reveal */}
-        <div className="my-auto py-12 sm:py-16 lg:py-20">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-end">
-            <div className="lg:col-span-9">
-              <p className="label-editorial mb-4 text-[var(--brass-light)]">
-                Graphic &amp; Brand Designer • Motion Designer • Video Editor
+        {/* Center Asymmetric Editorial Masthead (7 / 5) */}
+        <div className="py-12 sm:py-16 lg:py-20">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-end">
+            <div className="lg:col-span-7 space-y-5">
+              <p className="text-xs uppercase tracking-[0.2em] text-[var(--brass-light)]">
+                {t.hero.eyebrow}
               </p>
 
               <h1 className="hero-display font-normal text-[var(--ivory)]">
                 <span className="block overflow-hidden pb-1">
                   <motion.span
-                    initial={{ y: '105%', opacity: 0 }}
+                    initial={{ y: '100%', opacity: 0 }}
                     animate={{ y: '0%', opacity: 1 }}
                     transition={{
-                      duration: 0.85,
+                      duration: 0.55,
                       ease: [0.22, 1, 0.36, 1],
                     }}
                     className="block"
@@ -97,54 +93,59 @@ export function HeroSection({ settings }: HeroSectionProps) {
                 </span>
 
                 {secondLine && (
-                  <span className="block overflow-hidden pb-2">
+                  <span className="block overflow-hidden pb-1">
                     <motion.span
-                      initial={{ y: '105%', opacity: 0 }}
+                      initial={{ y: '100%', opacity: 0 }}
                       animate={{ y: '0%', opacity: 1 }}
                       transition={{
-                        duration: 0.85,
-                        delay: 0.12,
+                        duration: 0.55,
+                        delay: 0.08,
                         ease: [0.22, 1, 0.36, 1],
                       }}
                       className="block italic font-normal text-[var(--ivory)]/95"
                     >
                       {secondLine}
-                      <span className="text-[var(--brass)] not-italic">.</span>
+                      <span className="text-[var(--brass-light)] not-italic">
+                        .
+                      </span>
                     </motion.span>
                   </span>
                 )}
               </h1>
+
+              <p className="font-editorial italic text-2xl sm:text-3xl lg:text-4xl text-[var(--brass-light)] leading-snug max-w-2xl pt-1">
+                {t.hero.tagline}
+              </p>
             </div>
 
             <motion.div
-              initial={{ opacity: 0, y: 24 }}
+              initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
-                duration: 0.75,
-                delay: 0.28,
+                duration: 0.55,
+                delay: 0.16,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="lg:col-span-3 flex flex-col justify-between border-l border-[var(--line)] pl-5 lg:pl-6 space-y-6"
+              className="lg:col-span-5 flex flex-col justify-between border-l-2 border-[var(--brass)] pl-5 sm:pl-7 space-y-6"
             >
-              <p className="text-sm sm:text-base text-[var(--muted)] leading-relaxed">
-                {settings.hero_subtitle}
+              <p className="text-base sm:text-lg text-[var(--ivory)]/90 leading-relaxed">
+                {subtitleText}
               </p>
 
-              <div className="flex flex-wrap sm:flex-nowrap lg:flex-col xl:flex-row gap-3 pt-2">
+              <div className="flex flex-wrap gap-3 pt-1">
                 <Link
-                  href="#karya"
-                  className="inline-flex items-center justify-center gap-2.5 min-h-[48px] bg-[var(--brass)] px-6 py-3 text-xs uppercase tracking-[0.2em] font-medium text-[#0A0A0B] hover:bg-[var(--brass-light)] transition-colors duration-300"
+                  href="/projects"
+                  className="inline-flex items-center justify-center gap-2.5 min-h-[48px] bg-[var(--brass)] px-6 py-3 text-xs uppercase tracking-[0.18em] font-medium text-[#0A0A0B] hover:bg-[var(--brass-light)] transition-colors duration-300"
                 >
-                  <span>{t.hero.ctaWorks}</span>
-                  <ArrowDownRight className="h-4 w-4" />
+                  <span>{t.hero.ctaExplore}</span>
+                  <ArrowRight className="h-4 w-4 shrink-0" />
                 </Link>
 
                 <Link
-                  href="#kontak"
-                  className="inline-flex items-center justify-center gap-2.5 min-h-[48px] border border-[var(--line)] bg-[#131316] px-6 py-3 text-xs uppercase tracking-[0.2em] text-[var(--ivory)] hover:border-[var(--brass)] hover:text-[var(--brass-light)] transition-colors duration-300"
+                  href="/contact"
+                  className="inline-flex items-center justify-center gap-2.5 min-h-[48px] border border-[var(--border-control)] bg-[#131316] px-6 py-3 text-xs uppercase tracking-[0.18em] text-[var(--ivory)] hover:border-[var(--brass-light)] hover:text-[var(--brass-light)] transition-colors duration-300"
                 >
                   <span>{t.hero.ctaContact}</span>
-                  <ArrowUpRight className="h-4 w-4 text-[var(--brass)]" />
                 </Link>
               </div>
             </motion.div>
@@ -152,23 +153,68 @@ export function HeroSection({ settings }: HeroSectionProps) {
         </div>
       </div>
 
-      {/* Subtle Editorial Discipline Marquee */}
-      <div
-        aria-label="Disiplin Keahlian"
-        className="w-full border-t border-b border-[var(--line)] bg-[#131316]/60 py-3.5 overflow-hidden"
-      >
-        <div className="animate-marquee-slow flex items-center whitespace-nowrap">
-          {marqueeItems.map((discipline, idx) => (
-            <div key={idx} className="flex items-center">
-              <span className="px-6 sm:px-8 text-[11px] uppercase tracking-[0.24em] text-[var(--ivory)]/80">
-                {discipline}
-              </span>
-              <span
-                aria-hidden="true"
-                className="inline-block h-1 w-1 rounded-full bg-[var(--brass)]"
-              />
-            </div>
-          ))}
+      {/* Two-Track Integrated Portfolio Entry Ledger */}
+      <div className="w-full border-t border-[var(--line)] bg-[#0E0E11]">
+        <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-[var(--line)]">
+            {/* Track 01: Web & Digital Products */}
+            <Link
+              href="/projects?track=web"
+              className="group flex flex-col justify-between py-7 sm:py-8 md:pr-8 lg:pr-12 hover:bg-[#131316]/60 transition-colors"
+            >
+              <div className="space-y-2.5">
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-2.5">
+                    <span className="font-editorial italic text-lg text-[var(--brass-light)]">
+                      Track 01
+                    </span>
+                    <span className="h-[1px] w-6 bg-[var(--line)]" />
+                    <Code2 className="h-4 w-4 text-[var(--brass-light)]" />
+                  </div>
+                  <span className="text-[11px] uppercase tracking-[0.16em] text-[var(--brass-light)] inline-flex items-center gap-1.5">
+                    <span>{t.hero.trackWebAction}</span>
+                    <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+                  </span>
+                </div>
+
+                <h2 className="font-editorial text-2xl sm:text-3xl text-[var(--ivory)] group-hover:text-[var(--brass-light)] transition-colors">
+                  {t.hero.trackWebTitle}
+                </h2>
+                <p className="text-sm text-[var(--muted)] leading-relaxed max-w-xl">
+                  {t.hero.trackWebDesc}
+                </p>
+              </div>
+            </Link>
+
+            {/* Track 02: Visual Design & Production */}
+            <Link
+              href="#visual-design"
+              className="group flex flex-col justify-between py-7 sm:py-8 md:pl-8 lg:pl-12 hover:bg-[#131316]/60 transition-colors"
+            >
+              <div className="space-y-2.5">
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-2.5">
+                    <span className="font-editorial italic text-lg text-[var(--brass-light)]">
+                      Track 02
+                    </span>
+                    <span className="h-[1px] w-6 bg-[var(--line)]" />
+                    <Palette className="h-4 w-4 text-[var(--brass-light)]" />
+                  </div>
+                  <span className="text-[11px] uppercase tracking-[0.16em] text-[var(--brass-light)] inline-flex items-center gap-1.5">
+                    <span>{t.hero.trackVisualAction}</span>
+                    <ArrowDownRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-y-0.5" />
+                  </span>
+                </div>
+
+                <h2 className="font-editorial text-2xl sm:text-3xl text-[var(--ivory)] group-hover:text-[var(--brass-light)] transition-colors">
+                  {t.hero.trackVisualTitle}
+                </h2>
+                <p className="text-sm text-[var(--muted)] leading-relaxed max-w-xl">
+                  {t.hero.trackVisualDesc}
+                </p>
+              </div>
+            </Link>
+          </div>
         </div>
       </div>
     </section>

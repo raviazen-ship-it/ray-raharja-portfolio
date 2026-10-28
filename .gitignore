@@ -13,8 +13,9 @@
 # production
 /build
 
-# local data fallback
+# local data fallback & runtime uploads
 /.data/
+/public/uploads/
 
 # misc
 .DS_Store
@@ -35,5 +36,3 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-
-.vercel

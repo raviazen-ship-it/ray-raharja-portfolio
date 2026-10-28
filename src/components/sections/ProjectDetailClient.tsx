@@ -1,16 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import {
-  ArrowLeft,
-  ArrowRight,
-  Maximize2,
-  Sparkles,
-} from 'lucide-react';
+import { ArrowLeft, ArrowRight, Maximize2 } from 'lucide-react';
 import { Project } from '@/types/portfolio';
+import { localizeVisualProject } from '@/lib/seed-data';
 import { useLanguage } from '@/components/providers/LanguageProvider';
 import { Lightbox } from '@/components/ui/Lightbox';
 import { createBlurDataURL } from '@/lib/utils';
@@ -21,30 +17,46 @@ interface ProjectDetailClientProps {
 }
 
 export function ProjectDetailClient({
-  project,
-  nextProject,
+  project: rawProject,
+  nextProject: rawNextProject,
 }: ProjectDetailClientProps) {
-  const { t } = useLanguage();
+  const { locale, t } = useLanguage();
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
 
-  const mediaList =
-    Array.isArray(project.media) && project.media.length > 0
-      ? project.media
-      : [
-          {
-            id: 'cover-fallback',
-            url: project.cover_url,
-            type: 'image' as const,
-            width: 1600,
-            height: 1000,
-            alt: project.title,
-            blurhash: 'L10A0B241E14',
-          },
-        ];
+  const project = useMemo(
+    () => localizeVisualProject(rawProject, locale),
+    [rawProject, locale]
+  );
 
-  const primaryMedia =
-    mediaList.find((m) => m.is_cover) || mediaList[0];
+  const nextProject = useMemo(
+    () => (rawNextProject ? localizeVisualProject(rawNextProject, locale) : null),
+    [rawNextProject, locale]
+  );
+
+  const mediaList = useMemo(() => {
+    const base =
+      Array.isArray(project.media) && project.media.length > 0
+        ? project.media
+        : [
+            {
+              id: 'cover-fallback',
+              url: project.cover_url,
+              type: 'image' as const,
+              width: 1600,
+              height: 1000,
+              alt: project.title,
+              blurhash: 'L10A0B241E14',
+            },
+          ];
+
+    return base.map((item) => ({
+      ...item,
+      alt: (item.alt || project.title).replace(/\u2014/g, '-'),
+    }));
+  }, [project]);
+
+  const primaryMedia = mediaList.find((m) => m.is_cover) || mediaList[0];
 
   const paragraphs = (project.description || '')
     .split(/\n\s*\n/)
@@ -60,24 +72,33 @@ export function ProjectDetailClient({
     <>
       <article className="pt-28 sm:pt-36 pb-20">
         <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-12">
-          {/* Top Breadcrumb / Back Navigation */}
+          {/* Top Breadcrumb & Cross-Track Navigation */}
           <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[var(--line)] pb-5 mb-10 sm:mb-14">
-            <Link
-              href="/#karya"
-              className="inline-flex items-center gap-2.5 min-h-[44px] text-xs uppercase tracking-[0.2em] text-[var(--muted)] hover:text-[var(--brass-light)] transition-colors"
-            >
-              <ArrowLeft className="h-4 w-4 text-[var(--brass)]" />
-              <span>{t.projectDetail.backToWorks}</span>
-            </Link>
+            <div className="flex flex-wrap items-center gap-4 sm:gap-6">
+              <Link
+                href="/#visual-design"
+                className="inline-flex items-center gap-2.5 min-h-[44px] text-xs uppercase tracking-[0.18em] text-[var(--muted)] hover:text-[var(--brass-light)] transition-colors"
+              >
+                <ArrowLeft className="h-4 w-4 text-[var(--brass-light)]" />
+                <span>{t.projectDetail.backToWorks}</span>
+              </Link>
 
-            <div className="flex items-center gap-3">
+              <Link
+                href="/projects?track=web"
+                className="inline-flex items-center gap-1.5 min-h-[44px] text-xs uppercase tracking-[0.16em] text-[var(--brass-light)] hover:underline"
+              >
+                <span>{t.projectDetail.allProjectsLink}</span>
+                <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
+            </div>
+
+            <div className="flex items-center gap-2.5">
               {project.featured && (
-                <span className="inline-flex items-center gap-1.5 border border-[var(--brass)]/50 bg-[#131316] px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-[var(--brass-light)]">
-                  <Sparkles className="h-3 w-3" />
-                  <span>{t.works.featuredBadge}</span>
+                <span className="inline-flex items-center border border-[var(--brass)] bg-[#131316] px-3 py-1 text-[10px] uppercase tracking-[0.16em] text-[var(--brass-light)]">
+                  {t.works.featuredBadge}
                 </span>
               )}
-              <span className="border border-[var(--line)] bg-[#131316] px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-[var(--ivory)]">
+              <span className="border border-[var(--line)] bg-[#131316] px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-[var(--ivory)]">
                 {project.category}
               </span>
             </div>
@@ -85,24 +106,24 @@ export function ProjectDetailClient({
 
           {/* Case Study Editorial Title */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
             className="max-w-5xl mb-12 sm:mb-16"
           >
-            <h1 className="font-editorial text-4xl sm:text-6xl lg:text-7xl font-normal text-[var(--ivory)] leading-[1.03] tracking-tight">
+            <h1 className="font-editorial text-4xl sm:text-6xl lg:text-7xl font-normal text-[var(--ivory)] leading-[1.04] tracking-tight">
               {project.title}
             </h1>
           </motion.div>
 
           {/* 4-Column Case Study Metadata Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 border-t border-b border-[var(--line)] divide-y sm:divide-y-0 sm:divide-x divide-[var(--line)] bg-[#131316]/40 mb-12 sm:mb-16">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 border-t border-b border-[var(--line)] divide-y sm:divide-y-0 sm:divide-x divide-[var(--line)] bg-[#131316] mb-12 sm:mb-16">
             <div className="lg:col-span-3 p-5 sm:p-6">
               <span className="label-editorial block mb-1.5 text-[10px]">
                 {t.projectDetail.client}
               </span>
               <p className="font-editorial text-xl text-[var(--ivory)]">
-                {project.client || 'Klien Komisi'}
+                {(project.client || 'Studio Work').replace(/\u2014/g, '-')}
               </p>
             </div>
 
@@ -120,7 +141,7 @@ export function ProjectDetailClient({
                 {t.projectDetail.role}
               </span>
               <p className="font-editorial text-xl text-[var(--ivory)]">
-                {project.role}
+                {project.role.replace(/\u2014/g, '-')}
               </p>
             </div>
 
@@ -132,7 +153,7 @@ export function ProjectDetailClient({
                 {(project.tools || []).map((tool, idx) => (
                   <span
                     key={idx}
-                    className="border border-[var(--line)] bg-[#0A0A0B] px-2.5 py-1 text-[11px] text-[var(--ivory)]/85"
+                    className="rounded-[2px] border border-[var(--line)] bg-[#0A0A0B] px-2.5 py-1 text-[11px] text-[var(--ivory)]/85"
                   >
                     {tool}
                   </span>
@@ -143,9 +164,9 @@ export function ProjectDetailClient({
 
           {/* Primary Cover Media Showcase */}
           <motion.div
-            initial={{ opacity: 0, y: 24 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1 }}
+            transition={{ duration: 0.55, delay: 0.08 }}
             className="mb-16 sm:mb-24"
           >
             <div
@@ -203,15 +224,19 @@ export function ProjectDetailClient({
                       primaryMedia.url.startsWith('data:') ||
                       primaryMedia.url.startsWith('/uploads/')
                     }
-                    className="h-full w-full object-contain transition-transform duration-700 ease-editorial group-hover:scale-[1.02]"
+                    className="h-full w-full object-contain transition-transform duration-500 ease-editorial group-hover:scale-[1.015]"
                   />
 
                   <button
                     type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      openMediaAt(0);
+                    }}
                     aria-label={t.projectDetail.clickToEnlarge}
-                    className="absolute bottom-4 right-4 z-10 inline-flex items-center gap-2 border border-[var(--line)] bg-[#0A0A0B]/85 px-3.5 py-2 text-[11px] uppercase tracking-[0.18em] text-[var(--ivory)] backdrop-blur-sm group-hover:border-[var(--brass)] group-hover:text-[var(--brass-light)] transition-colors"
+                    className="absolute bottom-4 right-4 z-10 inline-flex items-center gap-2 min-h-[44px] border border-[var(--border-control)] bg-[#0A0A0B]/92 px-3.5 py-2 text-[11px] uppercase tracking-[0.16em] text-[var(--ivory)] hover:border-[var(--brass-light)] hover:text-[var(--brass-light)] transition-colors"
                   >
-                    <Maximize2 className="h-3.5 w-3.5 text-[var(--brass)]" />
+                    <Maximize2 className="h-3.5 w-3.5 text-[var(--brass-light)]" />
                     <span className="hidden sm:inline">
                       {t.projectDetail.clickToEnlarge}
                     </span>
@@ -225,7 +250,7 @@ export function ProjectDetailClient({
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 pb-16 sm:pb-24 border-b border-[var(--line)]">
             <div className="lg:col-span-4">
               <div className="flex items-center gap-3">
-                <span className="font-editorial italic text-sm text-[var(--brass)]">
+                <span className="font-editorial italic text-sm text-[var(--brass-light)]">
                   01
                 </span>
                 <span className="h-[1px] w-8 bg-[var(--line)]" />
@@ -246,7 +271,7 @@ export function ProjectDetailClient({
           <div className="pt-16 sm:pt-20">
             <div className="flex items-center justify-between mb-10">
               <div className="flex items-center gap-3">
-                <span className="font-editorial italic text-sm text-[var(--brass)]">
+                <span className="font-editorial italic text-sm text-[var(--brass-light)]">
                   02
                 </span>
                 <span className="h-[1px] w-8 bg-[var(--line)]" />
@@ -267,10 +292,10 @@ export function ProjectDetailClient({
                 return (
                   <motion.figure
                     key={item.id || idx}
-                    initial={{ opacity: 0, y: 24 }}
+                    initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: '-40px' }}
-                    transition={{ duration: 0.6 }}
+                    transition={{ duration: 0.5 }}
                     className={
                       isVertical
                         ? 'mx-auto max-w-md sm:max-w-lg border border-[var(--line)] bg-[#131316]'
@@ -313,7 +338,10 @@ export function ProjectDetailClient({
                       >
                         <Image
                           src={item.url}
-                          alt={item.alt || `${project.title} — Visual ${idx + 1}`}
+                          alt={
+                            item.alt ||
+                            `${project.title} - Plate ${String(idx + 1).padStart(2, '0')}`
+                          }
                           width={item.width || 1600}
                           height={item.height || 1000}
                           placeholder="blur"
@@ -325,11 +353,11 @@ export function ProjectDetailClient({
                             item.url.startsWith('data:') ||
                             item.url.startsWith('/uploads/')
                           }
-                          className="h-full w-full object-contain transition-transform duration-700 ease-editorial group-hover:scale-[1.02]"
+                          className="h-full w-full object-contain transition-transform duration-500 ease-editorial group-hover:scale-[1.015]"
                         />
 
                         <div className="pointer-events-none absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                          <span className="inline-flex h-10 w-10 items-center justify-center border border-[var(--brass)] bg-[#0A0A0B]/90 text-[var(--brass-light)]">
+                          <span className="inline-flex h-10 w-10 items-center justify-center border border-[var(--brass)] bg-[#0A0A0B]/92 text-[var(--brass-light)]">
                             <Maximize2 className="h-4 w-4" />
                           </span>
                         </div>
@@ -355,7 +383,7 @@ export function ProjectDetailClient({
               <Link
                 href={`/karya/${nextProject.slug}`}
                 data-cursor="project"
-                className="group block border border-[var(--line)] bg-[#131316] p-8 sm:p-12 lg:p-16 hover:border-[var(--brass)] transition-colors duration-500"
+                className="group block border border-[var(--line)] bg-[#131316] p-8 sm:p-12 lg:p-16 hover:border-[var(--brass-light)] transition-colors duration-300"
               >
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
                   <div>
@@ -374,7 +402,7 @@ export function ProjectDetailClient({
                     </h2>
                   </div>
 
-                  <div className="inline-flex items-center gap-3 self-start md:self-auto border border-[var(--brass)] px-6 py-3.5 text-xs uppercase tracking-[0.2em] text-[var(--ivory)] group-hover:bg-[var(--brass)] group-hover:text-[#0A0A0B] transition-colors">
+                  <div className="inline-flex items-center gap-3 self-start md:self-auto min-h-[48px] border border-[var(--border-control)] px-6 py-3.5 text-xs uppercase tracking-[0.18em] text-[var(--ivory)] group-hover:border-[var(--brass)] group-hover:bg-[var(--brass)] group-hover:text-[#0A0A0B] transition-colors">
                     <span>{t.projectDetail.exploreNext}</span>
                     <ArrowRight className="h-4 w-4" />
                   </div>

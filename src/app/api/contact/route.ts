@@ -1,8 +1,45 @@
 import { NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
 import { createContactMessage } from '@/lib/repository';
+import {
+  checkRateLimit,
+  getClientIdentifier,
+  verifySameOrigin,
+} from '@/lib/rate-limit';
+
+const CONTACT_WINDOW_MS = 10 * 60 * 1000; // 10 minutes
+const CONTACT_MAX_REQUESTS = 5;
 
 export async function POST(request: Request) {
+  if (!verifySameOrigin(request)) {
+    return NextResponse.json(
+      { error: 'Permintaan lintas domain ditolak.' },
+      { status: 403 }
+    );
+  }
+
+  const clientIp = getClientIdentifier(request);
+  const rate = checkRateLimit({
+    key: `contact:${clientIp}`,
+    limit: CONTACT_MAX_REQUESTS,
+    windowMs: CONTACT_WINDOW_MS,
+  });
+
+  if (!rate.allowed) {
+    return NextResponse.json(
+      {
+        error:
+          'Terlalu banyak pengiriman pesan dalam waktu singkat. Silakan tunggu beberapa menit atau hubungi langsung melalui Email/WhatsApp.',
+      },
+      {
+        status: 429,
+        headers: {
+          'Retry-After': String(rate.retryAfterSeconds),
+        },
+      }
+    );
+  }
+
   try {
     const body = await request.json();
     const { name, email, message, website_url } = body || {};
@@ -41,22 +78,35 @@ export async function POST(request: Request) {
       );
     }
 
-    const saved = await createContactMessage({
+    const result = await createContactMessage({
       name: cleanName,
       email: cleanEmail,
       message: cleanMessage,
     });
 
+    if (!result.persisted) {
+      return NextResponse.json(
+        {
+          ok: false,
+          code: 'STORAGE_UNAVAILABLE',
+          error:
+            'Basis data pesan belum diaktifkan pada server ini. Silakan lanjutkan pengiriman melalui tombol Email atau WhatsApp yang telah disiapkan.',
+        },
+        { status: 503 }
+      );
+    }
+
     revalidatePath('/admin');
 
     return NextResponse.json({
       ok: true,
-      message: saved,
+      storage: result.storage,
+      message: result.message,
     });
   } catch (err) {
     console.error('Contact API error:', err);
     return NextResponse.json(
-      { error: 'Terjadi kesalahan server saat menyimpan pesan.' },
+      { error: 'Terjadi kesalahan server saat memproses pesan.' },
       { status: 500 }
     );
   }

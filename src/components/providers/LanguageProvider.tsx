@@ -44,7 +44,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
       value={{
         locale,
         setLocale,
-        t: dictionaries[locale] as unknown as Dictionary,
+        t: dictionaries[locale],
       }}
     >
       {children}

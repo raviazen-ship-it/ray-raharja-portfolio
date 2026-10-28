@@ -1,208 +1,200 @@
 'use client';
 
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import React, { Suspense, useState } from 'react';
 import Link from 'next/link';
-import { Lock, ArrowLeft, AlertCircle, LogIn, Sparkles } from 'lucide-react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { ArrowLeft, Lock, AlertCircle, Eye, EyeOff } from 'lucide-react';
 
-const OWNER_EMAILS = ['viaray2614@gmail.com', 'rayraharja09@gmail.com'];
+function sanitizeNextPath(rawNext: string | null): string {
+  if (
+    rawNext &&
+    rawNext.startsWith('/admin') &&
+    !rawNext.startsWith('//') &&
+    !rawNext.includes('\\')
+  ) {
+    return rawNext;
+  }
+  return '/admin';
+}
 
-export default function AdminLoginPage() {
+function AdminLoginForm() {
   const router = useRouter();
-  const [email, setEmail] = useState(OWNER_EMAILS[0]);
-  const [password, setPassword] = useState('rayraharja09');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const searchParams = useSearchParams();
+  const nextPath = sanitizeNextPath(searchParams.get('next'));
 
-  const handleQuickLogin = async (targetEmail: string) => {
-    setError('');
-    setLoading(true);
-    try {
-      const res = await fetch('/api/admin/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: targetEmail,
-          quickAccess: true,
-        }),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        setError(data.error || 'Gagal masuk ke Studio Admin.');
-        setLoading(false);
-        return;
-      }
-      router.push('/admin');
-      router.refresh();
-    } catch {
-      setError('Gagal menghubungi server autentikasi.');
-      setLoading(false);
-    }
-  };
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
-    setLoading(true);
+    setErrorMessage('');
 
+    if (!email.trim() || !password) {
+      setErrorMessage('Masukkan email dan kata sandi administrator.');
+      return;
+    }
+
+    setLoading(true);
     try {
-      const res = await fetch('/api/admin/login', {
+      const response = await fetch('/api/admin/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email.trim(), password }),
+        body: JSON.stringify({
+          email: email.trim(),
+          password,
+        }),
       });
 
-      const data = await res.json();
-      if (!res.ok) {
-        setError(data.error || 'Gagal masuk ke Studio Admin.');
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        setErrorMessage(
+          data?.error || 'Email atau kata sandi tidak valid.'
+        );
         setLoading(false);
         return;
       }
 
-      router.push('/admin');
+      router.replace(nextPath);
       router.refresh();
     } catch {
-      setError('Gagal menghubungi server autentikasi.');
+      setErrorMessage('Gagal menghubungi server autentikasi.');
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-between bg-[#0A0A0B] text-[#EDE8DF] p-5 sm:p-10">
-      {/* Top Bar */}
-      <div className="mx-auto w-full max-w-[1440px] flex items-center justify-between border-b border-[var(--line)] pb-5">
+    <div className="min-h-screen bg-[#0A0A0B] text-[#EDE8DF] flex flex-col justify-between px-5 py-8 sm:px-8">
+      <div className="mx-auto w-full max-w-md">
         <Link
           href="/"
-          className="inline-flex items-center gap-2.5 min-h-[44px] text-xs uppercase tracking-[0.2em] text-[var(--muted)] hover:text-[var(--brass-light)] transition-colors"
+          className="inline-flex items-center gap-2 min-h-[44px] text-xs uppercase tracking-[0.2em] text-[#8A857C] hover:text-[#D4AF6A] transition-colors"
         >
-          <ArrowLeft className="h-4 w-4 text-[var(--brass)]" />
-          <span>Kembali ke Website Publik</span>
+          <ArrowLeft className="h-4 w-4 text-[#B5893B]" />
+          <span>Kembali ke Portofolio</span>
         </Link>
-
-        <span className="label-editorial text-[var(--brass-light)]">
-          ONYX &amp; BRASS — STUDIO ADMIN
-        </span>
       </div>
 
-      {/* Center Login Card */}
-      <main className="my-auto py-10 flex items-center justify-center">
-        <div className="w-full max-w-md border border-[var(--line)] bg-[#131316] p-7 sm:p-10 space-y-6">
-          <div className="flex items-center gap-3">
-            <span className="flex h-10 w-10 items-center justify-center border border-[var(--line)] bg-[#0A0A0B] text-[var(--brass-light)]">
+      <main className="mx-auto w-full max-w-md my-auto py-10">
+        <div className="border border-[var(--border-control,#7A7369)] bg-[#131316] p-7 sm:p-9">
+          <div className="flex items-center gap-3 pb-6 mb-6 border-b border-[var(--line)]">
+            <span className="flex h-10 w-10 items-center justify-center border border-[var(--border-control,#7A7369)] bg-[#0A0A0B] text-[#B5893B]">
               <Lock className="h-4 w-4" />
             </span>
             <div>
-              <span className="label-editorial block text-[10px]">
-                Akses Pemilik Studio
-              </span>
-              <h1 className="font-editorial text-3xl text-[var(--ivory)]">
-                Studio Admin Login
+              <p className="label-editorial text-[10px] text-[#D4AF6A]">
+                Akses Terbatas Pemilik
+              </p>
+              <h1 className="font-editorial text-2xl sm:text-3xl text-[#EDE8DF] leading-tight">
+                Masuk Studio Admin
               </h1>
             </div>
           </div>
 
-          {/* 1-Click Instant Login for Both Authorized Chrome Emails */}
-          <div className="border border-[var(--brass)]/60 bg-[#0A0A0B] p-4 space-y-3">
-            <div className="flex items-center justify-between">
-              <span className="text-[10px] uppercase tracking-[0.2em] text-[var(--brass-light)] flex items-center gap-1.5">
-                <Sparkles className="h-3 w-3" />
-                Akses Cepat 1-Klik (Akun Chrome Anda)
-              </span>
-              <span className="text-[11px] text-emerald-400">Terverifikasi</span>
-            </div>
-            <p className="text-xs text-[var(--muted)] leading-relaxed">
-              Pilih salah satu akun Gmail terotorisasi Anda untuk langsung
-              membuka Studio Admin:
-            </p>
-            <div className="space-y-2.5">
-              {OWNER_EMAILS.map((ownerEmail) => (
-                <button
-                  key={ownerEmail}
-                  type="button"
-                  onClick={() => handleQuickLogin(ownerEmail)}
-                  disabled={loading}
-                  className="w-full inline-flex items-center justify-center gap-2.5 min-h-[46px] bg-[var(--brass)] px-4 py-2.5 text-xs uppercase tracking-[0.15em] font-medium text-[#0A0A0B] hover:bg-[var(--brass-light)] disabled:opacity-50 transition-colors"
-                >
-                  <LogIn className="h-4 w-4 shrink-0" />
-                  <span className="truncate">Masuk: {ownerEmail}</span>
-                </button>
-              ))}
-            </div>
-          </div>
+          <p className="text-xs text-[#8A857C] leading-relaxed mb-6">
+            Halaman ini khusus untuk pengelolaan konten pemilik situs dan
+            memerlukan autentikasi sesi server.
+          </p>
 
-          <div className="relative flex py-1 items-center">
-            <div className="flex-grow border-t border-[var(--line)]" />
-            <span className="flex-shrink mx-3 text-[10px] uppercase tracking-[0.2em] text-[var(--muted)]">
-              Atau Login Manual
-            </span>
-            <div className="flex-grow border-t border-[var(--line)]" />
-          </div>
-
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} noValidate className="space-y-5">
             <div>
               <label
                 htmlFor="admin-email"
-                className="label-editorial block mb-2 text-[var(--ivory)]"
+                className="label-editorial block mb-2 text-[#EDE8DF]"
               >
                 Email Administrator
               </label>
               <input
                 id="admin-email"
+                name="email"
                 type="email"
+                autoComplete="username"
                 required
-                autoComplete="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="viaray2614@gmail.com / rayraharja09@gmail.com"
-                className="w-full min-h-[46px] border border-[var(--line)] bg-[#0A0A0B] px-4 py-2.5 text-sm text-[var(--ivory)] placeholder:text-[var(--muted)]/50 focus:border-[var(--brass)] focus:outline-none"
+                placeholder="nama@domain.com"
+                className="w-full min-h-[48px] border border-[var(--border-control,#7A7369)] bg-[#0A0A0B] px-4 py-3 text-sm text-[#EDE8DF] placeholder:text-[#8A857C] focus:border-[#D4AF6A] focus:outline-none transition-colors"
               />
             </div>
 
             <div>
               <label
                 htmlFor="admin-password"
-                className="label-editorial block mb-2 text-[var(--ivory)]"
+                className="label-editorial block mb-2 text-[#EDE8DF]"
               >
-                Kata Sandi (rayraharja09 / viaray2614)
+                Kata Sandi
               </label>
-              <input
-                id="admin-password"
-                type="password"
-                required
-                autoComplete="current-password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••••••"
-                className="w-full min-h-[46px] border border-[var(--line)] bg-[#0A0A0B] px-4 py-2.5 text-sm text-[var(--ivory)] placeholder:text-[var(--muted)]/50 focus:border-[var(--brass)] focus:outline-none"
-              />
+              <div className="relative">
+                <input
+                  id="admin-password"
+                  name="password"
+                  type={showPassword ? 'text' : 'password'}
+                  autoComplete="current-password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Masukkan kata sandi"
+                  className="w-full min-h-[48px] border border-[var(--border-control,#7A7369)] bg-[#0A0A0B] pl-4 pr-12 py-3 text-sm text-[#EDE8DF] placeholder:text-[#8A857C] focus:border-[#D4AF6A] focus:outline-none transition-colors"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  aria-label={
+                    showPassword
+                      ? 'Sembunyikan kata sandi'
+                      : 'Tampilkan kata sandi'
+                  }
+                  className="absolute right-1 top-1 inline-flex h-[40px] w-[40px] items-center justify-center text-[#8A857C] hover:text-[#EDE8DF] transition-colors"
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-4 w-4" />
+                  ) : (
+                    <Eye className="h-4 w-4" />
+                  )}
+                </button>
+              </div>
             </div>
 
-            {error && (
+            {errorMessage && (
               <div
                 role="alert"
-                className="flex items-start gap-2.5 border border-red-500/40 bg-red-950/30 p-3.5 text-xs text-red-200"
+                className="flex items-start gap-2.5 border border-red-500/50 bg-red-950/30 px-4 py-3 text-xs text-red-200"
               >
                 <AlertCircle className="h-4 w-4 shrink-0 text-red-400 mt-0.5" />
-                <span>{error}</span>
+                <span>{errorMessage}</span>
               </div>
             )}
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full inline-flex items-center justify-center gap-2.5 min-h-[46px] border border-[var(--brass)] bg-[#0A0A0B] px-6 py-3 text-xs uppercase tracking-[0.2em] font-medium text-[var(--brass-light)] hover:bg-[var(--brass)] hover:text-[#0A0A0B] disabled:opacity-50 transition-colors"
+              className="w-full inline-flex items-center justify-center min-h-[48px] bg-[#B5893B] px-6 py-3 text-xs uppercase tracking-[0.2em] font-medium text-[#0A0A0B] hover:bg-[#D4AF6A] disabled:opacity-50 transition-colors"
             >
-              <LogIn className="h-4 w-4" />
-              <span>{loading ? 'Memverifikasi...' : 'Masuk dengan Sandi'}</span>
+              {loading ? 'Memverifikasi Sesi...' : 'Masuk ke Panel Admin'}
             </button>
           </form>
         </div>
       </main>
 
-      <div className="mx-auto w-full max-w-[1440px] border-t border-[var(--line)] pt-5 text-center sm:text-left text-xs text-[var(--muted)]">
-        &copy; {new Date().getFullYear()} Ray Raharja Santoso — Sistem Manajemen
-        Portofolio
-      </div>
+      <footer className="mx-auto w-full max-w-md text-center text-xs text-[#8A857C]">
+        Ray Raharja Santoso • Sesi Terproteksi Server
+      </footer>
     </div>
+  );
+}
+
+export default function AdminLoginPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[#0A0A0B] text-[#8A857C] flex items-center justify-center text-xs uppercase tracking-[0.2em]">
+          Memuat Halaman Autentikasi...
+        </div>
+      }
+    >
+      <AdminLoginForm />
+    </Suspense>
   );
 }

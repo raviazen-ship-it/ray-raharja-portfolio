@@ -1,6 +1,7 @@
 /**
- * Helper Script: Otomatisasi Provisioning Akun Admin & Seed Data ke Supabase
- * Jalankan setelah mengisi NEXT_PUBLIC_SUPABASE_URL dan SUPABASE_SERVICE_ROLE_KEY di .env.local:
+ * Helper Script: Otomatisasi Provisioning Akun Admin & Storage Bucket ke Supabase
+ * Pastikan NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, ADMIN_EMAIL,
+ * dan ADMIN_PASSWORD telah diisi di .env.local sebelum menjalankan:
  *   node scripts/connect-supabase.mjs
  */
 
@@ -31,14 +32,19 @@ async function main() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL || env.NEXT_PUBLIC_SUPABASE_URL;
   const serviceKey =
     process.env.SUPABASE_SERVICE_ROLE_KEY || env.SUPABASE_SERVICE_ROLE_KEY;
-  const adminEmail =
-    process.env.ADMIN_EMAIL || env.ADMIN_EMAIL || 'ray.raharja@studio-onyx.id';
-  const adminPassword =
-    process.env.ADMIN_PASSWORD || env.ADMIN_PASSWORD || 'OnyxBrass2026!';
+  const adminEmail = (process.env.ADMIN_EMAIL || env.ADMIN_EMAIL || '').trim();
+  const adminPassword = process.env.ADMIN_PASSWORD || env.ADMIN_PASSWORD || '';
 
   if (!url || !serviceKey) {
     console.error(
-      '❌ Harap isi NEXT_PUBLIC_SUPABASE_URL dan SUPABASE_SERVICE_ROLE_KEY di .env.local terlebih dahulu.'
+      'Harap isi NEXT_PUBLIC_SUPABASE_URL dan SUPABASE_SERVICE_ROLE_KEY di .env.local terlebih dahulu.'
+    );
+    process.exit(1);
+  }
+
+  if (!adminEmail || adminPassword.length < 12) {
+    console.error(
+      'Harap isi ADMIN_EMAIL dan ADMIN_PASSWORD (minimal 12 karakter) di .env.local. Script ini tidak menggunakan password bawaan.'
     );
     process.exit(1);
   }
@@ -47,7 +53,7 @@ async function main() {
     auth: { autoRefreshToken: false, persistSession: false },
   });
 
-  console.log(`🔄 Memeriksa / membuat akun Admin (${adminEmail}) di Supabase Auth...`);
+  console.log('Memeriksa akun Admin di Supabase Auth...');
   const { data: usersData } = await supabase.auth.admin.listUsers();
   const existingUser = usersData?.users?.find(
     (u) => u.email?.toLowerCase() === adminEmail.toLowerCase()
@@ -60,27 +66,27 @@ async function main() {
       email_confirm: true,
     });
     if (createErr) {
-      console.error('❌ Gagal membuat akun admin:', createErr.message);
-    } else {
-      console.log(`✅ Akun Admin berhasil dibuat: ${adminEmail}`);
+      console.error('Gagal membuat akun admin:', createErr.message);
+      process.exit(1);
     }
+    console.log('Akun Admin berhasil dibuat di Supabase Auth.');
   } else {
-    console.log(`✅ Akun Admin sudah terdaftar: ${adminEmail}`);
+    console.log('Akun Admin sudah terdaftar di Supabase Auth.');
   }
 
-  console.log('🔄 Memeriksa Storage Bucket "portfolio-media"...');
+  console.log('Memeriksa Storage Bucket "portfolio-media"...');
   const { data: bucket } = await supabase.storage.getBucket('portfolio-media');
   if (!bucket) {
     await supabase.storage.createBucket('portfolio-media', {
       public: true,
       fileSizeLimit: 52428800,
     });
-    console.log('✅ Storage Bucket "portfolio-media" berhasil dibuat!');
+    console.log('Storage Bucket "portfolio-media" berhasil dibuat.');
   } else {
-    console.log('✅ Storage Bucket "portfolio-media" sudah aktif!');
+    console.log('Storage Bucket "portfolio-media" sudah aktif.');
   }
 
-  console.log('🎉 Konfigurasi Supabase Auth & Storage selesai!');
+  console.log('Konfigurasi Supabase Auth & Storage selesai.');
 }
 
 main().catch((err) => {

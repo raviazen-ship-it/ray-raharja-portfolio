@@ -1410,7 +1410,7 @@ export function AdminDashboardClient({
                     <div className="flex flex-wrap gap-3">
                       <a
                         href={`mailto:${msg.email}?subject=${encodeURIComponent(
-                          'Re: Diskusi Proyek — Studio Ray Raharja Santoso'
+                          'Re: Diskusi Proyek - Studio Ray Raharja Santoso'
                         )}`}
                         className="inline-flex items-center gap-2 min-h-[40px] border border-[var(--brass)] px-4 py-2 text-xs uppercase tracking-[0.18em] text-[var(--brass-light)] hover:bg-[var(--brass)] hover:text-[#0A0A0B] transition-colors"
                       >
@@ -1474,7 +1474,7 @@ export function AdminDashboardClient({
                           : slugify(e.target.value),
                       })
                     }
-                    placeholder="Contoh: KALA Roastery — Brand Identity"
+                    placeholder="Contoh: KALA Roastery - Brand Identity"
                     className="w-full min-h-[44px] border border-[var(--line)] bg-[#0A0A0B] px-3.5 py-2 text-sm text-[var(--ivory)]"
                   />
                 </div>

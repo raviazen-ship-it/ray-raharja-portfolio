@@ -6,9 +6,11 @@ import {
   deleteProjectAdmin,
   reorderProjectsAdmin,
 } from '@/lib/repository';
+import { requireAdminApi } from '@/lib/admin-guard';
 
 function revalidatePublicSite(slug?: string) {
   revalidatePath('/');
+  revalidatePath('/projects');
   revalidatePath('/sitemap.xml');
   revalidateTag('portfolio-data');
   if (slug) {
@@ -16,7 +18,10 @@ function revalidatePublicSite(slug?: string) {
   }
 }
 
-export async function GET() {
+export async function GET(request: Request) {
+  const guard = await requireAdminApi(request);
+  if (!guard.authorized) return guard.response;
+
   try {
     const projects = await getAllProjectsAdmin();
     return NextResponse.json({ projects });
@@ -30,6 +35,9 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
+  const guard = await requireAdminApi(request, { checkOrigin: true });
+  if (!guard.authorized) return guard.response;
+
   try {
     const body = await request.json();
     if (!body?.title || typeof body.title !== 'string') {
@@ -53,6 +61,9 @@ export async function POST(request: Request) {
 }
 
 export async function PUT(request: Request) {
+  const guard = await requireAdminApi(request, { checkOrigin: true });
+  if (!guard.authorized) return guard.response;
+
   try {
     const body = await request.json();
     if (!body?.id || !body?.title) {
@@ -76,6 +87,9 @@ export async function PUT(request: Request) {
 }
 
 export async function PATCH(request: Request) {
+  const guard = await requireAdminApi(request, { checkOrigin: true });
+  if (!guard.authorized) return guard.response;
+
   try {
     const body = await request.json();
 
@@ -105,6 +119,9 @@ export async function PATCH(request: Request) {
 }
 
 export async function DELETE(request: Request) {
+  const guard = await requireAdminApi(request, { checkOrigin: true });
+  if (!guard.authorized) return guard.response;
+
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');

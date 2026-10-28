@@ -19,11 +19,8 @@ stable
 as $$
   select
     auth.role() = 'authenticated'
-    and lower(coalesce(auth.jwt() ->> 'email', '')) in (
-      'rayraharja09@gmail.com',
-      'viaray2614@gmail.com',
-      lower(coalesce(nullif(current_setting('app.admin_email', true), ''), 'rayraharja09@gmail.com'))
-    );
+    and nullif(current_setting('app.admin_email', true), '') is not null
+    and lower(coalesce(auth.jwt() ->> 'email', '')) = lower(current_setting('app.admin_email', true));
 $$;
 
 -- ----------------------------------------------------------------------------

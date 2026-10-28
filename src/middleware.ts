@@ -26,7 +26,7 @@ export async function middleware(request: NextRequest) {
     },
   });
 
-  // 1. Check signed session cookie
+  // 1. Check signed server session cookie
   const sessionToken = request.cookies.get(ADMIN_COOKIE_NAME)?.value;
   const tokenCheck = await verifyAdminSessionToken(sessionToken);
   let isAuthenticatedAdmin = tokenCheck.valid;
@@ -67,20 +67,17 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  // Handle API protection
   if (isAdminApi && !isAuthenticatedAdmin) {
     return NextResponse.json(
-      { error: 'Unauthorized: Sesi admin tidak valid atau belum login.' },
+      { error: 'Tidak diizinkan: sesi administrator tidak valid.' },
       { status: 401 }
     );
   }
 
-  // Handle /admin/login redirect if already logged in
   if (isLoginPage && isAuthenticatedAdmin) {
     return NextResponse.redirect(new URL('/admin', request.url));
   }
 
-  // Handle /admin/* protection if not logged in
   if (isAdminPage && !isLoginPage && !isAuthenticatedAdmin) {
     const loginUrl = new URL('/admin/login', request.url);
     loginUrl.searchParams.set('next', pathname);

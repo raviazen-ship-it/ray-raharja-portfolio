@@ -3,7 +3,9 @@ import {
   SiteSettings,
   ContactMessage,
   ExperienceItem,
+  ServiceItem,
 } from '@/types/portfolio';
+import type { Locale } from '@/lib/i18n/dictionaries';
 
 export interface CredentialItem {
   title: string;
@@ -16,70 +18,70 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   id: 1,
   hero_title: 'Ray Raharja Santoso',
   hero_subtitle:
-    'Graphic & Brand Designer yang menjembatani ketajaman konsep visual e-commerce, kampanye merek, seamless carousel editorial, dan motion graphics dengan presisi eksekusi produksi cetak akhir.',
+    'Saya merancang dan membangun website bisnis serta pengalaman web interaktif, dengan perhatian pada kebutuhan pengguna, kualitas visual, dan implementasi fitur.',
   available_for_work: true,
   about_text:
-    'Saya adalah Graphic & Brand Designer berbasis di Jakarta Utara dengan keahlian menyeluruh dari perumusan konsep kreatif digital hingga eksekusi cetak produksi akhir (end-to-end design-to-print workflow). Saat ini saya aktif menangani ekosistem visual e-commerce di PT Lightboxglobal—mulai dari pengarahan fotografi produk, perancangan banner promosi marketplace (KODAD, DATANGBO, HANGDA, SUTU), hingga campaign visual strategis serta pengoperasian langsung mesin UV printing untuk lini custom case.\n\nBerbekal fondasi teknis Rekayasa Perangkat Lunak dari SMKS Barunawati dan pengalaman kolaborasi korporat di PT Astra Daihatsu Motor (merancang apparel resmi perusahaan, menyusun dek presentasi onboarding karyawan baru, hingga menerjemahkan modul teknis Jepang–Indonesia), saya menggabungkan disiplin kerja korporasi dengan ketajaman estetika studio.\n\nKemahiran pada Adobe Illustrator, Adobe Photoshop, dan Adobe After Effects saya perkuat dengan kecakapan komunikasi lintas tim dan presentasi publik yang tervalidasi melalui sertifikasi TOEIC Skor 800 (Upper Intermediate — ETS) serta UKBI Peringkat Madya (Badan Pengembangan dan Pembinaan Bahasa).',
+    'Saya adalah kreator produk digital serta Graphic & Brand Designer berbasis di Jakarta Utara yang menggabungkan fondasi teknis Rekayasa Perangkat Lunak dari SMKS Barunawati dengan pengalaman desain visual dan produksi cetak akhir.\n\nPada jalur Web & Digital Products, saya merancang antarmuka dan membangun website bisnis, simulasi pemesanan, kalkulator interaktif, serta visualisasi 3D berbasis browser menggunakan Next.js, React, TypeScript, Tailwind CSS, dan Three.js. Pada jalur Visual Design & Production, saya aktif menangani kebutuhan visual e-commerce di PT Lightboxglobal: mulai dari fotografi produk, banner promosi marketplace (KODAD, DATANGBO, HANGDA, SUTU), infografis spesifikasi teknis, hingga pengoperasian langsung mesin cetak UV untuk produk custom case.\n\nPengalaman kolaborasi korporat di PT Astra Daihatsu Motor (merancang jaket dan totebag resmi perusahaan, menyusun materi presentasi onboarding karyawan baru, serta menerjemahkan modul teknis Jepang ke Bahasa Indonesia) melengkapi kebiasaan kerja terstruktur bersama tim lintas fungsi, didukung sertifikasi TOEIC Skor 800 (ETS) dan UKBI Peringkat Madya.',
   profile_photo_url: '/profile-ray-raharja.png',
   cv_url: '/cv-ray-raharja-santoso.pdf',
   services: [
     {
-      id: 'svc-branding',
+      id: 'svc-web',
       index: '01',
+      title: 'Web & Interactive Experiences',
+      subtitle: 'Website Bisnis, UI/UX & Visualisasi 3D Browser',
+      description:
+        'Perancangan dan pembangunan halaman arahan bisnis, katalog produk interaktif, kalkulator simulasi, serta eksplorasi 3D WebGL menggunakan Next.js, React, TypeScript, dan Three.js.',
+      deliverables: [
+        'Business Website & Product Catalog UI',
+        'Interactive Calculators & Multi-Step Flows',
+        'Browser 3D Visualization (Three.js / R3F)',
+        'Responsive Mobile-to-Desktop Layout',
+        'Structured Technical Documentation',
+      ],
+    },
+    {
+      id: 'svc-branding',
+      index: '02',
       title: 'Brand Identity & Custom Print',
       subtitle: 'Identitas Visual, Merchandise & Produksi UV Print',
       description:
-        'Perancangan identitas merek dan lini produk kustom yang aplikatif—mulai dari key visual brand, desain merchandise korporat (jaket, totebag, ID card batik, custom case), hingga pengawalan langsung mesin cetak UV.',
+        'Perancangan identitas visual dan lini produk kustom yang terukur: mulai dari key visual brand, desain merchandise korporat (jaket, totebag, ID card batik, custom case), hingga pengawalan langsung mesin cetak UV.',
       deliverables: [
         'Brand & Campaign Key Visual',
         'Custom Case & UV Print Production',
         'Corporate Apparel & Souvenir',
         'Exhibition Booth & Hampers Visual',
-        'Pre-Press & Print Quality Control',
+        'Pre-Press & Print Quality Check',
       ],
     },
     {
       id: 'svc-graphic',
-      index: '02',
+      index: '03',
       title: 'E-Commerce & Editorial Design',
-      subtitle: 'Banner Marketplace, Infografis Produk & Seamless Carousel',
+      subtitle: 'Banner Marketplace, Infografis Produk & Carousel Editorial',
       description:
-        'Pengembangan aset visual e-commerce berkonversi tinggi (Shopee, Tokopedia, TikTok Shop) serta desain mikroblog/carousel Instagram bersambung dengan tipografi editorial dan komposisi yang memikat.',
+        'Pengembangan aset komunikasi visual toko resmi marketplace (Shopee, Tokopedia, TikTok Shop), infografis perbandingan spesifikasi produk, serta desain carousel Instagram 4-slide bersambung.',
       deliverables: [
-        'E-Commerce Mega Sale Banners (9.9, 3.3, Payday)',
-        'Before–After & Technical Product Infographics',
-        'Seamless Instagram Carousel (4:5)',
+        'E-Commerce Campaign Banners (9.9, 3.3, Payday)',
+        'Before-After & Technical Product Infographics',
+        'Continuous 4-Slide Instagram Carousel (4:5)',
         'Product Photography & Retouching',
-        'Y2K & Streetwear Editorial Posters',
+        'Editorial & Pop-Culture Posters',
       ],
     },
     {
       id: 'svc-motion',
-      index: '03',
-      title: 'Motion Graphics & 2.5D Edit',
-      subtitle: 'Animasi Karakter, Tipografi Kinetik & Visual Bergerak',
+      index: '04',
+      title: 'Motion Graphics & Video Cuts',
+      subtitle: 'Animasi 2.5D, Tipografi Kinetik & Penyuntingan Video Pendek',
       description:
-        'Menghidupkan ilustrasi statis, poster karakter, dan aset promosi melalui teknik compositing, puppet rigging, serta pergerakan kamera 2.5D di Adobe After Effects.',
+        'Pengolahan ilustrasi statis, poster karakter, dan cuplikan video menjadi konten gerak vertikal maupun persegi melalui compositing 2.5D dan penyuntingan ritme audio di Adobe After Effects.',
       deliverables: [
         'Vertical Motion Reels (9:16)',
-        '2.5D Manga & Character Animation',
-        'Kinetic Typography & Beat-Sync',
-        'Visual Effects & Particle Compositing',
-        'Animated Social Media Promos',
-      ],
-    },
-    {
-      id: 'svc-video',
-      index: '04',
-      title: 'Video Editing & Social Cuts',
-      subtitle: 'Penyuntingan Ritme Cepat & Konten Algoritma Sosial',
-      description:
-        'Penyuntingan video berdurasi pendek untuk kampanye media sosial, reels, dan konten hiburan digital dengan penataan ritme potong (pacing), transisi tajam, dan sinkronisasi audio yang presisi.',
-      deliverables: [
-        'Short-Form Reels & TikTok Cuts',
-        'Rhythm & Beat-Sync Video Editing',
-        'Social Media Viral Pacing',
-        'Color Grading & Sound Sync',
+        '2.5D Manga & Character Compositing',
+        'Kinetic Typography & Beat-Sync Cuts',
+        'Short-Form Social Video Editing',
         'Multi-Ratio Export (1:1, 4:5, 9:16)',
       ],
     },
@@ -91,17 +93,83 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   behance: 'https://instagram.com/Reyp.u',
 };
 
+export const ABOUT_TEXT_EN =
+  'I am a digital product builder and Graphic & Brand Designer based in North Jakarta, combining a formal Software Engineering (Rekayasa Perangkat Lunak) background from SMKS Barunawati with hands-on visual communication and print production practice.\n\nAcross Web & Digital Products, I design interfaces and build business websites, ordering flow demos, interactive calculators, and browser-based 3D visualizations using Next.js, React, TypeScript, Tailwind CSS, and Three.js. Across Visual Design & Production, I handle e-commerce visual ecosystems at PT Lightboxglobal: directing product photography, designing marketplace campaign banners (KODAD, DATANGBO, HANGDA, SUTU), crafting technical product infographics, and operating UV digital printing machines for custom cases.\n\nEarlier corporate collaboration at PT Astra Daihatsu Motor (designing official company jackets and totebags, building employee onboarding presentation decks, and translating Japanese technical modules into Indonesian) grounds my cross-functional communication, supported by an official ETS TOEIC score of 800 and UKBI Madya certification.';
+
+export const SERVICES_EN: ServiceItem[] = [
+  {
+    id: 'svc-web',
+    index: '01',
+    title: 'Web & Interactive Experiences',
+    subtitle: 'Business Websites, UI/UX & Browser 3D Visualization',
+    description:
+      'Design and frontend/full-stack implementation of business landing pages, interactive product catalogs, calculators, and WebGL 3D tools with Next.js, React, TypeScript, and Three.js.',
+    deliverables: [
+      'Business Website & Product Catalog UI',
+      'Interactive Calculators & Multi-Step Flows',
+      'Browser 3D Visualization (Three.js / R3F)',
+      'Responsive Mobile-to-Desktop Layout',
+      'Structured Technical Documentation',
+    ],
+  },
+  {
+    id: 'svc-branding',
+    index: '02',
+    title: 'Brand Identity & Custom Print',
+    subtitle: 'Visual Identity, Merchandise & UV Print Production',
+    description:
+      'Practical brand visuals and custom merchandise pipelines: from campaign key visuals and corporate apparel (jackets, totebags, batik ID holders, custom cases) to direct UV printer operation.',
+    deliverables: [
+      'Brand & Campaign Key Visual',
+      'Custom Case & UV Print Production',
+      'Corporate Apparel & Souvenir',
+      'Exhibition Booth & Hampers Visual',
+      'Pre-Press & Print Quality Check',
+    ],
+  },
+  {
+    id: 'svc-graphic',
+    index: '03',
+    title: 'E-Commerce & Editorial Design',
+    subtitle: 'Marketplace Banners, Product Infographics & Carousels',
+    description:
+      'Official marketplace storefront assets (Shopee, Tokopedia, TikTok Shop), technical product comparison plates, and continuous 4-slide Instagram editorial carousels.',
+    deliverables: [
+      'E-Commerce Campaign Banners (9.9, 3.3, Payday)',
+      'Before-After & Technical Product Infographics',
+      'Continuous 4-Slide Instagram Carousel (4:5)',
+      'Product Photography & Retouching',
+      'Editorial & Pop-Culture Posters',
+    ],
+  },
+  {
+    id: 'svc-motion',
+    index: '04',
+    title: 'Motion Graphics & Video Cuts',
+    subtitle: '2.5D Compositing, Kinetic Type & Short-Form Video Editing',
+    description:
+      'Turning static illustrations, character posters, and raw clips into vertical reels and square edits through 2.5D layer compositing and beat-synced pacing in Adobe After Effects.',
+    deliverables: [
+      'Vertical Motion Reels (9:16)',
+      '2.5D Manga & Character Compositing',
+      'Kinetic Typography & Beat-Sync Cuts',
+      'Short-Form Social Video Editing',
+      'Multi-Ratio Export (1:1, 4:5, 9:16)',
+    ],
+  },
+];
+
 export const SEED_EXPERIENCES: ExperienceItem[] = [
   {
-    period: 'Okt 2025 — Sekarang',
+    period: 'Okt 2025 - Sekarang',
     role: 'Desainer Grafis & Brand (Graphic & Brand Designer)',
     company: 'PT Lightboxglobal',
     location: 'Jakarta, ID',
     summary:
-      'Merancang ekosistem kebutuhan visual e-commerce terpadu (fotografi produk, banner promosi musiman, infografis spesifikasi teknis, dan campaign visual untuk KODAD, DATANGBO, HANGDA, serta SUTU) guna mengakselerasi konversi penjualan. Mengoperasikan langsung mesin UV printing produksi untuk layanan custom case dan mengawal alur kerja desain secara menyeluruh dari konsep hingga hasil cetak akhir.',
+      'Merancang ekosistem kebutuhan visual e-commerce terpadu (fotografi produk, banner promosi musiman, infografis spesifikasi teknis, dan campaign visual untuk KODAD, DATANGBO, HANGDA, serta SUTU). Mengoperasikan langsung mesin UV printing produksi untuk layanan custom case dan mengawal alur kerja desain dari konsep hingga hasil cetak akhir.',
   },
   {
-    period: 'Agu 2023 — Jan 2024',
+    period: 'Agu 2023 - Jan 2024',
     role: 'Staf Pendukung Kreatif & Administrasi',
     company: 'PT Astra Daihatsu Motor',
     location: 'Jakarta Utara, ID',
@@ -109,64 +177,139 @@ export const SEED_EXPERIENCES: ExperienceItem[] = [
       'Merancang desain lini jaket dan totebag resmi perusahaan, menyusun materi presentasi visual (PowerPoint) untuk program onboarding karyawan baru, menerjemahkan modul teknis berbahasa Jepang ke Bahasa Indonesia, serta mengelola administrasi data invoice melalui Microsoft Excel.',
   },
   {
-    period: 'Okt 2022 — Okt 2024',
+    period: 'Okt 2022 - Okt 2024',
     role: 'Anggota Aktif & Ketua Pelaksana Event (OSIS)',
     company: 'SMKS Barunawati',
     location: 'Jakarta Utara, ID',
     summary:
-      'Aktif mengelola berbagai kegiatan dan acara kreatif sekolah selama dua periode penuh, serta dipercaya memimpin tim lintas divisi sebagai Ketua Pelaksana kegiatan Classmeet.',
+      'Aktif mengelola berbagai kegiatan dan acara kreatif sekolah selama dua periode penuh, serta memimpin tim lintas divisi sebagai Ketua Pelaksana kegiatan Classmeet.',
+  },
+];
+
+export const SEED_EXPERIENCES_EN: ExperienceItem[] = [
+  {
+    period: 'Oct 2025 - Present',
+    role: 'Graphic & Brand Designer',
+    company: 'PT Lightboxglobal',
+    location: 'Jakarta, ID',
+    summary:
+      'Design integrated e-commerce visual assets (product photography, seasonal campaign banners, technical specification infographics, and storefront visuals for KODAD, DATANGBO, HANGDA, and SUTU). Operate production UV printing machines for custom phone cases and oversee end-to-end design-to-print quality.',
+  },
+  {
+    period: 'Aug 2023 - Jan 2024',
+    role: 'Creative & Administrative Support Staff',
+    company: 'PT Astra Daihatsu Motor',
+    location: 'North Jakarta, ID',
+    summary:
+      'Designed official company jackets and totebags, structured PowerPoint onboarding decks for new employees, translated Japanese technical modules into Indonesian, and maintained invoice records in Microsoft Excel.',
+  },
+  {
+    period: 'Oct 2022 - Oct 2024',
+    role: 'Student Council Member & Event Chair (OSIS)',
+    company: 'SMKS Barunawati',
+    location: 'North Jakarta, ID',
+    summary:
+      'Coordinated school creative events across two full terms and led cross-division student committees as Chief Organizer for Classmeet.',
   },
 ];
 
 export const SEED_CREDENTIALS: CredentialItem[] = [
   {
     title: 'Rekayasa Perangkat Lunak (Software Engineering)',
-    issuer: 'SMKS Barunawati — Jakarta Utara',
-    period: 'Jul 2022 — Jul 2025',
-    highlight: 'Pendidikan Vokasi Teknologi & Aktif Pengurus OSIS (2 Tahun)',
+    issuer: 'SMKS Barunawati • Jakarta Utara',
+    period: 'Jul 2022 - Jul 2025',
+    highlight: 'Pendidikan Vokasi Teknologi & Pengurus Aktif OSIS (2 Tahun)',
   },
   {
-    title: 'TOEIC — Skor 800 (Upper Intermediate)',
+    title: 'TOEIC • Skor 800 (Upper Intermediate)',
     issuer: 'ETS (Educational Testing Service)',
-    period: 'Jul 2024 — Jul 2026',
-    highlight: 'Sertifikasi Kemahiran Komunikasi Bahasa Inggris Internasional',
+    period: 'Jul 2024 - Jul 2026',
+    highlight: 'Sertifikasi Resmi Kemahiran Komunikasi Bahasa Inggris',
   },
   {
-    title: 'UKBI — Peringkat Madya',
+    title: 'UKBI • Peringkat Madya',
     issuer: 'Badan Pengembangan dan Pembinaan Bahasa',
-    period: 'Sep 2024 — Sep 2026',
+    period: 'Sep 2024 - Sep 2026',
     highlight: 'Sertifikasi Resmi Uji Kemahiran Berbahasa Indonesia',
   },
 ];
 
+export const SEED_CREDENTIALS_EN: CredentialItem[] = [
+  {
+    title: 'Software Engineering (Rekayasa Perangkat Lunak)',
+    issuer: 'SMKS Barunawati • North Jakarta',
+    period: 'Jul 2022 - Jul 2025',
+    highlight: 'Vocational Software Engineering & 2-Term Student Council Officer',
+  },
+  {
+    title: 'TOEIC • Score 800 (Upper Intermediate)',
+    issuer: 'ETS (Educational Testing Service)',
+    period: 'Jul 2024 - Jul 2026',
+    highlight: 'Official International English Proficiency Certification',
+  },
+  {
+    title: 'UKBI • Madya Proficiency Rank',
+    issuer: 'Agency for Language Development and Cultivation (Kemendikbud)',
+    period: 'Sep 2024 - Sep 2026',
+    highlight: 'Official Indonesian Language Proficiency Certification',
+  },
+];
+
 export const SEED_SKILLS: string[] = [
+  'Frontend Web Development (Next.js, React, TypeScript, Tailwind CSS)',
+  'UI/UX Structure, Interactive Calculators & Multi-Step Flows',
+  'Browser 3D Visualization (Three.js & React Three Fiber)',
   'E-Commerce Campaign & Marketplace Banner Systems',
-  'Seamless Instagram Carousel & Editorial Typography',
-  'Product Photography, Retouching & Before–After Infographics',
-  'End-to-End UV Print & Custom Case Production',
-  'Motion Graphics, 2.5D Animation & Short-Form Video Editing',
-  'Public Speaking & Executive Presentation Decks',
-  'Translasi Materi Jepang–Indonesia & Inggris (TOEIC 800)',
-  'Teamwork, Critical Thinking & Analytical Execution',
+  'Continuous Instagram Carousels & Editorial Typography',
+  'Product Photography, Retouching & Before-After Infographics',
+  'UV Digital Print & Custom Merchandise Production',
+  '2.5D Motion Graphics & Short-Form Video Editing',
+];
+
+export const SEED_SKILLS_EN: string[] = [
+  'Frontend Web Development (Next.js, React, TypeScript, Tailwind CSS)',
+  'UI/UX Structure, Interactive Calculators & Multi-Step Flows',
+  'Browser 3D Visualization (Three.js & React Three Fiber)',
+  'E-Commerce Campaign & Marketplace Banner Systems',
+  'Continuous Instagram Carousels & Editorial Typography',
+  'Product Photography, Retouching & Before-After Infographics',
+  'UV Digital Print & Custom Merchandise Production',
+  '2.5D Motion Graphics & Short-Form Video Editing',
 ];
 
 export const SEED_TOOLS: string[] = [
+  'Next.js & React',
+  'TypeScript & JavaScript (ES6+)',
+  'Tailwind CSS',
+  'Three.js & React Three Fiber',
+  'SQLite & Zod Validation',
   'Adobe Photoshop',
   'Adobe Illustrator',
   'Adobe After Effects',
   'Mesin Produksi UV Digital Printing',
-  'Microsoft PowerPoint (Onboarding & Pitch Deck)',
-  'Microsoft Excel & Word',
-  'Rekayasa Perangkat Lunak (RPL Fundamentals)',
+  'Microsoft PowerPoint & Excel',
+];
+
+export const SEED_TOOLS_EN: string[] = [
+  'Next.js & React',
+  'TypeScript & JavaScript (ES6+)',
+  'Tailwind CSS',
+  'Three.js & React Three Fiber',
+  'SQLite & Zod Validation',
+  'Adobe Photoshop',
+  'Adobe Illustrator',
+  'Adobe After Effects',
+  'UV Digital Printing Production Machine',
+  'Microsoft PowerPoint & Excel',
 ];
 
 export const SEED_PROJECTS: Project[] = [
   {
     id: '11111111-1111-4111-8111-111111111101',
-    title: 'HEYXI Peach & Ginseng — Kampanye E-Commerce 9.9 Glow Sale',
+    title: 'HEYXI Peach & Ginseng - Kampanye E-Commerce 9.9 Glow Sale',
     slug: 'heyxi-peach-ginseng-99-glow-sale',
     description:
-      'Perancangan rangkaian aset visual kampanye e-commerce terpadu untuk lini perawatan kulit HEYXI ("Peach Skincare Ritual") dalam menyambut festival belanja 9.9 Glow Sale ("Glow Before 9.9"). Proyek ini dirancang untuk menjawab kebutuhan konversi marketplace melalui hierarki informasi yang jernih, nuansa warna rose-gold yang feminin, serta penekanan klaim bahan aktif Ekstrak Peach & Ginseng Asli Korea yang aman bagi kulit sensitif.\n\nSistem visual mencakup tiga format strategis: Key Visual utama (1:1) yang memetakan sinergi tiga produk inti (Peach Body Wash, Refined Cream, dan Ginseng Nourishing Cream); Wide Promotional Banner (2:1) dengan komposisi podium marmer emas dan tombol ajakan bertindak (CTA "Belanja Sekarang") untuk tajuk utama toko; serta Infografis Komparasi 3-Panel ("Hasil Setelah Pemakaian") yang menyajikan bukti visual Before–After guna membangun kepercayaan konsumen secara instan.',
+      'Perancangan rangkaian aset visual kampanye e-commerce terpadu untuk lini perawatan kulit HEYXI ("Peach Skincare Ritual") dalam menyambut festival belanja 9.9 Glow Sale ("Glow Before 9.9"). Proyek ini dirancang untuk menjawab kebutuhan informasi toko marketplace melalui hierarki visual yang jernih, nuansa warna rose-gold, serta penekanan bahan aktif Ekstrak Peach & Ginseng Korea.\n\nSistem visual mencakup tiga format utama: Key Visual (1:1) yang memetakan tiga produk inti (Peach Body Wash, Refined Cream, dan Ginseng Nourishing Cream); Wide Promotional Banner (2:1) dengan komposisi podium marmer emas dan tombol CTA "Belanja Sekarang" untuk tajuk toko; serta Infografis Komparasi 3-Panel ("Hasil Setelah Pemakaian") yang menyajikan perbandingan Before-After.',
     category: 'Graphic Design',
     year: '2026',
     client: 'HEYXI Skincare',
@@ -180,7 +323,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 1254,
         height: 1254,
-        alt: 'Key Visual Utama HEYXI Peach Skincare Ritual — Ekstrak Peach & Ginseng Asli Korea lengkap dengan indikator Before dan After',
+        alt: 'Key Visual Utama HEYXI Peach Skincare Ritual dengan indikator Before dan After',
         blurhash: 'L10A0B241E14',
         is_cover: true,
       },
@@ -190,7 +333,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 2000,
         height: 1000,
-        alt: 'Wide Banner Kampanye HEYXI 9.9 Glow Sale (Glow Before 9.9) — Limited Edition dengan tombol CTA Belanja Sekarang',
+        alt: 'Wide Banner Kampanye HEYXI 9.9 Glow Sale (Glow Before 9.9) dengan tombol CTA Belanja Sekarang',
         blurhash: 'L10A0B241E14',
       },
       {
@@ -199,7 +342,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 1254,
         height: 1254,
-        alt: 'Infografis Katalog 3-Panel HEYXI (Peach Body Wash, Refined Cream, Ginseng Cream) beserta komparasi Hasil Setelah Pemakaian',
+        alt: 'Infografis Katalog 3-Panel HEYXI beserta komparasi Hasil Setelah Pemakaian',
         blurhash: 'L10A0B241E14',
       },
     ],
@@ -211,10 +354,10 @@ export const SEED_PROJECTS: Project[] = [
   },
   {
     id: '11111111-1111-4111-8111-111111111102',
-    title: 'Bandung, Tanah Pasundan — "The Kind of Love" Seamless Carousel',
+    title: 'Bandung, Tanah Pasundan - "The Kind of Love" Carousel Editorial',
     slug: 'bandung-tanah-pasundan-seamless-carousel',
     description:
-      'Karya desain mikroblog dan seamless Instagram carousel 4-slide (4:5) yang memadukan fotografi potret, olahan tekstur halftone/pixel-art, sketsa garis arsitektur kolonial, serta tipografi editorial bersambung untuk mengisahkan romantisme Kota Bandung ("The Kind of Love").\n\nCopywriting naratif di dalamnya merangkum kehangatan ibu kota Pasundan: "Bandung, tanah Pasundan. Kota yang diselimuti sejuknya pegunungan dan lembutnya udara pagi. Di antara jalan yang ramai dan langit yang teduh, budaya Sunda hidup dalam senyum, bahasa, dan tradisinya. Bandung bukan sekadar kota, ia adalah cerita tentang alam, rasa, dan kenangan." Seluruh empat artboard dirancang menyambung tanpa celah (zero-seam) dari slide pertama hingga keempat.',
+      'Karya desain mikroblog dan carousel Instagram 4-slide bersambung (4:5) yang memadukan fotografi potret, olahan tekstur halftone/pixel-art, sketsa garis arsitektur kolonial, serta tipografi editorial untuk mengisahkan suasana Kota Bandung ("The Kind of Love").\n\nCopywriting naratif di dalamnya merangkum kehangatan ibu kota Pasundan: "Bandung, tanah Pasundan. Kota yang diselimuti sejuknya pegunungan dan lembutnya udara pagi. Di antara jalan yang ramai dan langit yang teduh, budaya Sunda hidup dalam senyum, bahasa, dan tradisinya. Bandung bukan sekadar kota, ia adalah cerita tentang alam, rasa, dan kenangan." Keempat artboard disusun menyambung presisi dari slide pertama hingga keempat.',
     category: 'Graphic Design',
     year: '2026',
     client: 'Editorial Archive (@Reyp.u)',
@@ -228,7 +371,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 1080,
         height: 1350,
-        alt: 'Slide 01 Seamless Carousel Bandung — Potret buket bunga dengan cutout putih, frame detail pixel-art, dan awal tipografi FLO-',
+        alt: 'Slide 01 Carousel Bandung: Potret buket bunga dengan frame pixel-art dan awal tipografi FLO-',
         blurhash: 'L10A0B241E14',
         is_cover: true,
       },
@@ -238,7 +381,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 2160,
         height: 675,
-        alt: 'Bentangan Utuh 4-Slide Seamless Panorama "Bandung, Tanah Pasundan — Flower: The Kind of Love" (@Reyp.u)',
+        alt: 'Bentangan Utuh 4-Slide Panorama Bandung, Tanah Pasundan: Flower The Kind of Love (@Reyp.u)',
         blurhash: 'L10A0B241E14',
       },
       {
@@ -247,7 +390,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 1080,
         height: 1350,
-        alt: 'Slide 02 Seamless Carousel Bandung — Sambungan tipografi -WER dan judul utama THE KIND OF di atas latar gradasi merah muda',
+        alt: 'Slide 02 Carousel Bandung: Sambungan tipografi -WER dan judul THE KIND OF',
         blurhash: 'L10A0B241E14',
       },
       {
@@ -256,7 +399,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 1080,
         height: 1350,
-        alt: 'Slide 03 Seamless Carousel Bandung — Tipografi LOVE berpadu dengan rimbun bunga sakura dan sketsa arsitektur (9/13/2026 @Reyp.u)',
+        alt: 'Slide 03 Carousel Bandung: Tipografi LOVE berpadu dengan bunga sakura dan sketsa arsitektur',
         blurhash: 'L10A0B241E14',
       },
       {
@@ -265,7 +408,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 1080,
         height: 1350,
-        alt: 'Slide 04 Seamless Carousel Bandung — Narasi puitis "Bandung, tanah Pasundan" dengan tata letak editorial bersih',
+        alt: 'Slide 04 Carousel Bandung: Narasi Bandung tanah Pasundan dengan tata letak editorial',
         blurhash: 'L10A0B241E14',
       },
     ],
@@ -277,10 +420,10 @@ export const SEED_PROJECTS: Project[] = [
   },
   {
     id: '11111111-1111-4111-8111-111111111103',
-    title: 'Solo Leveling: Sung Jin-Woo — Vertical Motion Reel & Poster (9:16)',
+    title: 'Solo Leveling: Sung Jin-Woo - Vertical Motion Reel & Poster (9:16)',
     slug: 'solo-leveling-sung-jin-woo-motion-reel',
     description:
-      'Proyek eksplorasi motion graphics vertikal (9:16) dan penyuntingan visual ritme cepat (AMV/Edit) yang mengangkat karakter utama Sung Jin-Woo dari seri populer Solo Leveling, dipadukan dengan desain poster karakter ilustratif berpalet biru elektrik.\n\nPada versi video bergerak, potongan adegan aksi dikombinasikan dengan sinkronisasi ketukan audio (beat-sync), transisi kamera dinamis, serta permainan kontras bayangan gelap. Sementara pada poster cetak/digital pendampingnya, siluet ikonik Sung Jin-Woo dan naga bayangan disusun menggunakan tekstur grunge halftone dan tipografi serif kontemporer.',
+      'Proyek eksplorasi motion graphics vertikal (9:16) dan penyuntingan visual ritme cepat (AMV/Edit) yang mengangkat karakter Sung Jin-Woo dari seri Solo Leveling, dipadukan dengan desain poster karakter ilustratif berpalet biru elektrik.\n\nPada versi video bergerak, potongan adegan aksi dikombinasikan dengan sinkronisasi ketukan audio (beat-sync), transisi kamera dinamis, serta permainan kontras bayangan gelap. Pada poster pendampingnya, siluet Sung Jin-Woo dan naga bayangan disusun menggunakan tekstur grunge halftone dan tipografi serif.',
     category: 'Motion',
     year: '2026',
     client: 'Studio Motion Archive (@Reyp.u)',
@@ -295,7 +438,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'video',
         width: 359,
         height: 640,
-        alt: 'Vertical 9:16 Motion & AMV Edit — Sung Jin-Woo (Solo Leveling) dengan transisi beat-sync',
+        alt: 'Vertical 9:16 Motion & AMV Edit Sung Jin-Woo (Solo Leveling) dengan transisi beat-sync',
         blurhash: 'L10A0B241E14',
         is_cover: true,
       },
@@ -317,10 +460,10 @@ export const SEED_PROJECTS: Project[] = [
   },
   {
     id: '11111111-1111-4111-8111-111111111104',
-    title: 'KODAD Official — Ekosistem Banner Marketplace & Produksi Custom UV Print',
+    title: 'KODAD Official - Sistem Banner Marketplace & Produksi Custom UV Print',
     slug: 'kodad-official-ecommerce-uv-print-campaign',
     description:
-      'Pengembangan sistem komunikasi visual e-commerce menyeluruh dan katalog produksi cetak kustom untuk merek KODAD di PT Lightboxglobal. Proyek ini menjembatani desain promosi digital di marketplace dengan eksekusi cetak fisik menggunakan mesin UV printing.\n\nRangkaian karya meliputi: (1) Banner Kampanye Produk Inovatif seperti "2-in-1 Frame Cermin LED Custom — Nyala Jadi Bingkai Foto, Mati Jadi Cermin", "Custom Souvenir & Corporate Gift Satuan/Partai", "Back to School Promo Discount up to 80%", serta "Alat Tulis Kantor & Pelindung Layar HD"; (2) Katalog Lini Case Custom UV Printing (seri karakter populer Crybaby, Shinchan, dan Doraemon) yang mengedukasi pelanggan mengenai ketahanan gores, ketajaman warna HD, dan pemotongan presisi; serta (3) Desain produk siap cetak ID Card Holder seri motif nusantara KODAD GP-Batik.',
+      'Pengembangan sistem komunikasi visual e-commerce dan katalog produksi cetak kustom untuk merek KODAD di PT Lightboxglobal. Proyek ini menghubungkan desain promosi digital di marketplace dengan eksekusi cetak fisik menggunakan mesin UV printing.\n\nRangkaian karya meliputi: (1) Banner Kampanye Produk seperti "2-in-1 Frame Cermin LED Custom: Nyala Jadi Bingkai Foto, Mati Jadi Cermin", "Custom Souvenir & Corporate Gift Satuan/Partai", "Back to School Promo Discount up to 80%", serta "Alat Tulis Kantor & Pelindung Layar HD"; (2) Katalog Lini Case Custom UV Printing (seri karakter Crybaby, Shinchan, dan Doraemon) yang menjelaskan ketahanan gores, ketajaman warna, dan pemotongan presisi; serta (3) Desain produk siap cetak ID Card Holder seri motif nusantara KODAD GP-Batik.',
     category: 'Branding',
     year: '2026',
     client: 'KODAD Official (PT Lightboxglobal)',
@@ -338,7 +481,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 1448,
         height: 1086,
-        alt: 'Banner Utama KODAD 2-in-1 Frame Cermin LED Custom — Nyala Jadi Bingkai Foto, Mati Jadi Cermin',
+        alt: 'Banner Utama KODAD 2-in-1 Frame Cermin LED Custom',
         blurhash: 'L10A0B241E14',
         is_cover: true,
       },
@@ -348,7 +491,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 1303,
         height: 977,
-        alt: 'Banner Kampanye KODAD Menerima Custom Souvenir & Corporate Gift (Satuan / Partai)',
+        alt: 'Banner Kampanye KODAD Custom Souvenir & Corporate Gift',
         blurhash: 'L10A0B241E14',
       },
       {
@@ -357,7 +500,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 1303,
         height: 977,
-        alt: 'Banner Promo KODAD Back to School — Perlengkapan Sekolah & Kantor Discount up to 80%',
+        alt: 'Banner Promo KODAD Back to School Perlengkapan Sekolah & Kantor',
         blurhash: 'L10A0B241E14',
       },
       {
@@ -366,7 +509,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 1254,
         height: 1254,
-        alt: 'Key Visual Katalog KODAD Alat Tulis Kantor & Sekolah — Lengkap, Praktis & Berkualitas',
+        alt: 'Key Visual Katalog KODAD Alat Tulis Kantor & Sekolah',
         blurhash: 'L10A0B241E14',
       },
       {
@@ -375,7 +518,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 1254,
         height: 1254,
-        alt: 'Visual Produk KODAD Pelindung Layar & Kamera — Perlindungan Maksimal untuk Perangkat Anda',
+        alt: 'Visual Produk KODAD Pelindung Layar & Kamera',
         blurhash: 'L10A0B241E14',
       },
       {
@@ -384,7 +527,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 1086,
         height: 1448,
-        alt: 'Poster Katalog KODAD Bebas Custom Gambar/Nama/Logo — Cetak dengan Mesin Print UV Berkualitas Tinggi',
+        alt: 'Poster Katalog KODAD Custom Gambar/Nama/Logo Mesin Print UV',
         blurhash: 'L10A0B241E14',
       },
       {
@@ -393,7 +536,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 1086,
         height: 1448,
-        alt: 'Infografis Spesifikasi KODAD Case Custom UV Printing — Tahan Gores, Tahan Air, Presisi & Pas',
+        alt: 'Infografis Spesifikasi KODAD Case Custom UV Printing',
         blurhash: 'L10A0B241E14',
       },
       {
@@ -402,7 +545,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 1086,
         height: 1448,
-        alt: 'Desain Katalog E-Commerce KODAD Case Doraemon Series — Print HD Tajam & Cutting Presisi',
+        alt: 'Desain Katalog E-Commerce KODAD Case Doraemon Series',
         blurhash: 'L10A0B241E14',
       },
       {
@@ -411,7 +554,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 1254,
         height: 1254,
-        alt: 'Desain Produk Cetak ID Card Holder KODAD Seri GP-Batik (Kode Desain GP01)',
+        alt: 'Desain Produk Cetak ID Card Holder KODAD Seri GP-Batik GP01',
         blurhash: 'L10A0B241E14',
       },
       {
@@ -420,7 +563,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 1254,
         height: 1254,
-        alt: 'Desain Produk Cetak ID Card Holder KODAD Seri Floral Nusantara (Kode Desain GP02)',
+        alt: 'Desain Produk Cetak ID Card Holder KODAD Seri Floral Nusantara GP02',
         blurhash: 'L10A0B241E14',
       },
     ],
@@ -432,10 +575,10 @@ export const SEED_PROJECTS: Project[] = [
   },
   {
     id: '11111111-1111-4111-8111-111111111105',
-    title: 'DATANGBO, HANGDA & SUTU — Sistem Kampanye Banner E-Commerce Multi-Brand',
+    title: 'DATANGBO, HANGDA & SUTU - Sistem Banner Kampanye E-Commerce Multi-Brand',
     slug: 'datangbo-hangda-sutu-ecommerce-banners',
     description:
-      'Perancangan arsitektur banner kampanye promosi berformat lebar (2:1) untuk tiga merek aksesoris gadget di ekosistem e-commerce PT Lightboxglobal: DATANGBO (DTB), HANGDA, dan SUTU Official Store.\n\nSetiap merek dikembangkan dengan karakter visual yang terukur sesuai target audiensnya: DATANGBO menonjolkan kemewahan boks kemasan kulit dan tipografi 3D metalik pada kampanye Mid Year Sale & Payday Sale; HANGDA menggunakan palet kuning-emas berenergi tinggi pada kampanye 4.4 Sale, 3.3 Sale, dan peluncuran Hybrid MagSafe Clear Case; sedangkan SUTU mengusung estetika minimalis modern ("Where Style Meets Protection") untuk kampanye Buy 1 Get 1 Tempered Glass dan etalase resmi toko.',
+      'Perancangan arsitektur banner kampanye promosi berformat lebar (2:1) untuk tiga merek aksesoris gadget di ekosistem e-commerce PT Lightboxglobal: DATANGBO (DTB), HANGDA, dan SUTU Official Store.\n\nSetiap merek dikembangkan dengan arah visual yang berbeda sesuai posisi produknya: DATANGBO menonjolkan kemasan kulit dan tipografi 3D metalik pada kampanye Mid Year Sale & Payday Sale; HANGDA menggunakan palet kuning-emas kontras tinggi pada kampanye 4.4 Sale, 3.3 Sale, dan peluncuran Hybrid MagSafe Clear Case; sedangkan SUTU menerapkan tata letak bersih ("Where Style Meets Protection") untuk kampanye Buy 1 Get 1 Tempered Glass dan tajuk utama toko.',
     category: 'Branding',
     year: '2026',
     client: 'DATANGBO, HANGDA & SUTU (PT Lightboxglobal)',
@@ -449,7 +592,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 2000,
         height: 1000,
-        alt: 'Banner Utama DATANGBO Mid Year Sale (1–10 Juni 2026, Buy 2 Disc 3%) dengan boks kulit premium',
+        alt: 'Banner Utama DATANGBO Mid Year Sale dengan boks kulit',
         blurhash: 'L10A0B241E14',
         is_cover: true,
       },
@@ -459,7 +602,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 2000,
         height: 1000,
-        alt: 'Banner Kampanye DATANGBO Payday Sale (25 s/d 30 — Disc up to 80% & Free Ongkir)',
+        alt: 'Banner Kampanye DATANGBO Payday Sale',
         blurhash: 'L10A0B241E14',
       },
       {
@@ -468,7 +611,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 2000,
         height: 1000,
-        alt: 'Banner Promosi HANGDA 4.4 Sale (4 s/d 11 Maret — Diskon Voucher & Gratis Ongkir hingga 80%)',
+        alt: 'Banner Promosi HANGDA 4.4 Sale',
         blurhash: 'L10A0B241E14',
       },
       {
@@ -477,7 +620,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 1200,
         height: 600,
-        alt: 'Banner Kampanye HANGDA 3.3 Sale (3 s/d 5 Maret — Cetak Desainmu di Sini)',
+        alt: 'Banner Kampanye HANGDA 3.3 Sale',
         blurhash: 'L10A0B241E14',
       },
       {
@@ -486,7 +629,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 1200,
         height: 600,
-        alt: 'Banner Peluncuran Produk HANGDA New Arrival — Hybrid MagSafe Clear Case',
+        alt: 'Banner Peluncuran Produk HANGDA New Arrival Hybrid MagSafe Clear Case',
         blurhash: 'L10A0B241E14',
       },
       {
@@ -495,7 +638,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 1200,
         height: 600,
-        alt: 'Banner Katalog DATANGBO New Arrival — Casing HP Premium IMD Design Seller & Custom Design',
+        alt: 'Banner Katalog DATANGBO New Arrival IMD Design & Custom Design',
         blurhash: 'L10A0B241E14',
       },
       {
@@ -504,7 +647,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 1667,
         height: 834,
-        alt: 'Banner Editorial SUTU Official Store — Where Style Meets Protection (iPhone 11–17 Series)',
+        alt: 'Banner Editorial SUTU Official Store Where Style Meets Protection',
         blurhash: 'L10A0B241E14',
       },
       {
@@ -513,7 +656,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 1200,
         height: 600,
-        alt: 'Banner Promo SUTU Exclusive Deals — Buy 1 Get 1 Tempered Glass HD/Spy + Free Lens Protector',
+        alt: 'Banner Promo SUTU Buy 1 Get 1 Tempered Glass HD/Spy',
         blurhash: 'L10A0B241E14',
       },
       {
@@ -522,7 +665,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 1200,
         height: 600,
-        alt: 'Banner Header SUTU Official Store — Follow Sekarang & Klaim Voucher Up to 80% Sale',
+        alt: 'Banner Header SUTU Official Store',
         blurhash: 'L10A0B241E14',
       },
     ],
@@ -534,10 +677,10 @@ export const SEED_PROJECTS: Project[] = [
   },
   {
     id: '11111111-1111-4111-8111-111111111106',
-    title: 'Flower Girl Blossom — Tipografi Brutalis & Seamless Instagram Carousel',
+    title: 'Flower Girl Blossom - Tipografi Brutalis & Carousel Instagram 4-Slide',
     slug: 'flower-girl-blossom-seamless-carousel',
     description:
-      'Eksplorasi tipografi kondensasi berskala monumental dan kolase mixed-media dalam format seamless Instagram carousel 4-slide (4:5) bertajuk "FLOWER GIRL BLOSSOM".\n\nMenggabungkan teknik masking tipografi berlapis (double-outline stroke merah muda di atas blok huruf putih gading), tekstur flora spider-lily bergaya bitmap/halftone, serta potongan gestur tangan dan potret simetris di pusat kanvas. Ketika keempat slide disejajarkan, tercipta komposisi poster panoramik utuh tanpa terputus.',
+      'Eksplorasi tipografi kondensasi berskala besar dan kolase mixed-media dalam format carousel Instagram 4-slide bersambung (4:5) bertajuk "FLOWER GIRL BLOSSOM".\n\nMenggabungkan teknik masking tipografi berlapis (double-outline stroke merah muda di atas blok huruf putih gading), tekstur flora spider-lily bergaya bitmap/halftone, serta potongan gestur tangan dan potret simetris di pusat kanvas sehingga keempat slide membentuk satu poster panoramik utuh.',
     category: 'Graphic Design',
     year: '2026',
     client: 'Studio Typography Exploration (@Reyp.u)',
@@ -551,7 +694,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 1080,
         height: 1350,
-        alt: 'Slide 01 Seamless Carousel Flower Girl Blossom — Tipografi kondensasi FLOW dengan aksen garis luar merah muda (@Reyp.u)',
+        alt: 'Slide 01 Carousel Flower Girl Blossom: Tipografi kondensasi FLOW (@Reyp.u)',
         blurhash: 'L10A0B241E14',
         is_cover: true,
       },
@@ -561,7 +704,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 2160,
         height: 675,
-        alt: 'Bentangan Utuh 4-Slide Seamless Panorama "FLOWER GIRL BLOSSOM" (@Reyp.u)',
+        alt: 'Bentangan Utuh 4-Slide Panorama FLOWER GIRL BLOSSOM (@Reyp.u)',
         blurhash: 'L10A0B241E14',
       },
       {
@@ -570,7 +713,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 1080,
         height: 1350,
-        alt: 'Slide 02 Seamless Carousel Flower Girl Blossom — Sambungan tipografi -ER GIR- dan siluet halftone spider-lily',
+        alt: 'Slide 02 Carousel Flower Girl Blossom: Sambungan tipografi -ER GIR- dan halftone spider-lily',
         blurhash: 'L10A0B241E14',
       },
       {
@@ -579,7 +722,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 1080,
         height: 1350,
-        alt: 'Slide 03 Seamless Carousel Flower Girl Blossom — Sambungan tipografi -L BLO- dengan potret buket bunga di titik tengah',
+        alt: 'Slide 03 Carousel Flower Girl Blossom: Sambungan tipografi -L BLO- dengan potret buket bunga',
         blurhash: 'L10A0B241E14',
       },
       {
@@ -588,7 +731,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 1080,
         height: 1350,
-        alt: 'Slide 04 Seamless Carousel Flower Girl Blossom — Penutup tipografi -SSOM di atas latar maroon bertekstur grain',
+        alt: 'Slide 04 Carousel Flower Girl Blossom: Penutup tipografi -SSOM di atas latar maroon',
         blurhash: 'L10A0B241E14',
       },
     ],
@@ -600,10 +743,10 @@ export const SEED_PROJECTS: Project[] = [
   },
   {
     id: '11111111-1111-4111-8111-111111111107',
-    title: 'Archipreneur, Pixpax & Memopi — Key Visual Aktivasi Brand & Kampanye Sosial',
+    title: 'Archipreneur, Pixpax & Memopi - Key Visual Aktivasi Brand & Kampanye Sosial',
     slug: 'archipreneur-pixpax-memopi-social-campaigns',
     description:
-      'Kumpulan desain poster promosi dan key visual media sosial (3:4) untuk tiga sektor bisnis berbeda: instalasi pameran arsitektur (Archipreneur), bingkisan kado premium (Pixpax Parcel & Hampers), dan layanan sewa perlengkapan anak (Memopi Rent).\n\n1. Archipreneur ("Make Your Booth Stands Out — Custom booth design for exhibitions, events & brand activations"): menonjolkan visualisasi 3D booth karakter Lolo Family dengan aksen papan kertas gantung dan tiga pilar layanan (Custom Display, 3D Branding, Product Showcase).\n2. Pixpax Parcel & Hampers ("Self Care Gift — Make Moment More Beautiful"): membangun atmosfer hangat dan eksklusif melalui penataan koper rotan berisi set teh dan tumbler di atas tirai beludru merah marun.\n3. Memopi Rent ("Tobebe Playhouse — Pintarnya Mommy, Happy Babynya"): merangkum manfaat tumbuh kembang anak (Meningkatkan Sosial, Keamanan Terjamin, Melatih Sensor Motorik) dalam tata letak cerah yang ramah keluarga.',
+      'Kumpulan desain poster promosi dan key visual media sosial (3:4) untuk tiga sektor bisnis berbeda: instalasi pameran arsitektur (Archipreneur), bingkisan kado (Pixpax Parcel & Hampers), dan layanan sewa perlengkapan anak (Memopi Rent).\n\n1. Archipreneur ("Make Your Booth Stands Out: Custom booth design for exhibitions, events & brand activations"): menonjolkan visualisasi 3D booth karakter Lolo Family dengan tiga pilar layanan (Custom Display, 3D Branding, Product Showcase).\n2. Pixpax Parcel & Hampers ("Self Care Gift: Make Moment More Beautiful"): membangun suasana hangat melalui penataan koper rotan berisi set teh dan tumbler di atas tirai beludru marun.\n3. Memopi Rent ("Tobebe Playhouse: Pintarnya Mommy, Happy Babynya"): merangkum manfaat fasilitas bermain anak dalam tata letak cerah yang ramah keluarga.',
     category: 'Branding',
     year: '2026',
     client: 'Archipreneur, Pixpax.id & Memopi Supersewa',
@@ -617,7 +760,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 1080,
         height: 1440,
-        alt: 'Poster Kampanye Archipreneur — Make Your Booth Stands Out (Custom Display, 3D Branding, Product Showcase)',
+        alt: 'Poster Kampanye Archipreneur Make Your Booth Stands Out',
         blurhash: 'L10A0B241E14',
         is_cover: true,
       },
@@ -627,7 +770,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 1080,
         height: 1440,
-        alt: 'Key Visual Pixpax Parcel & Hampers — Self Care Gift: Make Moment More Beautiful (pixpax.id)',
+        alt: 'Key Visual Pixpax Parcel & Hampers Self Care Gift',
         blurhash: 'L10A0B241E14',
       },
       {
@@ -636,7 +779,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 1080,
         height: 1440,
-        alt: 'Poster Promosi Memopi Supersewa — Tobebe Playhouse: Pintarnya Mommy, Happy Babynya',
+        alt: 'Poster Promosi Memopi Supersewa Tobebe Playhouse',
         blurhash: 'L10A0B241E14',
       },
     ],
@@ -648,10 +791,10 @@ export const SEED_PROJECTS: Project[] = [
   },
   {
     id: '11111111-1111-4111-8111-111111111108',
-    title: "Omniscient Reader's Viewpoint (ORV) — Motion Edit & Editorial Character Poster",
+    title: "Omniscient Reader's Viewpoint (ORV) - Motion Edit & Editorial Character Poster",
     slug: 'omniscient-readers-viewpoint-motion-edit',
     description:
-      "Karya animasi gerak (motion edit 1:1) dan desain poster infografis karakter untuk seri webnovel/manhwa populer Omniscient Reader's Viewpoint (ORV).\n\nVideo diolah di Adobe After Effects dengan memisahkan lapisan ilustrasi monokrom untuk menciptakan kedalaman paralaks 2.5D, pergerakan kamera yang dramatis, serta transisi tipografi yang mengikuti ketukan musik. Karya ini dilengkapi dengan poster editorial 'Kim Dokja Description (49% / 51% — Oldest Dream & Demon King of Salvation)' bergaya tata letak majalah monokrom.",
+      "Karya animasi gerak (motion edit 1:1) dan desain poster infografis karakter untuk seri webnovel/manhwa Omniscient Reader's Viewpoint (ORV).\n\nVideo diolah di Adobe After Effects dengan memisahkan lapisan ilustrasi monokrom untuk menciptakan kedalaman paralaks 2.5D, pergerakan kamera, serta transisi tipografi mengikuti ketukan musik. Karya ini dilengkapi dengan poster editorial 'Kim Dokja Description (49% / 51%: Oldest Dream & Demon King of Salvation)' bergaya tata letak majalah monokrom.",
     category: 'Motion',
     year: '2026',
     client: 'Creative Motion Project (@Reyp.u)',
@@ -666,7 +809,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'video',
         width: 720,
         height: 720,
-        alt: "Video Motion Edit Omniscient Reader's Viewpoint (ORV) — 2.5D Manga Animation & Compositing",
+        alt: "Video Motion Edit Omniscient Reader's Viewpoint (ORV) 2.5D Manga Animation",
         blurhash: 'L10A0B241E14',
         is_cover: true,
       },
@@ -676,7 +819,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 1000,
         height: 1350,
-        alt: "Poster Editorial Omniscient Reader's Viewpoint — Kim Dokja 49% / 51% (Edited by Ray | @Reyp.u)",
+        alt: "Poster Editorial Omniscient Reader's Viewpoint Kim Dokja 49% / 51% (@Reyp.u)",
         blurhash: 'L10A0B241E14',
       },
     ],
@@ -688,10 +831,10 @@ export const SEED_PROJECTS: Project[] = [
   },
   {
     id: '11111111-1111-4111-8111-111111111109',
-    title: 'Infografis Teknis Produk Marketplace — Action Cam Tempered Glass 0.17mm HD',
+    title: 'Infografis Teknis Produk Marketplace - Action Cam Tempered Glass 0.17mm HD',
     slug: 'infografis-produk-marketplace-action-cam-glass',
     description:
-      'Perancangan seri gambar etalase produk (product detail infographics) berformat 1:1 dan 3:4 untuk lini pelindung layar kamera aksi (Action Camera Tempered Glass) di marketplace PT Lightboxglobal.\n\nSetiap slide dirancang untuk menjawab pertanyaan teknis pembeli secara visual: (1) "Transparansi Tinggi — Transmisi Cahaya 99,99% Kristal Transparan Tanpa Distorsi Pada Piksel"; (2) "Respons Instan — Sentuhan Cepat, Jepretan Lebih Cepat"; (3) "Bebas Gelembung — Perekat 100% Bebas Gelembung" dengan tabel perbandingan visual Produk Kita vs Produk Lain; serta (4) Poster vertikal "Tanpa Pantulan, Tanpa Silau" dan "Tipis & Nyaris Tak Terlihat 0.17MM".',
+      'Perancangan seri gambar etalase produk (product detail infographics) berformat 1:1 dan 3:4 untuk lini pelindung layar kamera aksi (Action Camera Tempered Glass) di marketplace PT Lightboxglobal.\n\nSetiap slide dirancang untuk menjawab pertanyaan teknis pembeli secara visual: (1) "Transparansi Tinggi: Transmisi Cahaya 99,99% Kristal Transparan Tanpa Distorsi Pada Piksel"; (2) "Respons Instan: Sentuhan Cepat, Jepretan Lebih Cepat"; (3) "Bebas Gelembung: Perekat 100% Bebas Gelembung" dengan tabel perbandingan visual Produk Kita vs Produk Lain; serta (4) Poster vertikal "Tanpa Pantulan, Tanpa Silau" dan "Tipis & Nyaris Tak Terlihat 0.17MM".',
     category: 'Graphic Design',
     year: '2026',
     client: 'Divisi E-Commerce Gadget (PT Lightboxglobal)',
@@ -705,7 +848,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 1500,
         height: 1500,
-        alt: 'Infografis Produk 1:1 — Transparansi Tinggi 99,99% HD Glass Tanpa Distorsi Piksel',
+        alt: 'Infografis Produk 1:1 Transparansi Tinggi HD Glass Tanpa Distorsi Piksel',
         blurhash: 'L10A0B241E14',
         is_cover: true,
       },
@@ -715,7 +858,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 1500,
         height: 1500,
-        alt: 'Infografis Produk 1:1 — Respons Instan: Sentuhan Cepat, Jepretan Lebih Cepat',
+        alt: 'Infografis Produk 1:1 Respons Instan Sentuhan Cepat',
         blurhash: 'L10A0B241E14',
       },
       {
@@ -724,7 +867,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 1500,
         height: 1500,
-        alt: 'Infografis Produk 1:1 — Bebas Gelembung dengan Komparasi Produk Kita vs Produk Lain',
+        alt: 'Infografis Produk 1:1 Bebas Gelembung Komparasi Produk',
         blurhash: 'L10A0B241E14',
       },
       {
@@ -733,7 +876,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 1200,
         height: 1680,
-        alt: 'Infografis Vertikal 3:4 — Tanpa Pantulan, Tanpa Silau, Perlindungan Maksimal & Sentuhan Mulus',
+        alt: 'Infografis Vertikal 3:4 Tanpa Pantulan dan Perlindungan Layar',
         blurhash: 'L10A0B241E14',
       },
       {
@@ -742,7 +885,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 1200,
         height: 1680,
-        alt: 'Infografis Makro 3:4 — Tipis dan Nyaris Tak Terlihat dengan Ketebalan Presisi 0.17MM',
+        alt: 'Infografis Makro 3:4 Ketebalan Presisi 0.17MM',
         blurhash: 'L10A0B241E14',
       },
     ],
@@ -754,10 +897,10 @@ export const SEED_PROJECTS: Project[] = [
   },
   {
     id: '11111111-1111-4111-8111-111111111110',
-    title: 'Cyber-Y2K & Streetwear Editorial Posters — Karina aespa, Y2K Fashion & Erigo × JKT48',
+    title: 'Cyber-Y2K & Streetwear Editorial Posters - Karina aespa, Y2K Fashion & Erigo × JKT48',
     slug: 'cyber-y2k-streetwear-editorial-posters',
     description:
-      'Seri eksplorasi poster digital bergaya Cyber-Y2K, neo-brutalisme, dan katalog streetwear pop-culture.\n\nMencakup empat karya utama: (1) Poster "aespa Karina" dengan palet biru siber, tipografi kromatik kustom, serta integrasi ikon 3D ekosistem kerja kreatif Adobe (Illustrator, After Effects, Photoshop); (2) Poster "Y2K Styling — FASHION Looks Stylish" (9/20/2026 @Reyp.u) dengan pencahayaan neon ungu-emas dan tekstur raster halftone; (3) Desain katalog apparel "ERIGO × JKT48 — Choose Your Idol (Fiony, Zee, Christy, Freya)"; serta (4) Poster kolase tipografi pastel "Heroine of Fragrant of Flower — Kaoruko Waguri".',
+      'Seri eksplorasi poster digital bergaya Cyber-Y2K, neo-brutalisme, dan katalog streetwear pop-culture.\n\nMencakup empat karya utama: (1) Poster "aespa Karina" dengan palet biru siber, tipografi kromatik kustom, serta integrasi ikon 3D ekosistem Adobe (Illustrator, After Effects, Photoshop); (2) Poster "Y2K Styling: FASHION Looks Stylish" (9/20/2026 @Reyp.u) dengan pencahayaan neon ungu-emas dan tekstur raster halftone; (3) Desain katalog apparel "ERIGO × JKT48: Choose Your Idol (Fiony, Zee, Christy, Freya)"; serta (4) Poster kolase tipografi pastel "Heroine of Fragrant of Flower: Kaoruko Waguri".',
     category: 'Graphic Design',
     year: '2026',
     client: 'Arsip Poster & Eksplorasi Visual (@Reyp.u)',
@@ -771,7 +914,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 1080,
         height: 1440,
-        alt: 'Poster Cyber-Y2K aespa Karina dengan ikon 3D Adobe Illustrator, After Effects, dan Photoshop (@Reyp.u)',
+        alt: 'Poster Cyber-Y2K aespa Karina dengan ikon 3D Adobe (@Reyp.u)',
         blurhash: 'L10A0B241E14',
         is_cover: true,
       },
@@ -781,7 +924,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 1080,
         height: 1440,
-        alt: 'Poster Editorial Y2K Styling — FASHION Looks Stylish (Created 9/20/2026 @Reyp.u)',
+        alt: 'Poster Editorial Y2K Styling FASHION Looks Stylish (@Reyp.u)',
         blurhash: 'L10A0B241E14',
       },
       {
@@ -790,7 +933,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 1000,
         height: 1350,
-        alt: 'Desain Poster Streetwear ERIGO × JKT48 — Choose Your Idol: Fiony, Zee, Christy, Freya (@Reyp.u)',
+        alt: 'Desain Poster Streetwear ERIGO × JKT48 Choose Your Idol (@Reyp.u)',
         blurhash: 'L10A0B241E14',
       },
       {
@@ -799,7 +942,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 1275,
         height: 1650,
-        alt: 'Poster Editorial Ilustrasi Karakter Heroine of Fragrant of Flower — Kaoruko Waguri',
+        alt: 'Poster Editorial Ilustrasi Karakter Kaoruko Waguri',
         blurhash: 'L10A0B241E14',
       },
     ],
@@ -811,10 +954,10 @@ export const SEED_PROJECTS: Project[] = [
   },
   {
     id: '11111111-1111-4111-8111-111111111111',
-    title: 'Short-Form Social Video Cut & Rhythm Pacing — "Meow" Viral Edit',
+    title: 'Short-Form Social Video Cut & Rhythm Pacing - "Meow" Edit',
     slug: 'short-form-social-video-cut-meow',
     description:
-      'Penyuntingan video berdurasi pendek (1:1 Square) yang dirancang khusus untuk retensi penonton di lini masa algoritma media sosial (TikTok/Reels FYP).\n\nMenonjolkan ketepatan waktu pemotongan gambar (comedic & rhythmic cut timing), sinkronisasi efek suara dengan ekspresi visual, serta transisi cepat yang menjaga dinamika tontonan dari detik pertama hingga akhir.',
+      'Penyuntingan video berdurasi pendek (1:1 Square) yang disusun untuk lini masa media sosial (TikTok/Reels).\n\nMenonjolkan ketepatan waktu pemotongan gambar (rhythmic cut timing), sinkronisasi efek suara dengan ekspresi visual, serta transisi ringkas dari detik pertama hingga akhir.',
     category: 'Video Editing',
     year: '2026',
     client: 'Konten Kreatif Media Sosial (@Reyp.u)',
@@ -828,7 +971,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'video',
         width: 720,
         height: 720,
-        alt: 'Short-Form Viral Video Edit (1:1) dengan pemotongan ritme cepat dan sinkronisasi audio',
+        alt: 'Short-Form Video Edit (1:1) dengan pemotongan ritme cepat dan sinkronisasi audio',
         blurhash: 'L10A0B241E14',
         is_cover: true,
       },
@@ -841,10 +984,10 @@ export const SEED_PROJECTS: Project[] = [
   },
   {
     id: '11111111-1111-4111-8111-111111111112',
-    title: 'Ilustrasi Vektor & Kampanye Produk F&B — Dirgahayu 80 RI, Matcha & Rempeyek',
+    title: 'Ilustrasi Vektor & Kampanye Produk F&B - Dirgahayu 80 RI, Matcha & Rempeyek',
     slug: 'ilustrasi-vektor-kampanye-produk-fnb',
     description:
-      'Rangkaian karya ilustrasi vektor orisinal dan desain promosi produk makanan-minuman (F&B) dari portofolio pelatihan dan eksplorasi desain Tahun 2025.\n\n1. Dirgahayu 80 Tahun Kemerdekaan RI ("17 Agustus 1945 — Bersatu Berdaulat, Rakyat Sejahtera, Indonesia Maju"): ilustrasi vektor penuh menggunakan teknik gradasi hangat, siluet perjuangan bambu runcing, dan ornamen awan megamendung (@Reyp.u).\n2. Matcha Latte Promotional Poster: komposisi manipulasi foto produk minuman segar dengan pencahayaan studio lembut dan elemen daun teh hijau melayang.\n3. Rempeyek Crispy ("30K — Coming Soon"): desain poster peluncuran kemasan kuliner UMKM dengan permainan tipografi bertingkat di balik produk.',
+      'Rangkaian karya ilustrasi vektor orisinal dan desain promosi produk makanan-minuman (F&B) dari portofolio pelatihan dan eksplorasi desain Tahun 2025.\n\n1. Dirgahayu 80 Tahun Kemerdekaan RI ("17 Agustus 1945: Bersatu Berdaulat, Rakyat Sejahtera, Indonesia Maju"): ilustrasi vektor penuh menggunakan teknik gradasi hangat, siluet bambu runcing, dan ornamen awan megamendung (@Reyp.u).\n2. Matcha Latte Promotional Poster: komposisi manipulasi foto produk minuman segar dengan pencahayaan lembut dan elemen daun teh hijau.\n3. Rempeyek Crispy ("30K: Coming Soon"): desain poster peluncuran kemasan kuliner UMKM dengan permainan tipografi bertingkat di balik produk.',
     category: 'Branding',
     year: '2025',
     client: 'Portofolio Pelatihan & UMKM F&B (@Reyp.u)',
@@ -858,7 +1001,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 1600,
         height: 1600,
-        alt: 'Ilustrasi Vektor 17 Agustus 1945 — 80 Tahun Bersatu Berdaulat, Rakyat Sejahtera, Indonesia Maju (@Reyp.u)',
+        alt: 'Ilustrasi Vektor 17 Agustus 1945 Dirgahayu 80 Tahun RI (@Reyp.u)',
         blurhash: 'L10A0B241E14',
         is_cover: true,
       },
@@ -868,7 +1011,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 1000,
         height: 1350,
-        alt: 'Poster Promosi F&B Matcha Latte dengan komposisi produk segar dan aksen daun teh hijau',
+        alt: 'Poster Promosi F&B Matcha Latte dengan komposisi produk segar',
         blurhash: 'L10A0B241E14',
       },
       {
@@ -877,7 +1020,7 @@ export const SEED_PROJECTS: Project[] = [
         type: 'image',
         width: 1080,
         height: 1080,
-        alt: 'Poster Teaser Peluncuran Kemasan Kuliner 30K Rempeyek Crispy — Coming Soon',
+        alt: 'Poster Teaser Peluncuran Kemasan Kuliner 30K Rempeyek Crispy',
         blurhash: 'L10A0B241E14',
       },
     ],
@@ -889,14 +1032,121 @@ export const SEED_PROJECTS: Project[] = [
   },
 ];
 
-export const SEED_MESSAGES: ContactMessage[] = [
-  {
-    id: '22222222-2222-4222-8222-222222222201',
-    name: 'Nadia Pramesti — Brand Manager',
-    email: 'nadia.pramesti@kemangsovereign.id',
-    message:
-      'Halo Ray, kami tertarik dengan pengalaman Anda menangani campaign visual e-commerce (KODAD, HEYXI, DATANGBO) dan produksi cetak custom di PT Lightboxglobal. Kami ingin mendiskusikan kolaborasi desain untuk lini produk baru kami bulan depan.',
-    is_read: false,
-    created_at: '2026-03-01T09:30:00.000Z',
+export const VISUAL_PROJECTS_EN: Record<
+  string,
+  { title: string; description: string; client: string; role: string }
+> = {
+  'heyxi-peach-ginseng-99-glow-sale': {
+    title: 'HEYXI Peach & Ginseng - 9.9 Glow Sale E-Commerce Campaign',
+    description:
+      'Integrated e-commerce campaign visuals for the HEYXI "Peach Skincare Ritual" line ahead of the 9.9 Glow Sale ("Glow Before 9.9"). Structured for marketplace clarity through rose-gold art direction, clean product hierarchy, and Korean Peach & Ginseng active-ingredient callouts.\n\nThe visual system covers three formats: a 1:1 Key Visual pairing the three hero SKUs (Peach Body Wash, Refined Cream, and Ginseng Nourishing Cream); a 2:1 Wide Storefront Banner featuring a marble-and-gold podium and "Shop Now" CTA; and a 3-Panel Comparison Infographic illustrating Before-After skin texture.',
+    client: 'HEYXI Skincare',
+    role: 'E-Commerce Graphic & Campaign Designer',
   },
-];
+  'bandung-tanah-pasundan-seamless-carousel': {
+    title: 'Bandung, Tanah Pasundan - "The Kind of Love" Editorial Carousel',
+    description:
+      'A continuous 4-slide Instagram microblog carousel (4:5) combining portrait photography, halftone/pixel-art framing, colonial architectural line sketches, and split editorial typography celebrating Bandung ("The Kind of Love").\n\nAll four artboards align edge-to-edge into a single panoramic spread narrating the atmosphere, Sundanese hospitality, and mountain air of West Java’s capital.',
+    client: 'Editorial Archive (@Reyp.u)',
+    role: 'Art Director, Designer & Copywriter',
+  },
+  'solo-leveling-sung-jin-woo-motion-reel': {
+    title: 'Solo Leveling: Sung Jin-Woo - Vertical Motion Reel & Poster (9:16)',
+    description:
+      'A 9:16 vertical motion graphics edit and companion electric-blue character poster featuring Sung Jin-Woo from Solo Leveling.\n\nThe motion cut combines beat-synced action pacing, dynamic camera transitions, and deep shadow contrast in After Effects, paired with a halftone-textured serif poster composition.',
+    client: 'Studio Motion Archive (@Reyp.u)',
+    role: 'Motion Designer & Video Editor',
+  },
+  'kodad-official-ecommerce-uv-print-campaign': {
+    title: 'KODAD Official - Marketplace Banner System & Custom UV Print Production',
+    description:
+      'Comprehensive e-commerce visual system and custom print catalog for KODAD at PT Lightboxglobal, connecting digital marketplace campaigns directly to physical UV printer production.\n\nDeliverables include: (1) Promotional banners for the 2-in-1 Custom LED Mirror Frame, Corporate Souvenirs, Back to School 80% Promo, Office Stationery, and HD Screen Protectors; (2) Custom UV Printed Phone Case catalogs explaining scratch resistance and cut precision; and (3) Print-ready GP-Batik Nusantara ID Card Holder plates.',
+    client: 'KODAD Official (PT Lightboxglobal)',
+    role: 'Graphic & Brand Designer / UV Print Production',
+  },
+  'datangbo-hangda-sutu-ecommerce-banners': {
+    title: 'DATANGBO, HANGDA & SUTU - Multi-Brand Marketplace Banner Architecture',
+    description:
+      'Wide-format (2:1) promotional campaign banners for three gadget-accessory brands under PT Lightboxglobal: DATANGBO (DTB), HANGDA, and SUTU Official Store.\n\nEach brand uses a distinct visual register: leather packaging and metallic 3D type for DATANGBO Mid Year & Payday Sales; high-contrast gold-yellow energy for HANGDA 4.4, 3.3, and MagSafe launches; and clean minimal composition ("Where Style Meets Protection") for SUTU Tempered Glass promos.',
+    client: 'DATANGBO, HANGDA & SUTU (PT Lightboxglobal)',
+    role: 'E-Commerce Brand & Campaign Designer',
+  },
+  'flower-girl-blossom-seamless-carousel': {
+    title: 'Flower Girl Blossom - Brutalist Type & 4-Slide Instagram Carousel',
+    description:
+      'Monumental condensed typography and mixed-media collage across a continuous 4-slide (4:5) Instagram carousel titled "FLOWER GIRL BLOSSOM".\n\nCombines double-outlined pink strokes over ivory display lettering, bitmap halftone spider-lily motifs, and centered portrait framing that joins into a single panoramic poster.',
+    client: 'Studio Typography Exploration (@Reyp.u)',
+    role: 'Graphic & Typography Designer',
+  },
+  'archipreneur-pixpax-memopi-social-campaigns': {
+    title: 'Archipreneur, Pixpax & Memopi - Brand Activation & Social Key Visuals',
+    description:
+      '3:4 promotional posters and social key visuals across three sectors: exhibition booth design (Archipreneur), curated gift hampers (Pixpax Parcel & Hampers), and family toy rental (Memopi Rent).\n\nHighlights 3D exhibition booth staging for Archipreneur, warm velvet-and-rattan product styling for Pixpax, and approachable parent-focused benefit hierarchy for Memopi.',
+    client: 'Archipreneur, Pixpax.id & Memopi Supersewa',
+    role: 'Brand & Social Media Designer',
+  },
+  'omniscient-readers-viewpoint-motion-edit': {
+    title: "Omniscient Reader's Viewpoint (ORV) - 2.5D Motion Edit & Editorial Poster",
+    description:
+      "A 1:1 2.5D motion edit and monochrome magazine-style character poster inspired by Omniscient Reader's Viewpoint (ORV).\n\nBuilt in Adobe After Effects by separating monochrome illustration layers for 2.5D parallax depth, camera pushes, and beat-synced kinetic typography, paired with a 'Kim Dokja 49% / 51%' editorial layout.",
+    client: 'Creative Motion Project (@Reyp.u)',
+    role: 'Motion Designer & Editorial Layout Artist',
+  },
+  'infografis-produk-marketplace-action-cam-glass': {
+    title: 'Marketplace Technical Product Infographics - 0.17mm Action Cam Glass',
+    description:
+      '1:1 and 3:4 product detail infographic plates for Action Camera Tempered Glass listings at PT Lightboxglobal.\n\nEach plate addresses a specific buyer question visually: 99.99% optical clarity, touch shutter responsiveness, bubble-free adhesive comparison table, anti-glare coating, and 0.17mm profile thickness.',
+    client: 'Gadget E-Commerce Division (PT Lightboxglobal)',
+    role: 'E-Commerce Product & Infographic Designer',
+  },
+  'cyber-y2k-streetwear-editorial-posters': {
+    title: 'Cyber-Y2K & Streetwear Editorial Posters - Karina aespa, Y2K & Erigo × JKT48',
+    description:
+      'Digital poster series exploring Cyber-Y2K chrome typography, neo-brutalist grids, and pop-culture streetwear catalogs.\n\nIncludes four plates: "aespa Karina" with 3D Adobe tool icons, "Y2K Styling: FASHION Looks Stylish" with halftone lighting, "ERIGO × JKT48: Choose Your Idol" apparel catalog layout, and "Kaoruko Waguri" pastel editorial collage.',
+    client: 'Poster Archive & Visual Exploration (@Reyp.u)',
+    role: 'Graphic Designer & Digital Compositor',
+  },
+  'short-form-social-video-cut-meow': {
+    title: 'Short-Form Social Video Cut & Rhythm Pacing - "Meow" Edit',
+    description:
+      'A 1:1 square short-form video edit crafted for TikTok and Instagram Reels feeds, focusing on frame-accurate comedic cut timing, sound-effect synchronization, and brisk visual pacing.',
+    client: 'Social Media Creative Archive (@Reyp.u)',
+    role: 'Video Editor',
+  },
+  'ilustrasi-vektor-kampanye-produk-fnb': {
+    title: 'Vector Illustration & F&B Product Posters - 80th RI Independence, Matcha & Rempeyek',
+    description:
+      'Original vector illustration and food-and-beverage promotional posters from 2025 training and UMKM design explorations.\n\nIncludes a full vector illustration for Indonesia’s 80th Independence Day ("Bersatu Berdaulat, Rakyat Sejahtera, Indonesia Maju"), a studio-lit Matcha Latte promo poster, and a layered typographic teaser for Rempeyek Crispy.',
+    client: 'Training Archive & F&B SMEs (@Reyp.u)',
+    role: 'Illustrator & Brand Designer',
+  },
+};
+
+export function localizeVisualProject(project: Project, locale: Locale): Project {
+  const cleanTitle = project.title.replace(/\s*\u2014\s*/g, ' - ');
+  const cleanDesc = project.description.replace(/\u2014/g, '-');
+  if (locale !== 'en') {
+    return {
+      ...project,
+      title: cleanTitle,
+      description: cleanDesc,
+    };
+  }
+  const translated = VISUAL_PROJECTS_EN[project.slug];
+  if (!translated) {
+    return {
+      ...project,
+      title: cleanTitle,
+      description: cleanDesc,
+    };
+  }
+  return {
+    ...project,
+    title: translated.title,
+    description: translated.description,
+    client: translated.client,
+    role: translated.role,
+  };
+}
+
+export const SEED_MESSAGES: ContactMessage[] = [];

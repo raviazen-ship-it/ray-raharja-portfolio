@@ -1,71 +1,132 @@
-# Ray Raharja Santoso — Studio Portofolio ("Onyx & Brass")
+# Ray Raharja Santoso - Integrated Portfolio Hub
 
-Website portofolio kelas agensi untuk **Ray Raharja Santoso** (Graphic & Brand Designer, Motion Designer, dan Video Editor). Dirancang dengan arah visual **Onyx & Brass** (editorial, tenang, mewah, presisi tipografi majalah desain).
+Portofolio terintegrasi kelas agensi untuk **Ray Raharja Santoso** yang menyatukan dua pilar keahlian: **Web & Digital Products** (arsitektur full-stack, 3D WebGL, e-commerce, enterprise dashboard) dan **Visual Design & Production** (brand identity, motion graphics, kemasan komersial, video production).
 
-## Tech Stack
-- **Framework**: Next.js 14 (App Router, TypeScript)
-- **Styling & Tipografi**: Tailwind CSS, CSS Variables (`--onyx`, `--onyx-2`, `--line`, `--brass`, `--brass-light`, `--ivory`, `--muted`), `next/font/local` (`Cormorant Garamond` & `DM Sans`)
-- **Animasi & Interaksi**: Framer Motion, Lenis Smooth Scroll, Custom Cursor (`Lihat`), Fullscreen Lightbox
-- **Backend & Database**: Supabase (Auth, PostgreSQL + RLS, Storage, Realtime) + Fallback Penyimpanan Lokal Otomatis (`.data/local-db.json`)
+Dibangun dengan pendekatan desain **Onyx & Brass** (editorial tenang, tipografi presisi, arsitektur data terverifikasi, dan zero AI slop).
 
 ---
 
-## Panduan Setup Supabase (Langkah demi Langkah untuk Pemula)
+## 1. Ringkasan Arsitektur & Teknologi
 
-1. **Buat Proyek Supabase Baru**
-   - Buka [https://supabase.com](https://supabase.com) dan masuk ke akun Anda.
-   - Klik **New Project**, pilih organisasi, beri nama proyek `ray-raharja-portfolio`, buat password database yang kuat, pilih region terdekat (misal: **Southeast Asia (Singapore)**), lalu klik **Create new project**.
-
-2. **Jalankan SQL Migrasi & Seed Data**
-   - Di sidebar kiri dashboard Supabase, buka menu **SQL Editor** lalu klik **New query**.
-   - Buka file [`supabase/migrations/001_initial_schema.sql`](./supabase/migrations/001_initial_schema.sql), salin seluruh isinya, tempel ke SQL Editor,(ubah email default di fungsi `public.is_admin()` jika Anda memakai email selain `ray.raharja@studio-onyx.id`), lalu klik **Run**.
-   - Buat query baru lagi, salin seluruh isi file [`supabase/seed.sql`](./supabase/seed.sql), tempel ke SQL Editor, lalu klik **Run** untuk mengisi 6 proyek contoh dan pengaturan awal situs.
-
-3. **Verifikasi Storage Bucket (`portfolio-media`)**
-   - Buka menu **Storage** di sidebar kiri Supabase.
-   - Pastikan bucket bernama `portfolio-media` sudah otomatis terbuat (dari script SQL migrasi) dengan label **Public**.
-
-4. **Buat Akun Admin Tunggal di Supabase Auth**
-   - Buka menu **Authentication** -> **Users** di dashboard Supabase.
-   - Klik **Add user** -> **Create new user**.
-   - Masukkan alamat email admin utama Anda (wajib sama persis dengan `ADMIN_EMAIL` di `.env.local`) dan kata sandi yang kuat, centang **Auto Confirm User**, lalu klik **Create user**.
-
-5. **Salin API Keys ke `.env.local`**
-   - Buka **Project Settings** (ikon roda gigi) -> **API**.
-   - Salin **Project URL**, **anon public key**, dan **service_role secret key** ke dalam file `.env.local`:
-     ```env
-     NEXT_PUBLIC_SUPABASE_URL=https://xxxx.supabase.co
-     NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOi...
-     SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOi...
-     ADMIN_EMAIL=ray.raharja@studio-onyx.id
-     ADMIN_SESSION_SECRET=isi-dengan-string-acak-panjang-minimal-32-karakter
-     NEXT_PUBLIC_SITE_URL=https://rayraharja.studio
-     ```
+- **Framework**: Next.js 14.2.35 (App Router, TypeScript 5.7.2, React 18.3.1)
+- **Styling**: Tailwind CSS 3.4.17 dengan CSS Custom Properties (`--onyx`, `--onyx-2`, `--line`, `--border-control`, `--brass`, `--brass-light`, `--ivory`, `--muted`), font lokal `Cormorant Garamond` & `DM Sans`
+- **Animasi & Interaksi**: Framer Motion 11, Lenis Smooth Scroll, Accessible Lightbox, responsive touch-friendly navigation
+- **Bilingual i18n**: Sistem dwibahasa penuh (`ID` / `EN`) berbasis konteks klien tanpa reload halaman, type-safe via `DeepWiden` dictionary
+- **Data Layer & Keamanan**:
+  - Sumber data proyek web tunggal: [`src/lib/web-projects-data.ts`](./src/lib/web-projects-data.ts)
+  - Sumber data karya visual tunggal: [`src/lib/seed-data.ts`](./src/lib/seed-data.ts)
+  - Abstraksi repository: [`src/lib/repository.ts`](./src/lib/repository.ts) dengan fallback lokal otomatis (`.data/local-db.json`) jika Supabase tidak terhubung
+  - Autentikasi sesi admin: Web Crypto HMAC-SHA256 cookie dengan proteksi timing-safe, Origin check, dan rate limiting di API routes
+  - Verifikasi otomatis: [`scripts/verify-portfolio.mjs`](./scripts/verify-portfolio.mjs)
 
 ---
 
-## Panduan Deploy ke Vercel & Menghubungkan Domain Kustom
+## 2. Struktur Halaman & Rute Aplikasi
 
-1. **Unggah Kode ke GitHub**
+| Rute | Deskripsi & Komponen Utama |
+|---|---|
+| `/` | Beranda terintegrasi (Hero 2-track, Featured Web, Capability Explorer, Karya Visual Terpilih, How I Work, About, Services, Contact, Footer) |
+| `/projects` | Direktori lengkap proyek web dengan filter track (Web App, Enterprise, E-Commerce, 3D) dan kapabilitas |
+| `/projects/[slug]` | Halaman studi kasus mendalam untuk 5 proyek web utama dengan screenshot asli, bukti kerja, dan navigasi proyek terkait |
+| `/karya/[slug]` | Halaman detail karya visual (12 karya grafis, branding, kemasan, motion, dan video) dengan galeri lightbox |
+| `/about` | Profil lengkap Ray Raharja Santoso, filosofi kerja, keahlian teknis, dan riwayat profesional |
+| `/contact` | Formulir kontak fungsional dengan fallback terhubung (WhatsApp & mailto) serta validasi data |
+| `/admin/login` | Portal masuk aman bagi pemilik situs tanpa petunjuk kredensial atau auto-fill publik |
+| `/admin` | Panel manajemen konten terlindungi sesi cookie HMAC |
+| `/opengraph-image` | Penghasil kartu OpenGraph dinamis (1200x630 PNG) menggunakan `@vercel/og` |
+| `/sitemap.xml` | Peta situs XML dinamis mencakup seluruh halaman statis dan studi kasus |
+| `/robots.txt` | Konfigurasi perayap web yang mengizinkan rute publik dan memblokir rute admin |
+
+---
+
+## 3. Cara Menjalankan di Komputer Lokal
+
+### Prasyarat
+- Node.js versi 18.18 atau lebih baru (disarankan Node.js 20+)
+- npm versi 9 atau lebih baru
+
+### Langkah Instalasi
+1. Gandakan repositori dan masuk ke direktori:
    ```bash
-   git init
-   git add .
-   git commit -m "feat: initial release Ray Raharja Santoso Onyx & Brass portfolio"
-   git branch -M main
-   git remote add origin https://github.com/username/ray-raharja-portfolio.git
-   git push -u origin main
+   cd ray-raharja-portfolio
    ```
 
-2. **Impor Proyek di Vercel**
-   - Buka [https://vercel.com/new](https://vercel.com/new) dan login dengan GitHub.
-   - Pilih repositori `ray-raharja-portfolio` lalu klik **Import**.
-   - Pada bagian **Environment Variables**, tambahkan seluruh variabel dari `.env.local` (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `ADMIN_EMAIL`, `ADMIN_SESSION_SECRET`, `NEXT_PUBLIC_SITE_URL`).
-   - Klik **Deploy**.
+2. Pasang dependensi:
+   ```bash
+   npm install
+   ```
 
-3. **Menghubungkan Domain Kustom (misal: `rayraharja.studio`)**
-   - Setelah deploy selesai, buka dashboard proyek di Vercel -> tab **Settings** -> **Domains**.
-   - Ketik nama domain Anda (`rayraharja.studio`) lalu klik **Add**.
-   - Buka panel DNS tempat Anda membeli domain (Cloudflare / Niagahoster / Namecheap / Google Domains), lalu tambahkan record DNS sesuai instruksi Vercel:
-     - **A Record**: Host `@` -> Value `76.76.21.21`
-     - **CNAME Record**: Host `www` -> Value `cname.vercel-dns.com`
-   - Tunggu propagasi DNS (biasanya 5–30 menit). Sertifikat SSL (HTTPS) akan aktif secara otomatis.
+3. Siapkan environment variable lokal:
+   ```bash
+   cp .env.example .env.local
+   ```
+   Isi `ADMIN_PASSWORD` dan `ADMIN_SESSION_SECRET` (string acak minimal 32 karakter). Jika Supabase belum disiapkan, aplikasi otomatis menggunakan penyimpanan lokal (`.data/local-db.json`).
+
+4. Jalankan server pengembangan:
+   ```bash
+   npm run dev
+   ```
+   Buka browser di `http://localhost:3000`.
+
+---
+
+## 4. Perintah QA dan Verifikasi
+
+Repositori dilengkapi script verifikasi otomatis untuk memastikan integritas kode dan data:
+
+```bash
+# 1. Typecheck TypeScript
+npm run typecheck
+
+# 2. Linting ESLint
+npm run lint
+
+# 3. Verifikasi Integritas Data & Bukti Kerja
+npm run verify
+
+# 4. Build Produksi
+npm run build
+```
+
+Script `npm run verify` memeriksa secara otomatis:
+- Status seluruh 5 proyek web sesuai daftar status resmi (Verified Feature, Interactive Demo, Prototype, In Development, Live Product).
+- Tanggal verifikasi sesuai tanggal pemeriksaan aktual (2026-10-28).
+- Seluruh 15 file screenshot asli di `public/images/projects/` berukuran valid (>10 KB).
+- Seluruh file media dari 12 karya visual di `public/works/` tersedia di disk.
+- Zero em dash (`\u2014`) pada seluruh source code.
+- File `.env.example` bersih dari rahasia nyata.
+
+---
+
+## 5. Konfigurasi Environment Variables
+
+File `.env.example` menyediakan contoh konfigurasi tanpa mengekspos rahasia produksi:
+
+```env
+# URL publik deployment (digunakan untuk canonical URL & sitemap)
+NEXT_PUBLIC_SITE_URL=https://ray-raharja-portfolio.vercel.app
+
+# Supabase API (opsional, fallback lokal aktif jika kosong)
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
+
+# Autentikasi Pengelola / Admin
+ADMIN_EMAIL=ray.raharja@studio-onyx.id
+ADMIN_PASSWORD=
+ADMIN_SESSION_SECRET=
+```
+
+---
+
+## 6. Panduan Deployment Aman ke Vercel
+
+1. **Pastikan Build Bersih**: Jalankan `npm run typecheck`, `npm run lint`, dan `npm run build` di lokal.
+2. **Konfigurasi Vercel Environment Variables**:
+   - Masuk ke dashboard proyek Vercel -> **Settings** -> **Environment Variables**.
+   - Masukkan `ADMIN_PASSWORD` (gunakan password yang kuat).
+   - Masukkan `ADMIN_SESSION_SECRET` (string acak minimal 32 karakter).
+   - Masukkan kredensial Supabase jika menggunakan database cloud.
+3. **Deploy**:
+   - Lakukan push ke branch utama repositori GitHub yang terhubung dengan Vercel, atau deploy via Vercel CLI.
+   - Jangan menyertakan file `.env.local` ke dalam git.
