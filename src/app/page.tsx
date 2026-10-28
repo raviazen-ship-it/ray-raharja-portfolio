@@ -4,6 +4,7 @@ import { getPublishedProjects, getSiteSettings } from '@/lib/repository';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { HeroSection } from '@/components/sections/HeroSection';
+import { LiveProjectSandbox } from '@/components/portfolio/LiveProjectSandbox';
 import { FeaturedWebSection } from '@/components/portfolio/FeaturedWebSection';
 import { CapabilityExplorerSection } from '@/components/portfolio/CapabilityExplorerSection';
 import { MoreWebSection } from '@/components/portfolio/MoreWebSection';
@@ -53,6 +54,7 @@ export default async function HomePage() {
 
       <main id="main-content" className="flex-1">
         <HeroSection settings={settings} />
+        <LiveProjectSandbox />
         <FeaturedWebSection />
         <CapabilityExplorerSection />
         <MoreWebSection />

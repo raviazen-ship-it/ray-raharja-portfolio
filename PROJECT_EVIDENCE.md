@@ -10,6 +10,7 @@
 ### Proyek 1: Leadkit Bakery (Aura Artisan Bakery & Catering)
 - **Slug**: `leadkit-bakery`
 - **URL Demo Langsung**: [https://leadkit-bakery.vercel.app/](https://leadkit-bakery.vercel.app/)
+- **Repositori Publik GitHub**: [https://github.com/raviazen-ship-it/leadkit-bakery](https://github.com/raviazen-ship-it/leadkit-bakery)
 - **Repositori Lokal**: `C:\Users\USER\.gemini\antigravity\scratch\leadkit-bakery`
 - **Status Terverifikasi**: **Verified Feature** (2026-10-28)
 - **Stack Teknologi**: Next.js 16.0.7 (App Router), React 19, TypeScript, Tailwind CSS, SQLite via `node:sqlite`, Context API
@@ -32,6 +33,7 @@
 ### Proyek 2: ArsiViz Pro (Studio Konfigurator Arsitektur 3D)
 - **Slug**: `arsiviz-pro`
 - **URL Demo Langsung**: [https://arsiviz-pro.vercel.app/](https://arsiviz-pro.vercel.app/)
+- **Repositori Publik GitHub**: [https://github.com/raviazen-ship-it/arsiviz-pro](https://github.com/raviazen-ship-it/arsiviz-pro)
 - **Repositori Lokal**: `C:\Users\USER\.gemini\antigravity\scratch\arsiviz-pro`
 - **Status Terverifikasi**: **Verified Feature** (2026-10-28)
 - **Stack Teknologi**: Next.js 14.2.35 (App Router), React 18, TypeScript, Three.js, React Three Fiber (`@react-three/fiber`), Drei (`@react-three/drei`), Zustand, Tailwind CSS, Framer Motion
@@ -54,6 +56,7 @@
 ### Proyek 3: SymbioFlow Enterprise (Bursa Residu Industri B2B)
 - **Slug**: `symbioflow-enterprise`
 - **URL Demo Langsung**: [https://symbioflow-enterprise.vercel.app/](https://symbioflow-enterprise.vercel.app/)
+- **Repositori Publik GitHub**: [https://github.com/raviazen-ship-it/symbioflow-enterprise](https://github.com/raviazen-ship-it/symbioflow-enterprise)
 - **Repositori Lokal**: `C:\Users\USER\.gemini\antigravity\scratch\symbioflow-enterprise`
 - **Status Terverifikasi**: **Interactive Demo** (2026-10-28)
 - **Stack Teknologi**: Vite 6.4.5, React 19, TypeScript, Three.js, Lucide Icons, Tailwind CSS
@@ -76,6 +79,7 @@
 ### Proyek 4: Sekolah Nusantara (Sistem Ekosistem Sekolah Terpadu)
 - **Slug**: `sekolah-nusantara`
 - **URL Demo Langsung**: [https://sekolah-nusantara-teal.vercel.app/](https://sekolah-nusantara-teal.vercel.app/)
+- **Repositori Publik GitHub**: [https://github.com/raviazen-ship-it/sekolah-nusantara](https://github.com/raviazen-ship-it/sekolah-nusantara)
 - **Repositori Lokal**: `C:\Users\USER\.gemini\antigravity\scratch\sekolah-nusantara`
 - **Status Terverifikasi**: **Prototype** (2026-10-28)
 - **Stack Teknologi**: Next.js 14.2.35 (App Router), React 18, TypeScript, Tailwind CSS, LocalStorage API

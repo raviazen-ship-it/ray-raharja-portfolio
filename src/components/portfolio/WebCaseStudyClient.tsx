@@ -22,6 +22,7 @@ import { useLanguage } from '@/components/providers/LanguageProvider';
 import { StatusBadge } from '@/components/portfolio/StatusBadge';
 import { ScreenshotImage } from '@/components/portfolio/ScreenshotImage';
 import { Lightbox } from '@/components/ui/Lightbox';
+import { LiveProjectSandbox } from '@/components/portfolio/LiveProjectSandbox';
 import { cn } from '@/lib/utils';
 
 interface WebCaseStudyClientProps {
@@ -164,6 +165,11 @@ export function WebCaseStudyClient({
                 {t.caseStudy.verifiedOn}: {project.verifiedAt}
               </p>
             </div>
+          </div>
+
+          {/* Interactive Live Website Sandbox */}
+          <div className="mb-16 sm:mb-20">
+            <LiveProjectSandbox initialSlug={project.slug} compactHeading />
           </div>
 
           {/* Primary Desktop Screenshot Showcase */}

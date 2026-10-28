@@ -67,6 +67,8 @@ export interface WebProjectCaseStudy {
   liveUrlLabel: string;
   repoPublicUrl: string | null;
   repoVisibilityNote: LocalizedText;
+  canEmbedIframe: boolean;
+  interactiveHighlights: LocalizedText[];
   capabilities: CapabilityId[];
   categoryLabel: LocalizedText;
   shortDescription: LocalizedText;
@@ -273,11 +275,30 @@ export const WEB_PROJECTS: WebProjectCaseStudy[] = [
     verifiedAt: '2026-10-28',
     liveUrl: 'https://leadkit-bakery.vercel.app/',
     liveUrlLabel: 'leadkit-bakery.vercel.app',
-    repoPublicUrl: null,
+    repoPublicUrl: 'https://github.com/raviazen-ship-it/leadkit-bakery',
     repoVisibilityNote: {
-      id: 'Repository kerja lokal terverifikasi pada workspace pemilik; tautan Git publik perlu dikonfirmasi oleh Ray sebelum dipublikasikan.',
-      en: 'Local working repository verified in owner workspace; public Git URL is to be confirmed by Ray before publishing.',
+      id: 'Repository publik GitHub terverifikasi di akun raviazen-ship-it.',
+      en: 'Verified public GitHub repository under raviazen-ship-it.',
     },
+    canEmbedIframe: true,
+    interactiveHighlights: [
+      {
+        id: 'Jelajahi etalase sourdough & filter berdasarkan kategori',
+        en: 'Browse artisan sourdough catalog & filter by category',
+      },
+      {
+        id: 'Tambahkan produk ke keranjang belanja & buka drawer cart',
+        en: 'Add items to shopping cart & inspect cart drawer',
+      },
+      {
+        id: 'Uji alur checkout simulasi dengan pilihan QRIS atau Transfer',
+        en: 'Test simulated checkout flow with QRIS or Bank Transfer',
+      },
+      {
+        id: 'Cek pelacakan status pesanan publik via token unik',
+        en: 'Verify public order status tracking via unique token',
+      },
+    ],
     capabilities: ['business-websites', 'web-development', 'ui-ux'],
     categoryLabel: {
       id: 'Business Website & E-Commerce Demo',
@@ -554,11 +575,30 @@ export const WEB_PROJECTS: WebProjectCaseStudy[] = [
     verifiedAt: '2026-10-28',
     liveUrl: 'https://arsiviz-pro.vercel.app/',
     liveUrlLabel: 'arsiviz-pro.vercel.app',
-    repoPublicUrl: null,
+    repoPublicUrl: 'https://github.com/raviazen-ship-it/arsiviz-pro',
     repoVisibilityNote: {
-      id: 'Source code lokal terverifikasi pada workspace pemilik; publikasi repository perlu dikonfirmasi oleh Ray.',
-      en: 'Local source code verified in owner workspace; repository publication status is to be confirmed by Ray.',
+      id: 'Repository publik GitHub terverifikasi di akun raviazen-ship-it.',
+      en: 'Verified public GitHub repository under raviazen-ship-it.',
     },
+    canEmbedIframe: true,
+    interactiveHighlights: [
+      {
+        id: 'Navigasi 3D interaktif (rotasi 360°, orbit, pan, dan zoom model)',
+        en: 'Interactive 3D navigation (360° orbit, pan, and zoom model)',
+      },
+      {
+        id: 'Uji mode analisis potongan struktural (Section Cutaway)',
+        en: 'Test structural section cutaway analysis mode',
+      },
+      {
+        id: 'Simulasikan bayangan dan pencahayaan matahari (Daylight & Sun Study)',
+        en: 'Simulate daylight and sun positioning (Daylight & Sun Study)',
+      },
+      {
+        id: 'Buka panel parameter material & inspeksi metadata BIM',
+        en: 'Open material parameters panel & inspect BIM metadata',
+      },
+    ],
     capabilities: ['interactive-3d', 'web-development', 'ui-ux'],
     categoryLabel: {
       id: 'Interactive 3D & Architectural Tool',
@@ -821,9 +861,28 @@ export const WEB_PROJECTS: WebProjectCaseStudy[] = [
     liveUrlLabel: 'seumur-gerak.vercel.app/#kalkulator',
     repoPublicUrl: null,
     repoVisibilityNote: {
-      id: 'Proyek kolaborasi tim akademik pada organisasi Vercel terpisah; izin publikasi repository perlu dikonfirmasi bersama seluruh anggota tim.',
-      en: 'Collaborative academic team project hosted on a separate Vercel organization; repository sharing requires confirmation with the team.',
+      id: 'Proyek kolaborasi tim akademik pada organisasi Vercel terpisah; repositori tim dijaga privat untuk keamanan bersama.',
+      en: 'Collaborative academic team project hosted on a separate Vercel organization; team repository kept private for security.',
     },
+    canEmbedIframe: false,
+    interactiveHighlights: [
+      {
+        id: 'Geser kalkulator aktivitas fisik harian (aerobik, kekuatan, mobilitas)',
+        en: 'Adjust daily physical activity sliders (aerobic, strength, mobility)',
+      },
+      {
+        id: 'Hitung estimasi dampak pada rentang hidup sehat (Healthspan vs Lifespan)',
+        en: 'Calculate estimated impact on healthy lifespan (Healthspan vs Lifespan)',
+      },
+      {
+        id: 'Dapatkan rekomendasi intensitas aktivitas personal berbasis pedoman WHO',
+        en: 'Receive personalized activity recommendations based on WHO guidelines',
+      },
+      {
+        id: 'Akses kalkulator penuh 1-klik via tombol "Buka Website Langsung"',
+        en: 'Direct 1-click full calculator access via "Open Live Website"',
+      },
+    ],
     capabilities: ['ui-ux', 'interactive-3d', 'web-development'],
     categoryLabel: {
       id: 'Health Education & Interactive Calculator',
@@ -1079,11 +1138,30 @@ export const WEB_PROJECTS: WebProjectCaseStudy[] = [
     verifiedAt: '2026-10-28',
     liveUrl: 'https://sekolah-nusantara-teal.vercel.app/',
     liveUrlLabel: 'sekolah-nusantara-teal.vercel.app',
-    repoPublicUrl: null,
+    repoPublicUrl: 'https://github.com/raviazen-ship-it/sekolah-nusantara',
     repoVisibilityNote: {
-      id: 'Source code lokal terverifikasi pada workspace pemilik; tautan repository publik perlu dikonfirmasi oleh Ray.',
-      en: 'Local source code verified in owner workspace; public repository URL is to be confirmed by Ray.',
+      id: 'Repository publik GitHub terverifikasi di akun raviazen-ship-it.',
+      en: 'Verified public GitHub repository under raviazen-ship-it.',
     },
+    canEmbedIframe: true,
+    interactiveHighlights: [
+      {
+        id: 'Jelajahi profil sekolah, berita akademik, dan kalender kegiatan',
+        en: 'Browse school profile, academic news, and event calendar',
+      },
+      {
+        id: 'Uji formulir pendaftaran siswa baru (PPDB Online) interaktif',
+        en: 'Test interactive online admissions registration form (PPDB)',
+      },
+      {
+        id: 'Akses simulasi portal multi-peran (Siswa, Guru, dan Wali Murid)',
+        en: 'Access simulated multi-role portals (Student, Teacher, Parent)',
+      },
+      {
+        id: 'Jelajahi dashboard manajemen CMS administrasi sekolah',
+        en: 'Explore school administrative CMS management dashboard',
+      },
+    ],
     capabilities: ['business-websites', 'ui-ux', 'web-development'],
     categoryLabel: {
       id: 'Institutional Portal & Admission Prototype',
@@ -1319,11 +1397,30 @@ export const WEB_PROJECTS: WebProjectCaseStudy[] = [
     verifiedAt: '2026-10-28',
     liveUrl: 'https://symbioflow-enterprise.vercel.app/',
     liveUrlLabel: 'symbioflow-enterprise.vercel.app',
-    repoPublicUrl: null,
+    repoPublicUrl: 'https://github.com/raviazen-ship-it/symbioflow-enterprise',
     repoVisibilityNote: {
-      id: 'Source code lokal terverifikasi pada workspace pemilik; tautan repository publik perlu dikonfirmasi oleh Ray.',
-      en: 'Local source code verified in owner workspace; public repository URL is to be confirmed by Ray.',
+      id: 'Repository publik GitHub terverifikasi di akun raviazen-ship-it.',
+      en: 'Verified public GitHub repository under raviazen-ship-it.',
     },
+    canEmbedIframe: true,
+    interactiveHighlights: [
+      {
+        id: 'Inspeksi jejak audit ESG dengan verifikasi checksum FNV-1a',
+        en: 'Inspect ESG audit trail with deterministic FNV-1a checksums',
+      },
+      {
+        id: 'Simulasikan perdagangan kredit karbon pada terminal bursa real-time',
+        en: 'Simulate carbon credit trading on the real-time exchange terminal',
+      },
+      {
+        id: 'Periksa rincian emisi Scope 1, 2, dan 3 per fasilitas industri',
+        en: 'Review Scope 1, 2, and 3 emission breakdowns per industrial facility',
+      },
+      {
+        id: 'Uji filter status kepatuhan regulasi lingkungan',
+        en: 'Test environmental regulatory compliance status filters',
+      },
+    ],
     capabilities: ['interactive-3d', 'ui-ux', 'web-development', 'business-websites'],
     categoryLabel: {
       id: 'Enterprise Concept Demo & 3D Inspector',

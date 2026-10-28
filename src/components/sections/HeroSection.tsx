@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowRight, ArrowDownRight, Code2, Palette } from 'lucide-react';
+import { ArrowRight, ArrowDownRight, Code2, Palette, Monitor } from 'lucide-react';
 import { SiteSettings } from '@/types/portfolio';
 import { DEFAULT_SITE_SETTINGS } from '@/lib/seed-data';
 import { useLanguage } from '@/components/providers/LanguageProvider';
@@ -133,17 +133,25 @@ export function HeroSection({ settings }: HeroSectionProps) {
               </p>
 
               <div className="flex flex-wrap gap-3 pt-1">
+                <a
+                  href="#live-showcase"
+                  className="inline-flex items-center justify-center gap-2 min-h-[48px] bg-[var(--brass)] px-5 py-3 text-xs uppercase tracking-[0.18em] font-medium text-[#0A0A0B] hover:bg-[var(--brass-light)] transition-colors duration-300"
+                >
+                  <Monitor className="h-4 w-4 shrink-0" />
+                  <span>{t.liveSandbox.heading}</span>
+                </a>
+
                 <Link
                   href="/projects"
-                  className="inline-flex items-center justify-center gap-2.5 min-h-[48px] bg-[var(--brass)] px-6 py-3 text-xs uppercase tracking-[0.18em] font-medium text-[#0A0A0B] hover:bg-[var(--brass-light)] transition-colors duration-300"
+                  className="inline-flex items-center justify-center gap-2 min-h-[48px] border border-[var(--border-control)] bg-[#131316] px-5 py-3 text-xs uppercase tracking-[0.18em] text-[var(--ivory)] hover:border-[var(--brass-light)] hover:text-[var(--brass-light)] transition-colors duration-300"
                 >
                   <span>{t.hero.ctaExplore}</span>
-                  <ArrowRight className="h-4 w-4 shrink-0" />
+                  <ArrowRight className="h-3.5 w-3.5 shrink-0 text-[var(--brass-light)]" />
                 </Link>
 
                 <Link
                   href="/contact"
-                  className="inline-flex items-center justify-center gap-2.5 min-h-[48px] border border-[var(--border-control)] bg-[#131316] px-6 py-3 text-xs uppercase tracking-[0.18em] text-[var(--ivory)] hover:border-[var(--brass-light)] hover:text-[var(--brass-light)] transition-colors duration-300"
+                  className="inline-flex items-center justify-center gap-2 min-h-[48px] border border-[var(--border-control)] bg-[#131316] px-5 py-3 text-xs uppercase tracking-[0.18em] text-[var(--muted)] hover:border-[var(--brass-light)] hover:text-[var(--ivory)] transition-colors duration-300"
                 >
                   <span>{t.hero.ctaContact}</span>
                 </Link>

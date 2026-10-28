@@ -11,6 +11,11 @@ Dibangun dengan pendekatan desain **Onyx & Brass** (editorial tenang, tipografi 
 - **Framework**: Next.js 14.2.35 (App Router, TypeScript 5.7.2, React 18.3.1)
 - **Styling**: Tailwind CSS 3.4.17 dengan CSS Custom Properties (`--onyx`, `--onyx-2`, `--line`, `--border-control`, `--brass`, `--brass-light`, `--ivory`, `--muted`), font lokal `Cormorant Garamond` & `DM Sans`
 - **Animasi & Interaksi**: Framer Motion 11, Lenis Smooth Scroll, Accessible Lightbox, responsive touch-friendly navigation
+- **Interactive Live Sandbox**:
+  - Simulator browser interaktif langsung di Beranda (`/`) dan di setiap halaman studi kasus (`/projects/[slug]`)
+  - Pengganti resolusi viewport instan: Desktop (100%), Tablet (768px), dan Mobile (390px)
+  - Mode ganda: Web Interaktif Langsung (iframe sandbox) dan Tangkapan Layar HD
+  - Modal pratinjau global (`LivePreviewModal`) yang dapat dipicu dari setiap kartu proyek
 - **Bilingual i18n**: Sistem dwibahasa penuh (`ID` / `EN`) berbasis konteks klien tanpa reload halaman, type-safe via `DeepWiden` dictionary
 - **Data Layer & Keamanan**:
   - Sumber data proyek web tunggal: [`src/lib/web-projects-data.ts`](./src/lib/web-projects-data.ts)
